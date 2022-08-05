@@ -1,38 +1,47 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Address = db.define('Address', {
+const Parent = db.define('Parent', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    e_address: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    state: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    country: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    pincode: {
+    basic_id: {
         type: Sequelize.INTEGER,
         allowNull: false
-    },
-    
-    user_id: {
-        type: Sequelize.INTEGER,
-        // allowNull: false
              
     },
+    fathername: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    fcontactnumber: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    mothername: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    mcontactnumber: {
+        type: Sequelize.STRING,
+        allowNull: false
+       
+    },
+    maritalstatus: {
+        type: Sequelize.STRING,
+        allowNull: false
+       
+    },
+    
     deletedAt: {
         type: Sequelize.DATE,
         allowNull: true
     }
+},{
+    // alter:true
+    // force:true
 });
 
-module.exports = Address;
+module.exports = Parent;

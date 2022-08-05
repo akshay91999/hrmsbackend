@@ -1,6 +1,6 @@
 
-const gigDao = require('../services/basic.service');
-var gigController = {
+const basicService = require('../services/basic.service');
+var baseController = {
     addEmp: addEmp,
     findEmps: findEmps,
     findEmpById: findEmpById,
@@ -10,7 +10,7 @@ var gigController = {
 
 function addEmp(req, res) {
     let gig = req.body;
-    gigDao.add(gig,res).
+    basicService.add(gig,res).
         then((data) => {
             res.send(data);
         })
@@ -21,7 +21,7 @@ function addEmp(req, res) {
 
 function findEmpById(req, res) {
     let gig=req.params.id
-    gigDao.findById(gig,res).
+    basicService.findById(gig,res).
         then((data) => {
             res.send(data);
         })
@@ -31,7 +31,7 @@ function findEmpById(req, res) {
 }
 
 function deleteById(req, res) {
-    gigDao.deleteById(req.params.id).
+    basicService.deleteById(req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "Gig deleted successfully",
@@ -44,7 +44,7 @@ function deleteById(req, res) {
 }
 
 function updateEmp(req, res) {
-    gigDao.update(req.body, req.params.id).
+    basicService.update(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "Gig updated successfully",
@@ -57,7 +57,7 @@ function updateEmp(req, res) {
 }
 
 function findEmps(req, res) {
-    gigDao.findAll().
+    basicService.findAll().
         then((data) => {
             res.send(data);
         })
@@ -66,4 +66,4 @@ function findEmps(req, res) {
         });
 }
 
-module.exports = gigController;
+module.exports = baseController;

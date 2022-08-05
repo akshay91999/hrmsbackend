@@ -1,7 +1,9 @@
 const sequelize = require('sequelize');
-const basics = require('../model/basic')
-const address = require('../model/address')
 const db = require('../config/database');
+const Basics = require('../model/basic.model')
+const Address = require('../model/address.model')
+const Parents=require('../model/parents.model')
+const Contact=require('../model/contact.model')
 const bcrypt=require('bcrypt')
 
 var basicService = {
@@ -21,12 +23,16 @@ async function add(gig,res) {
 
         let pp = gig;
       
-        const pass = await bcrypt.hash(pp.passwd,10)
-         console.log("hashedpassword",pass);
-        const createUser = await basics.create({...pp,passwd:pass}, { transaction: t });
-        const addr = await address.create({...pp,user_id:createUser.id},{ transaction: t })
+        const hashedpass = await bcrypt.hash(pp.passwd,10)
+         console.log("hashedpassword",hashedpass);
+        const createUser = await Basics.create({...pp,passwd:hashedpass}, { transaction: t });
+        const addr = await Address.create({...pp,basic_id:createUser.id},{ transaction: t })
+        const parent = await Parents.create({...pp,basic_id:createUser.id},{ transaction: t })
+        const contact = await Contact.create({...pp,basic_id:createUser.id},{ transaction: t })
+
+        
         t.commit();
-        return res.status(200).json({createUser, addr})
+        return res.status(200).json({createUser, addr,parent,contact})
     }
     catch (e) {
         console.log(e);
@@ -40,10 +46,12 @@ async function findById(gig,res) {
     const t = await db.transaction();
     try{
         let pkid=gig
-    const base= await basics.findByPk(pkid,{transaction:t})
-    const addr= await address.findByPk(pkid,{transaction:t})
+    const base= await Basics.findByPk(pkid,{transaction:t})
+    const addr= await Address.findByPk(pkid,{transaction:t})
+    const parent= await Parents.findByPk(pkid,{transaction:t})
+    const contact= await Contact.findByPk(pkid,{transaction:t})
     t.commit();
-    return res.status(200).json({ base, addr })
+    return res.status(200).json({ base, addr,parent,contact })
  
     }
     catch(error)  {
@@ -54,7 +62,7 @@ async function findById(gig,res) {
 }
 
 function deleteById(req, res) {
-    basics.deleteById(req.params.id).
+    Basics.deleteById(req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "Gig deleted successfully",
@@ -67,7 +75,7 @@ function deleteById(req, res) {
 }
 
 function update(req, res) {
-    basics.updateGig(req.body, req.params.id).
+    Basics.updateGig(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "Gig updated successfully",
