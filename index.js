@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cors("*"));
 app.use('/', require('./routes/add.routing'));
 
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 6005;
 db.sync().then(() => {
     app.listen(PORT, console.log(`Server started on port ${PORT}`));
 }).catch(err => console.log("Error: " + err));

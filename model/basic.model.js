@@ -42,7 +42,8 @@ const Basic = db.define('Basic', {
     }
 },
 {
-    alter:true
+    // alter:true
+    // force:true
 });
 
 module.exports = Basic;

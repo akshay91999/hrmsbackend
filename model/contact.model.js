@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Parent = db.define('Parent', {
+const Contact = db.define('Contact', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -12,36 +12,31 @@ const Parent = db.define('Parent', {
         allowNull: false
              
     },
-    fathername: {
+    contactnumber: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    fcontactnumber: {
+    altcontactnumber: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    email: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    mothername: {
+    altemail: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
-    mcontactnumber: {
-        type: Sequelize.STRING,
-        allowNull: false
-       
-    },
-    maritalstatus: {
-        type: Sequelize.STRING,
-        allowNull: false
-       
-    },
-    
     deletedAt: {
         type: Sequelize.DATE,
         allowNull: true
     }
-},{
-    // alter:true
-    // force:true
+    
+},
+{
+ alter:true
+//  force:true
 });
 
-module.exports = Parent;
+module.exports = Contact;

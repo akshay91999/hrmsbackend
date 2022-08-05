@@ -35,7 +35,7 @@ const Address = db.define('Address', {
     
 },
 {
- alter:true
+//  alter:true
 //  force:true
 });
 
