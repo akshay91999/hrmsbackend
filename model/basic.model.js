@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const academicController = require('../controller/accademic.controller');
 
 const Basic = db.define('Basic', {
     id: {
@@ -40,10 +41,7 @@ const Basic = db.define('Basic', {
         type: Sequelize.DATE,
         allowNull: true
     }
-},
-{
-    // alter:true
-    // force:true
 });
+
 
 module.exports = Basic;
