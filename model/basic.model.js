@@ -21,7 +21,7 @@ const Basic = db.define('Basic', {
         allowNull: false
     },
     dob: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false
     },
     nationality: {
@@ -41,7 +41,6 @@ const Basic = db.define('Basic', {
         type: Sequelize.DATE,
         allowNull: true
     }
-   
 });
 
 
