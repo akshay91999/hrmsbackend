@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
 
+
 //Database Connection
 const db = require('./config/database');
 db.authenticate().then(() => {
