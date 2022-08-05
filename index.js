@@ -5,6 +5,7 @@ const cors = require('cors');
 
 //Database Connection
 const db = require('./config/database');
+
 db.authenticate().then(() => {
     console.log('Database connected...');
 }).catch(err => {

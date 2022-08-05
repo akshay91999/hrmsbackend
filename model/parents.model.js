@@ -1,45 +1,41 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Basic = db.define('Basic', {
+const Parent = db.define('Parent', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    firstName: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    lastName: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    gender: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    dob: {
-        type: Sequelize.DATE,
-        allowNull: false
-    },
-    nationality: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    passwd: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    userList_id: {
+    basic_id: {
         type: Sequelize.INTEGER,
-        // allowNull: false
+        allowNull: false
              
     },
+    fathername: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    fcontactnumber: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    mothername: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    mcontactnumber: {
+        type: Sequelize.STRING,
+        allowNull: false
+       
+    },
+    
     deletedAt: {
         type: Sequelize.DATE,
         allowNull: true
     }
+},{
+    alter:true
 });
 
-module.exports = Basic;
+module.exports = Parent;

@@ -7,6 +7,11 @@ const Address = db.define('Address', {
         primaryKey: true,
         autoIncrement: true
     },
+    basic_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+             
+    },
     e_address: {
         type: Sequelize.STRING,
         allowNull: false
@@ -23,16 +28,15 @@ const Address = db.define('Address', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    
-    user_id: {
-        type: Sequelize.INTEGER,
-        // allowNull: false
-             
-    },
     deletedAt: {
         type: Sequelize.DATE,
         allowNull: true
     }
+    
+},
+{
+ alter:true
+//  force:true
 });
 
 module.exports = Address;
