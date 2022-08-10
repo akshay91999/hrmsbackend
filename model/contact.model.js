@@ -14,19 +14,33 @@ const Contact = db.define('Contact', {
     },
     contactnumber: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate:{
+           is:/^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/
+        }
     },
     altcontactnumber: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        validate:{
+           is:/^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/
+        }
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate:{
+            isEmail:true
+        },
+        unique:true
     },
     altemail: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        validate:{
+            isEmail:true
+        },
+        unique:true
     },
     deletedAt: {
         type: Sequelize.DATE,

@@ -29,11 +29,12 @@ const Basic = db.define('Basic', {
     },
     passwd: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
+        
     },
     userList_id: {
         type: Sequelize.INTEGER,
-        // allowNull: false
+        allowNull: true
              
     },
     deletedAt: {
@@ -42,7 +43,7 @@ const Basic = db.define('Basic', {
     }
 },
 {
-    // alter:true
+    alter:true
     // force:true
 });
 
