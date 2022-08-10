@@ -1,27 +1,28 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Skill = db.define('skill', {
+const Upload = db.define('upload', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    user_id: {
+    basic_id: {
         type: Sequelize.INTEGER
     },
-    hardskills: {
-        type: Sequelize.STRING,
+    document: {
+        type: Sequelize.BLOB,
         allowNull: false
     },
-    softskills: {
+    doc_type: {
         type: Sequelize.STRING,
         allowNull: false
     }
 },
 {
-    force:true
+    alter:true
+    //force:true
 }
 );
 
-module.exports = Skill;
+module.exports = Upload;

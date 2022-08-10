@@ -12,6 +12,7 @@ var academicController = {
 function addAcademic(req, res) {
     let pid=req.params.id;
     let academic = req.body;
+    
     academicDao.add(academic,pid,res).
         then((data) => {
             res.send(data);

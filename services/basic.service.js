@@ -24,8 +24,8 @@ async function add(gig,res) {
         let pp = gig;
       
         const hashedpass = await bcrypt.hash(pp.passwd,10)
-         console.log("hashedpassword",hashedpass);
-        const createUser = await Basics.create({...pp,passwd:hashedpass}, { transaction: t });
+        console.log("hashedpassword",hashedpass);
+        const createUser = await Basics.create({...pp,passwd:hashedpass}, { transaction: t })
         const addr = await Address.create({...pp,basic_id:createUser.id},{ transaction: t })
         const parent = await Parents.create({...pp,basic_id:createUser.id},{ transaction: t })
         const contact = await Contact.create({...pp,basic_id:createUser.id},{ transaction: t })
@@ -90,7 +90,7 @@ function update(req, res) {
 
 
 function findAll(req, res) {
-    basics.findAll().
+    Basics.findAll().
         then((data) => {
             res.send(data);
         })

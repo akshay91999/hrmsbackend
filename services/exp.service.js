@@ -2,8 +2,8 @@
 // const basicDao = require('../dao/basic.dao')
 const sequelize = require('sequelize')
 const db = require('../config/database')
-const Basic = require('../model/basic')
-const Exp = require('../model/exp')
+//const Basic = require('../model/basic')
+const Exp = require('../model/exp.model')
 var expService = {
     add: add,
     findAll: findAll,
@@ -12,14 +12,14 @@ var expService = {
     deleteById: deleteById
 }
 
-async function add(exp, res,pid) {
+async function add(exp,res,pid) {
     const t = await db.transaction();
     try{
         let pp = exp;
-        const basic = await Basic.create({...pp,userList_id:pid},{transaction:t});
-        const Expr = await Exp.create({...pp,user_id:basic.id},{transaction:t});
+        //const basic = await Basic.create({...pp},{transaction:t});
+        const Expr = await Exp.create({...pp,basic_id:pid},{transaction:t});
         t.commit();
-        return res.status(200).json({basic,Expr})
+        return res.status(200).json({Expr})
     }
     
         catch(error) {
@@ -28,58 +28,28 @@ async function add(exp, res,pid) {
         }
 }
 
-async function findById(exps,res) {
-    const t = await db.transaction();
-    try{
-        let pkid=exps
-        //let b=req.body
-    const base= await Basic.findByPk(pkid,{transaction:t})
-    const Exps= await Exp.findByPk(pkid,{transaction:t})
-    t.commit();
-    return res.status(200).json({ base, Exps })
- 
-    }
-    catch(error)  {
-            console.log(error);
-            t.rollback();
-        
-}
-}
-
-function deleteById(req, res) {
-    expService.deleteById(req.params.id).
-        then((data) => {
-            res.status(200).json({
-                message: "Gig deleted successfully",
-                exp: data
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-function update(req, res) {
-    expService.update(req.body, req.params.id).
-        then((data) => {
-            res.status(200).json({
-                message: "Gig updated successfully",
-                exp: data
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
 function findAll() {
-    expService.findAll().
-        then((data) => {
-            res.send(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    return Exp.findAll();
+}
+
+function findById(id) {
+    return Exp.findByPk(id);
+}
+function deleteById(id) {
+    return Exp.destroy({ where: { id: id } });
+}
+
+function update(exp, id) {
+    var updateExp = {
+        employeeid:exp.employeeid,
+        employeetype: exp.employeetype,
+        durationfrom: exp.durationfrom,
+        durationto: exp.durationto,
+        designation: exp.designation,
+        annualsalary:exp.annualsalary,
+        
+    };
+    return Exp.update(updateExp, { where: { id: id } });
 }
 
 module.exports = expService;

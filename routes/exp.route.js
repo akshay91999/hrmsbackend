@@ -3,6 +3,7 @@ const router = express.Router();
 const expController = require('../controller/exp.controller');
 
 router.post('/', expController.addExp);
+router.post('/:id', expController.addExp);
 router.get('/', expController.findExps);
 router.get('/:id', expController.findExpById);
 router.put('/:id', expController.updateExp);

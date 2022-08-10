@@ -13,8 +13,8 @@ const Contact = db.define('Contact', {
              
     },
     contactnumber: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.DOUBLE,
+        allowNull: false,
     },
     altcontactnumber: {
         type: Sequelize.STRING,
@@ -22,11 +22,13 @@ const Contact = db.define('Contact', {
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        
     },
     altemail: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+       
     },
     deletedAt: {
         type: Sequelize.DATE,
@@ -36,7 +38,7 @@ const Contact = db.define('Contact', {
 },
 {
  alter:true
-//  force:true
+  //force:true
 });
 
 module.exports = Contact;

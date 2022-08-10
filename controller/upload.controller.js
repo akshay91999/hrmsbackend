@@ -1,17 +1,17 @@
 
-const skillService = require('../services/skill.service');
-var skillController = {
-    addSkill: addSkill,
-    findSkills: findSkills,
-    findSkillById: findSkillById,
-    updateSkill: updateSkill,
+const uploadService = require('../services/upload.service');
+var uploadController = {
+    addUpload: addUpload,
+    findUploads: findUploads,
+    findUploadById: findUploadById,
+    updateUpload: updateUpload,
     deleteById: deleteById
 }
 
-function addSkill(req, res) {
-    let sk = req.body;
+function addUpload(req, res) {
+    let up = req.body;
     let pid = req.params.id;
-    skillService.add(sk,res,pid).
+    uploadService.add(up,res,pid).
         then((data) => {
             
             res.send(data);
@@ -21,9 +21,9 @@ function addSkill(req, res) {
         });
 }
 
-function findSkillById(req, res) {
-    let skills=req.params.id
-    skillService.findById(skills,res).
+function findUploadById(req, res) {
+    let uploads=req.params.id
+    uploadService.findById(uploads,res).
         then((data) => {
             res.send(data);
         })
@@ -33,12 +33,12 @@ function findSkillById(req, res) {
 }
 
 function deleteById(req, res) {
-    let skills=req.params.id
-    skillService.deleteById(skills).
+    let uploads=req.params.id
+    uploadService.deleteById(uploads).
         then((data) => {
             res.status(200).json({
                 message: "Gig deleted successfully",
-                sk: data
+                up: data
             })
         })
         .catch((error) => {
@@ -46,12 +46,12 @@ function deleteById(req, res) {
         });
 }
 
-function updateSkill(req, res) {
-    skillService.update(req.body, req.params.id).
+function updateUpload(req, res) {
+    uploadService.update(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "exp updated successfully",
-                sk: data
+                up: data
             })
         })
         .catch((error) => {
@@ -59,8 +59,8 @@ function updateSkill(req, res) {
         });
 }
 
-function findSkills(req, res) {
-    skillService.findAll().
+function findUploads(req, res) {
+    uploadService.findAll().
         then((data) => {
             res.send(data);
         })
@@ -69,4 +69,4 @@ function findSkills(req, res) {
         });
 }
 
-module.exports = skillController;
+module.exports = uploadController;
