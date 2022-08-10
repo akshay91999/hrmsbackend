@@ -1,5 +1,7 @@
-
 const basicService = require('../services/basic.service');
+const contacts = require('../model/contact.model')
+const db = require('../config/database')
+
 var baseController = {
     addEmp: addEmp,
     findEmps: findEmps,
@@ -9,8 +11,10 @@ var baseController = {
 }
 
 function addEmp(req, res) {
-    let gig = req.body;
-    basicService.add(gig,res).
+  
+
+    let empData = req.body;
+    basicService.add(empData, res).
         then((data) => {
             res.send(data);
         })
@@ -20,8 +24,8 @@ function addEmp(req, res) {
 }
 
 function findEmpById(req, res) {
-    let gig=req.params.id
-    basicService.findById(gig,res).
+    let id = req.params.id
+    basicService.findById(id, res).
         then((data) => {
             res.send(data);
         })
@@ -44,11 +48,13 @@ function deleteById(req, res) {
 }
 
 function updateEmp(req, res) {
-    basicService.update(req.body, req.params.id).
+    let up = req.body
+    let id = req.params.id
+    basicService.updateUser(up, id, res).
         then((data) => {
             res.status(200).json({
-                message: "Gig updated successfully",
-                gig: data
+                message: "Updated successfully",
+                up: data
             })
         })
         .catch((error) => {

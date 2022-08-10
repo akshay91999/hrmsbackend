@@ -36,8 +36,12 @@ const Address = db.define('Address', {
     
 },
 {
+
     alter:true
   //force:true
+
+ 
+
 });
 
 module.exports = Address;

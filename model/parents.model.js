@@ -36,7 +36,7 @@ const Parent = db.define('Parent', {
     },
     
     deletedAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: true
     }
 },{

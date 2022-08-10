@@ -2,89 +2,90 @@ const sequelize = require('sequelize');
 const db = require('../config/database');
 const Basics = require('../model/basic.model')
 const Address = require('../model/address.model')
-const Parents=require('../model/parents.model')
-const Contact=require('../model/contact.model')
-const bcrypt=require('bcrypt')
+const Parents = require('../model/parents.model')
+const Contact = require('../model/contact.model')
+
+const bcrypt = require('bcrypt')
 
 var basicService = {
     add: add,
     findAll: findAll,
     findById: findById,
-    update: update,
-    deleteById: deleteById
+    updateUser: updateUser,
+
 }
 
 
-async function add(gig,res) {
+async function add(empData, res) {
 
-   
-    const t =  await db.transaction();
+
+    const t = await db.transaction();
     try {
 
-        let pp = gig;
-      
-        const hashedpass = await bcrypt.hash(pp.passwd,10)
-        console.log("hashedpassword",hashedpass);
-        const createUser = await Basics.create({...pp,passwd:hashedpass}, { transaction: t })
-        const addr = await Address.create({...pp,basic_id:createUser.id},{ transaction: t })
-        const parent = await Parents.create({...pp,basic_id:createUser.id},{ transaction: t })
-        const contact = await Contact.create({...pp,basic_id:createUser.id},{ transaction: t })
 
         
+
+        let pp = empData;
+
+
+        const hashedpass = await bcrypt.hash(pp.passwd, 10)
+
+        const createUser = await Basics.create({ ...pp, passwd: hashedpass }, { transaction: t });
+        const addr = await Address.create({ ...pp, basic_id: createUser.id }, { transaction: t })
+        const parent = await Parents.create({ ...pp, basic_id: createUser.id }, { transaction: t })
+        const contact = await Contact.create({ ...pp, basic_id: createUser.id }, { transaction: t })
         t.commit();
-        return res.status(200).json({createUser, addr,parent,contact})
+        // let mail=contact.email;
+        // mailerService.mailler(mail) ;
+        return res.status(200).json({ createUser, addr, parent, contact })
     }
-    catch (e) {
-        console.log(e);
+    catch (error) {
+        return res.status(202).json({error})
         t.rollback();
     }
 
 }
 
 //get by id
-async function findById(gig,res) {
+async function findById(gig, res) {
     const t = await db.transaction();
-    try{
-        let pkid=gig
-    const base= await Basics.findByPk(pkid,{transaction:t})
-    const addr= await Address.findByPk(pkid,{transaction:t})
-    const parent= await Parents.findByPk(pkid,{transaction:t})
-    const contact= await Contact.findByPk(pkid,{transaction:t})
-    t.commit();
-    return res.status(200).json({ base, addr,parent,contact })
- 
+    try {
+        let pkid = gig;
+        const base = await Basics.findByPk(pkid, { transaction: t })
+        const addr = await Address.findAll({ where: { basic_id: pkid } }, { transaction: t })
+        const parent = await Parents.findAll({ where: { basic_id: pkid } }, { transaction: t })
+        const contact = await Contact.findAll({ where: { basic_id: pkid } }, { transaction: t })
+        t.commit();
+        if (!base.deletedAt) {
+            return res.status(200).json({ base, addr, parent, contact })
+        }
+        else {
+            return res.status(201).json({ message: "user not exist" })
+        }
     }
-    catch(error)  {
-            console.log(error);
-            t.rollback();
-        
-}
-}
-
-function deleteById(req, res) {
-    Basics.deleteById(req.params.id).
-        then((data) => {
-            res.status(200).json({
-                message: "Gig deleted successfully",
-                gig: data
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    }
 }
 
-function update(req, res) {
-    Basics.updateGig(req.body, req.params.id).
-        then((data) => {
-            res.status(200).json({
-                message: "Gig updated successfully",
-                gig: data
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+
+async function updateUser(up, id, res) {
+    const t = await db.transaction();
+    try {
+        let pp = up;
+
+        const base = await Basics.update({ ...pp }, { where: { id: id } }, { transaction: t })
+        const addr = await Address.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
+        const parent = await Parents.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
+        const contact = await Contact.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
+        t.commit();
+        return res.status(200).json({ message: "Updated successfully", })
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    };
 }
 
 
