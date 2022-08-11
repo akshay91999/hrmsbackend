@@ -6,10 +6,10 @@ const db = require('../config/database')
 const Exp = require('../model/exp.model')
 var expService = {
     add: add,
-    findAll: findAll,
+    
     findById: findById,
     update: update,
-    deleteById: deleteById
+    
 }
 
 async function add(exp,res,pid) {
@@ -28,28 +28,40 @@ async function add(exp,res,pid) {
         }
 }
 
-function findAll() {
-    return Exp.findAll();
+async function findById(id, res) {
+    const t = await db.transaction();
+    try {
+        let pkid = id;
+        const exp = await Exp.findAll({ where: { basic_id: pkid } }, { transaction: t })
+        t.commit();
+        if (!exp.deletedAt) {
+            return res.status(200).json({exp})
+        }
+        else {
+            return res.status(201).json({ message: "user not exist" })
+        }
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    }
+
 }
 
-function findById(id) {
-    return Exp.findByPk(id);
-}
-function deleteById(id) {
-    return Exp.destroy({ where: { id: id } });
-}
+async function update(up, id, res) {
+    const t = await db.transaction();
+    try {
+        let pp = up;
 
-function update(exp, id) {
-    var updateExp = {
-        employeeid:exp.employeeid,
-        employeetype: exp.employeetype,
-        durationfrom: exp.durationfrom,
-        durationto: exp.durationto,
-        designation: exp.designation,
-        annualsalary:exp.annualsalary,
         
+        const exp = await Exp.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
+        
+        t.commit();
+        return res.status(200).json({ message: "Updated successfully", })
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
     };
-    return Exp.update(updateExp, { where: { id: id } });
 }
-
 module.exports = expService;

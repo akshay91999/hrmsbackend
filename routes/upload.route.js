@@ -1,40 +1,34 @@
-// const express = require('express');
-// const router = express.Router();
-// const cors = require('cors');
-// var multer = require('multer');
-// const path = require('path');
-// const { pid } = require('process');
-// var upload = multer({dest:'images/'});
-// const db = require('../config/database')
-// const uploadController = require('../controller/upload.controller');
-// const Upload =require('../model/upload.model')
+var multer = require('multer');
+var upload = multer({dest:'images/'});
+const express = require('express');
+const router = express.Router();
+const uploadController = require('../controller/upload.controller');
 
-// var storage = multer.diskStorage({
-//     destination: function(req, file, cb) {
-//         cb(null, './images');
-//      },
-//     filename: function (req, file, cb) {
-//         cb(null , path.extname(file.originalname));
-//     }
-// });
-// var upload = multer({ storage: storage })
-// router.post('/', upload.single('document'), async(req, res) => {
-//     const t = db.transaction()
+//var uprouter = {filup:fileup}
+var storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './images');
+     },
+    filename: function (req, file, cb) {
+        cb(null , file.originalname);
+    }
+});
+var upload = multer({ storage: storage })
+ 
+
+//const up = upl.single('document')
+router.post('/:id', upload.single('document'),uploadController.addFile)
+router.get('/:id',uploadController.findFileById)
+// async function fileup (up,req,res){
 //     try {
-//         const {document,doc_type} = req.body
-//         const uploads = await Upload.create({doc_type,basic_id:pid,document:req.file.path},{transaction:t})
-//         t.commit()
-//       return res.status(200).json({uploads})
-//     }catch(error) {
-//       console.log(error);
-//        t.rollback
+//         const {doc_type}=req.body
+//         const pid=req.params.id
+//         const uploads = await  Up.create({document:req.file.path,basic_id:pid,doc_type})
+//         return res.status(201).json({
+//             uploads
+//         });
+//     } catch (error) {
+//         console.error(error);
 //     }
-//   });
-
-// router.post('/:id', uploadController.addUpload);
-// router.get('/', uploadController.findUploads);
-// router.get('/:id', uploadController.findUploadById);
-// router.put('/:id', uploadController.updateUpload);
-// router.delete('/:id', uploadController.deleteById);
-
-// module.exports = router;
+//   };
+  module.exports = router

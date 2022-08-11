@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 //const Basic = require('./basic')
-const Exp = db.define('experience', {
+const Exp = db.define('Experience', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,

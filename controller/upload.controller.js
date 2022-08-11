@@ -1,17 +1,26 @@
 
 const uploadService = require('../services/upload.service');
+const path = require('path')
+const multer = require('multer')
 var uploadController = {
-    addUpload: addUpload,
-    findUploads: findUploads,
-    findUploadById: findUploadById,
-    updateUpload: updateUpload,
-    deleteById: deleteById
+    addFile: addFile,
+    findFileById:findFileById
 }
+var storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './images');
+     },
+    filename: function (req, file, cb) {
+        cb(null , file.originalname);
+    }
+});
+var upload = multer({ storage: storage })
 
-function addUpload(req, res) {
+function addFile(req, res) {
     let up = req.body;
     let pid = req.params.id;
-    uploadService.add(up,res,pid).
+    let doc=req.file.path
+    uploadService.add(up,res,pid,doc).
         then((data) => {
             
             res.send(data);
@@ -20,10 +29,9 @@ function addUpload(req, res) {
             console.log(error);
         });
 }
-
-function findUploadById(req, res) {
-    let uploads=req.params.id
-    uploadService.findById(uploads,res).
+function findFileById(req, res) {
+    let id=req.params.id
+    uploadService.findById(id,res).
         then((data) => {
             res.send(data);
         })
@@ -32,41 +40,5 @@ function findUploadById(req, res) {
         });
 }
 
-function deleteById(req, res) {
-    let uploads=req.params.id
-    uploadService.deleteById(uploads).
-        then((data) => {
-            res.status(200).json({
-                message: "Gig deleted successfully",
-                up: data
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-function updateUpload(req, res) {
-    uploadService.update(req.body, req.params.id).
-        then((data) => {
-            res.status(200).json({
-                message: "exp updated successfully",
-                up: data
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-function findUploads(req, res) {
-    uploadService.findAll().
-        then((data) => {
-            res.send(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
 
 module.exports = uploadController;
