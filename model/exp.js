@@ -34,14 +34,14 @@ const Exp = db.define('experience', {
     annualsalary: {
         type: Sequelize.DOUBLE,
         allowNull: false
-    },
+    }
     
-},
-{
-    //force:true,
-    // Exp.belongsTo(Basic, { foreignKey: 'id' });
-    // Basic.hasMany(Exp, { foreignKey: 'id' });
 }
+// {
+//     //force:true,
+//     // Exp.belongsTo(Basic, { foreignKey: 'id' });
+//     // Basic.hasMany(Exp, { foreignKey: 'id' });
+// }
 );
 
 

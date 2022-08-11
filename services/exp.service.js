@@ -2,7 +2,7 @@
 // const basicDao = require('../dao/basic.dao')
 const sequelize = require('sequelize')
 const db = require('../config/database')
-const Basic = require('../model/basic')
+const Basic = require('../model/basic.model')
 const Exp = require('../model/exp')
 var expService = {
     add: add,
