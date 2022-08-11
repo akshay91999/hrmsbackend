@@ -1,10 +1,31 @@
-const Skill = require('../model/skill');
-var skillDao = {
+// const expDao = require('../dao/exp.dao');
+// const basicDao = require('../dao/basic.dao')
+const sequelize = require('sequelize')
+const db = require('../config/database')
+//const Basic = require('../model/basic')
+const Skill = require('../model/skill.model')
+var skillService = {
+    add: add,
     findAll: findAll,
-    create: create,
     findById: findById,
-    deleteById: deleteById,
-    updateSkill: updateSkill
+    update: update,
+    deleteById: deleteById
+}
+
+async function add(sk,res,pid) {
+    const t = await db.transaction();
+    try{
+        let pp = sk;
+        //const basic = await Basic.create({...pp},{transaction:t});
+        const skills = await Skill.create({...pp,basic_id:pid},{transaction:t});
+        t.commit();
+        return res.status(200).json({skills})
+    }
+    
+        catch(error) {
+            console.log(error);
+            t.rollback();
+        }
 }
 
 function findAll() {
@@ -14,24 +35,18 @@ function findAll() {
 function findById(id) {
     return Skill.findByPk(id);
 }
-
 function deleteById(id) {
     return Skill.destroy({ where: { id: id } });
 }
 
-function create(skill) {
-    var newSkill = new Skill(skill);
-    return newSkill.save();
-}
-
-function updateSkill(skill, id) {
+function update(sk, id) {
     var updateSkill = {
-        title: skill.title,
-        technologies: skill.technologies,
-        description: skill.description,
-        budget: skill.budget,
-        contact_email: skill.contact_email
+        hardskills: sk.hardskills,
+        softskills: sk.softskills,
+        
+        
     };
     return Skill.update(updateSkill, { where: { id: id } });
 }
-module.exports = skillDao;
+
+module.exports = skillService;

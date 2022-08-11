@@ -22,7 +22,9 @@ const Basic = db.define('Basic', {
     },
     dob: {
         type: Sequelize.DATEONLY,
-        allowNull: false
+        allowNull: false,
+        
+        
     },
     nationality: {
         type: Sequelize.STRING,
@@ -44,8 +46,13 @@ const Basic = db.define('Basic', {
     }
 },
 {
+
+    alter:true,
+
+
     // alter:true
     // force:true
+
 });
 
 

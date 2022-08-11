@@ -1,33 +1,29 @@
-// const skillDao = require('../dao/skill.dao');
-const sequelize = require('sequelize')
-const db = require('../config/database')
-const Basic = require('../model/basic')
-const Skill = require('../model/skill')
+
+const skillService = require('../services/skill.service');
 var skillController = {
     addSkill: addSkill,
-    findSkill: findSkill,
+    findSkills: findSkills,
     findSkillById: findSkillById,
     updateSkill: updateSkill,
     deleteById: deleteById
 }
 
-async function addSkill(req, res) {
-    const t = await db.transaction();
-    try{
+function addSkill(req, res) {
     let sk = req.body;
-    //const basic = await Basic.findAll({...sk},{transaction:t});
-    const skill = await Skill.create({...sk},{transaction:t});
-    t.commit();
-        return res.status(200).json({skill})
-        
-    }
-        catch(error){
+    let pid = req.params.id;
+    skillService.add(sk,res,pid).
+        then((data) => {
+            
+            res.send(data);
+        })
+        .catch((error) => {
             console.log(error);
-        };
+        });
 }
 
 function findSkillById(req, res) {
-    skillDao.findById(req.params.id).
+    let skills=req.params.id
+    skillService.findById(skills,res).
         then((data) => {
             res.send(data);
         })
@@ -37,11 +33,12 @@ function findSkillById(req, res) {
 }
 
 function deleteById(req, res) {
-    skillDao.deleteById(req.params.id).
+    let skills=req.params.id
+    skillService.deleteById(skills).
         then((data) => {
             res.status(200).json({
-                message: "Basic deleted successfully",
-                skill: data
+                message: "Gig deleted successfully",
+                sk: data
             })
         })
         .catch((error) => {
@@ -50,11 +47,11 @@ function deleteById(req, res) {
 }
 
 function updateSkill(req, res) {
-    skillDao.updateSkill(req.body, req.params.id).
+    skillService.update(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
-                message: "Basic updated successfully",
-                skill: data
+                message: "exp updated successfully",
+                sk: data
             })
         })
         .catch((error) => {
@@ -62,8 +59,8 @@ function updateSkill(req, res) {
         });
 }
 
-function findSkill(req, res) {
-    skillDao.findAll().
+function findSkills(req, res) {
+    skillService.findAll().
         then((data) => {
             res.send(data);
         })

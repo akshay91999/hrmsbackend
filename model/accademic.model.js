@@ -28,7 +28,7 @@ const Academic = db.define('Academic', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    course_type: {
+    coursetype: {
         type: Sequelize.STRING,
         allowNull: false
     },

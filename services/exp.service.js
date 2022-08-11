@@ -2,24 +2,24 @@
 // const basicDao = require('../dao/basic.dao')
 const sequelize = require('sequelize')
 const db = require('../config/database')
-const Basic = require('../model/basic.model')
+const Basic = require('../model/basic')
 const Exp = require('../model/exp')
 var expService = {
     add: add,
-    findAll: findAll,
+    
     findById: findById,
     update: update,
-    deleteById: deleteById
+    
 }
 
-async function add(exp, res,pid) {
+async function add(exp,res,pid) {
     const t = await db.transaction();
     try{
         let pp = exp;
-        const basic = await Basic.create({...pp,userList_id:pid},{transaction:t});
-        const Expr = await Exp.create({...pp,user_id:basic.id},{transaction:t});
+        //const basic = await Basic.create({...pp},{transaction:t});
+        const Expr = await Exp.create({...pp,basic_id:pid},{transaction:t});
         t.commit();
-        return res.status(200).json({basic,Expr})
+        return res.status(200).json({Expr})
     }
     
         catch(error) {
@@ -28,58 +28,40 @@ async function add(exp, res,pid) {
         }
 }
 
-async function findById(exps,res) {
+async function findById(id, res) {
     const t = await db.transaction();
-    try{
-        let pkid=exps
-        //let b=req.body
-    const base= await Basic.findByPk(pkid,{transaction:t})
-    const Exps= await Exp.findByPk(pkid,{transaction:t})
-    t.commit();
-    return res.status(200).json({ base, Exps })
- 
+    try {
+        let pkid = id;
+        const exp = await Exp.findAll({ where: { basic_id: pkid } }, { transaction: t })
+        t.commit();
+        if (!exp.deletedAt) {
+            return res.status(200).json({exp})
+        }
+        else {
+            return res.status(201).json({ message: "user not exist" })
+        }
     }
-    catch(error)  {
-            console.log(error);
-            t.rollback();
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    }
+
+}
+
+async function update(up, id, res) {
+    const t = await db.transaction();
+    try {
+        let pp = up;
+
         
+        const exp = await Exp.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
+        
+        t.commit();
+        return res.status(200).json({ message: "Updated successfully", })
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    };
 }
-}
-
-function deleteById(req, res) {
-    expService.deleteById(req.params.id).
-        then((data) => {
-            res.status(200).json({
-                message: "Gig deleted successfully",
-                exp: data
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-function update(req, res) {
-    expService.update(req.body, req.params.id).
-        then((data) => {
-            res.status(200).json({
-                message: "Gig updated successfully",
-                exp: data
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-function findAll() {
-    expService.findAll().
-        then((data) => {
-            res.send(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
 module.exports = expService;

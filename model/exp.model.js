@@ -1,14 +1,14 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 //const Basic = require('./basic')
-const Exp = db.define('experience', {
+const Exp = db.define('Experience', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
         
     },
-    user_id: {
+    basic_id: {
         type: Sequelize.INTEGER,
     },
     employeeid: {
@@ -21,21 +21,28 @@ const Exp = db.define('experience', {
     },
     durationfrom: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        isDate:true
     },
     durationto: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        isDate:true
     },
     designation: {
         type: Sequelize.STRING,
-        allowNull: false
+        //allowNull: false
     },
     annualsalary: {
         type: Sequelize.DOUBLE,
         allowNull: false
-    }
+    },
     
+},
+{
+    //force:true,
+    // Exp.belongsTo(Basic, { foreignKey: 'id' });
+    // Basic.hasMany(Exp, { foreignKey: 'id' });
 }
 // {
 //     //force:true,

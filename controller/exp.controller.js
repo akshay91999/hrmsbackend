@@ -1,5 +1,5 @@
 
-const expDao = require('../services/exp.service');
+const expService = require('../services/exp.service');
 var expController = {
     addExp: addExp,
     findExps: findExps,
@@ -11,18 +11,20 @@ var expController = {
 function addExp(req, res) {
     let exp = req.body;
     let pid = req.params.id;
-    expDao.add(exp,res,pid).
-        then((data) => {
-            res.send(data);
-        })
+    expService.add(exp,res,pid).
+    then((data) => {
+        //console.log(data)
+        res.send(data);
+    })
         .catch((error) => {
             console.log(error);
+           
         });
 }
 
 function findExpById(req, res) {
     let exps=req.params.id
-    expDao.findById(exps,res).
+    expService.findById(exps,res).
         then((data) => {
             res.send(data);
         })
@@ -32,7 +34,8 @@ function findExpById(req, res) {
 }
 
 function deleteById(req, res) {
-    expDao.deleteById(req.params.id).
+    let exps=req.params.id
+    expService.deleteById(exps).
         then((data) => {
             res.status(200).json({
                 message: "Gig deleted successfully",
@@ -45,7 +48,7 @@ function deleteById(req, res) {
 }
 
 function updateExp(req, res) {
-    expDao.update(req.body, req.params.id).
+    expService.update(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "exp updated successfully",
@@ -58,7 +61,7 @@ function updateExp(req, res) {
 }
 
 function findExps(req, res) {
-    expDao.findAll().
+    expService.findAll().
         then((data) => {
             res.send(data);
         })

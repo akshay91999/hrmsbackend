@@ -26,7 +26,8 @@ const Address = db.define('Address', {
     },
     pincode: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        
     },
     deletedAt: {
         type: Sequelize.DATE,
@@ -35,8 +36,12 @@ const Address = db.define('Address', {
     
 },
 {
- alter:true
-//  force:true
+
+    alter:true
+  //force:true
+
+ 
+
 });
 
 module.exports = Address;

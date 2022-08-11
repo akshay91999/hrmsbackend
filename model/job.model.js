@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Skill = db.define('skill', {
+const Job = db.define('Job', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    user_id: {
+    basic_id: {
         type: Sequelize.INTEGER
     },
     designation: {
@@ -26,7 +26,7 @@ const Skill = db.define('skill', {
         type: Sequelize.DOUBLE,
         allowNull: false
     },
-    typeid: {
+    jobtype: {
         type: Sequelize.STRING,
         allowNull: false
     },
@@ -36,8 +36,8 @@ const Skill = db.define('skill', {
     }
 },
 {
-    force:true
+    alter:true
 }
 );
 
-module.exports = Skill;
+module.exports = Job;

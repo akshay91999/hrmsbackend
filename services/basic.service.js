@@ -28,9 +28,12 @@ async function add(empData, res) {
     const t = await db.transaction();
     try {
 
+
+        
+
         let pp = empData;
 
-        // const hashedpass = await bcrypt.hash(pp.passwd, 10)
+        const hashedpass = await bcrypt.hash(pp.passwd, 10)
 
         const createUser = await Basics.create({ ...pp, passwd: pp.dob }, { transaction: t });
         const addr = await Address.create({ ...pp, basic_id: createUser.id }, { transaction: t })

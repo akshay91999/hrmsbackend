@@ -40,7 +40,7 @@ const Parent = db.define('Parent', {
         allowNull: true
     }
 },{
-    // alter:true
+     alter:true
     // force:true
 });
 
