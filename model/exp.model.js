@@ -38,17 +38,8 @@ const Exp = db.define('Experience', {
         allowNull: false
     },
     
-},
-{
-    //force:true,
-    // Exp.belongsTo(Basic, { foreignKey: 'id' });
-    // Basic.hasMany(Exp, { foreignKey: 'id' });
 }
-// {
-//     //force:true,
-//     // Exp.belongsTo(Basic, { foreignKey: 'id' });
-//     // Basic.hasMany(Exp, { foreignKey: 'id' });
-// }
+
 );
 
 
