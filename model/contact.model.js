@@ -21,7 +21,8 @@ const Contact = db.define('Contact', {
            is:/^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/
         },
         unique:true
-    },
+
+        },
 
     altcontactnumber: {
         type: Sequelize.STRING,
