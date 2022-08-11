@@ -1,8 +1,5 @@
-// const expDao = require('../dao/exp.dao');
-// const basicDao = require('../dao/basic.dao')
 const sequelize = require('sequelize')
 const db = require('../config/database')
-//const Basic = require('../model/basic')
 const Exp = require('../model/exp.model')
 var expService = {
     add: add,
