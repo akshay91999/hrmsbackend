@@ -1,5 +1,8 @@
-
-const jobService = require('../services/job.service');
+// const skillDao = require('../dao/skill.dao');
+const sequelize = require('sequelize')
+const db = require('../config/database')
+const Basic = require('../model/basic')
+const Job = require('../model/job')
 var jobController = {
     addJob: addJob,
     findJobs: findJobs,

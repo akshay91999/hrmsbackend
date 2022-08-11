@@ -19,15 +19,20 @@ const Contact = db.define('Contact', {
         allowNull: false,
         validate:{
            is:/^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/
-        }
+        },
+        unique:true
 
     },
+
+        
+
     altcontactnumber: {
         type: Sequelize.STRING,
         allowNull: true,
         validate:{
            is:/^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/
-        }
+        },
+        unique:true
     },
     email: {
         type: Sequelize.STRING,

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const academicController = require('../controller/accademic.controller');
+
 
 const Basic = db.define('Basic', {
     id: {
