@@ -1,7 +1,7 @@
 const sequelize = require('sequelize')
 const db = require('../config/database')
-const Basics = require('../model/basic.model')
-const Exp = require('../model/exp.model')
+const Basic = require('../model/basic')
+const Exp = require('../model/exp')
 var expService = {
     add: add,
     findAll:findAll,
