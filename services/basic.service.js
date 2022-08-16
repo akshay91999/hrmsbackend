@@ -4,65 +4,51 @@ const Basics = require('../model/basic.model')
 const Address = require('../model/address.model')
 const Parents = require('../model/parents.model')
 const Contact = require('../model/contact.model')
-const mailService =require('../services/mailer.services')
-
+const mailService = require('../services/mailer.services')
 const bcrypt = require('bcrypt')
-
 var basicService = {
     add: add,
-    findAll: findAll,
+    findall: findall,
     findById: findById,
-    updateUser: updateUser,
-
+    updateUser: updateUser
 }
-
-
 async function add(empData, res) {
-        
-        const isEmailExist= await Contact.findOne({where:{email:empData.email}})
-        
-        if(isEmailExist){
-            return res.status(202).json({message:"User with the email is already exist"})
-        }
-        const isphoneExist= await Contact.findOne({where:{contactnumber:empData.contactnumber}})
+    const isEmailExist = await Contact.findOne({ where: { email: empData.email } })
+    if (isEmailExist) {
+        return res.status(202).json({ message: "User with the email is already exist" })
+    }
+    const isphoneExist = await Contact.findOne({ where: { contactnumber: empData.contactnumber } })
+    if (isphoneExist) {
+        return res.status(203).json({ message: "User with the phone number is already exist" })
+    }
     const t = await db.transaction();
     try {
-
-
-        
-
         let pp = empData;
-
         const hashedpass = await bcrypt.hash(pp.passwd, 10)
-
         const createUser = await Basics.create({ ...pp, passwd: pp.dob }, { transaction: t });
         const addr = await Address.create({ ...pp, basic_id: createUser.id }, { transaction: t })
         const parent = await Parents.create({ ...pp, basic_id: createUser.id }, { transaction: t })
         const contact = await Contact.create({ ...pp, basic_id: createUser.id }, { transaction: t })
-        let email=contact.email;
-        let pass=pp.dob;
-        
-        const mailed= mailService.mailer(email,pass,res) ;
+        let email = contact.email;
+        let pass = pp.dob;
+        const mailed = mailService.mailer(email, pass, res);
         t.commit();
-  
-        return res.status(200).json({createUser, addr, parent, contact,mailed})
+        return res.status(200).json({ createUser, addr, parent, contact, mailed })
     }
     catch (error) {
-        return res.status(202).json({error})
+        return res.status(202).json({ error })
         t.rollback();
     }
-
 }
-
 //get by id
-async function findById(gig, res) {
+async function findById(id, res) {
     const t = await db.transaction();
     try {
-        let pkid = gig;
+        let pkid = id;
         const base = await Basics.findByPk(pkid, { transaction: t })
-        const addr = await Address.findAll({ where: { basic_id: pkid } }, { transaction: t })
-        const parent = await Parents.findAll({ where: { basic_id: pkid } }, { transaction: t })
-        const contact = await Contact.findAll({ where: { basic_id: pkid } }, { transaction: t })
+        const addr = await Address.findOne({ where: { basic_id: pkid } }, { transaction: t })
+        const parent = await Parents.findOne({ where: { basic_id: pkid } }, { transaction: t })
+        const contact = await Contact.findOne({ where: { basic_id: pkid } }, { transaction: t })
         t.commit();
         if (!base.deletedAt) {
             return res.status(200).json({ base, addr, parent, contact })
@@ -76,8 +62,7 @@ async function findById(gig, res) {
         t.rollback();
     }
 }
-
-
+// Update employee details
 async function updateUser(up, id, res) {
     const t = await db.transaction();
     try {
@@ -85,7 +70,7 @@ async function updateUser(up, id, res) {
         const hashedpass = await bcrypt.hash(pp.passwd, 10)
 
 
-        const base = await Basics.update({ ...pp,passwd:hashedpass }, { where: { id: id } }, { transaction: t })
+        const base = await Basics.update({ ...pp, passwd: hashedpass }, { where: { id: id } }, { transaction: t })
         const addr = await Address.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
         const parent = await Parents.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
         const contact = await Contact.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
@@ -97,17 +82,18 @@ async function updateUser(up, id, res) {
         t.rollback();
     };
 }
-
-
-
-function findAll(req, res) {
-    Basics.findAll().
-        then((data) => {
-            res.send(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+async function findall(req, res) {
+    const t = await db.transaction();
+    try{
+    const base =await Basics.findAll({transaction: t })
+    const contact =await Contact.findAll({transaction: t })
+    t.commit();
+    return {base,contact};
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    }
 }
 
 module.exports = basicService;
