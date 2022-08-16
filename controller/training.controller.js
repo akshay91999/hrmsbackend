@@ -1,19 +1,21 @@
+const trainingService = require('../services/training.service');
 
-const skillService = require('../services/skill.service');
-var skillController = {
-    addSkill: addSkill,
-    findSkills: findSkills,
-    findSkillById: findSkillById,
-    updateSkill: updateSkill,
+const db = require('../config/database')
+
+var trainingController = {
+    addTrn: addTrn,
+    findTrns: findTrns,
+    findTrnById: findTrnById,
+    updateTrn: updateTrn,
     deleteById: deleteById
 }
 
-function addSkill(req, res) {
-    let sk = req.body;
-    let pid = req.params.id;
-    skillService.add(sk,res,pid).
+function addTrn(req, res) {
+  
+
+    let trnData = req.body;
+    trainingService.add(trnData, res).
         then((data) => {
-            
             res.send(data);
         })
         .catch((error) => {
@@ -21,9 +23,9 @@ function addSkill(req, res) {
         });
 }
 
-function findSkillById(req, res) {
-    let id=req.params.id
-    skillService.findById(id,res).
+function findTrnById(req, res) {
+    let id = req.params.id
+    trainingService.findById(id, res).
         then((data) => {
             res.send(data);
         })
@@ -33,12 +35,11 @@ function findSkillById(req, res) {
 }
 
 function deleteById(req, res) {
-    let id=req.params.id
-    skillService.deleteById(id).
+    trainingService.deleteById(req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "Gig deleted successfully",
-                sk: data
+                gig: data
             })
         })
         .catch((error) => {
@@ -46,14 +47,13 @@ function deleteById(req, res) {
         });
 }
 
-function updateSkill(req, res) {
-    let up = req.body;
+function updateTrn(req, res) {
+    let up = req.body
     let id = req.params.id
-    
-    skillService.update(up,id,res).
+    trainingService.update(up, id, res).
         then((data) => {
             res.status(200).json({
-                message: "skill updated successfully",
+                message: "Updated successfully",
                 up: data
             })
         })
@@ -62,8 +62,9 @@ function updateSkill(req, res) {
         });
 }
 
-function findSkills(req, res) {
-    skillService.findAll().
+function findTrns(req, res) {
+    
+    trainingService.findAll(req,res).
         then((data) => {
             res.send(data);
         })
@@ -72,4 +73,4 @@ function findSkills(req, res) {
         });
 }
 
-module.exports = skillController;
+module.exports = trainingController;

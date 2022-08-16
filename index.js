@@ -1,7 +1,8 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
-
+const dotenv = require('dotenv').config()
+const cookieParser = require('cookie-parser')
 
 //Database Connection
 const db = require('./config/database');
@@ -16,10 +17,11 @@ const app = express();
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+app.use(cookieParser())
 app.use(cors("*"));
 
 app.use('/', require('./routes/add.routing'));
-
+app.use('/upload', express.static('./images'),require('./routes/upload.route'));
 
 
 const PORT = process.env.PORT || 6000;
