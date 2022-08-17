@@ -9,6 +9,7 @@ var DepartService = {
     findById: findById,
     upDepart: upDepart
 }
+//adding designation
 async function add(depData,dep,res) {
 
     const t = await db.transaction();
@@ -24,13 +25,11 @@ async function add(depData,dep,res) {
         t.rollback();
     }
 }
-//get by id
+//get by dp_id
 async function findById(dep, res) {
     const t = await db.transaction();
     try {
-        // let pkid = dep;
         const viewDepart = await Depart.findOne({where:{dp_id:dep}}, { transaction: t })
-        console.log(viewDepart,"viewDepart")
         const viewDesignation = await Designate.findAll({ where: { dp_id: dep } }, { transaction: t })
         t.commit();
         if (!viewDepart.deletedAt) {
@@ -45,22 +44,22 @@ async function findById(dep, res) {
         t.rollback();
     }
 }
-// Update employee details
-async function upDepart(up, id, res) {
+// Update department details
+async function upDepart(up, dp_Id,ds_Id, res) {
     const t = await db.transaction();
     try {
         let pp = up;
-        const upDepart = await Basics.update({ ...pp, passwd: hashedpass }, { where: { id: id } }, { transaction: t })
-        const designation = await Address.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
+        const upDepart = await Depart.update({ ...pp}, { where: { dp_id: dp_Id } }, { transaction: t })
+        const designation = await Designate.update({ ...pp }, { where: { dp_id: upDepart.dp_id,ds_id:ds_Id} }, { transaction: t })
         t.commit();
-        return res.status(200).json({ message: "Updated successfully", })
+        return res.status(200).json({ message: "Updated successfully",upDepart,designation })
     }
     catch (error) {
         console.log(error);
         t.rollback();
     };
 }
-async function findall(req, res) {
+async function findall() {
     const t = await db.transaction();
     try {
         const viewAlldep = await Depart.findAll({ transaction: t })
