@@ -19,6 +19,7 @@ var upload = multer({ storage: storage })
 //const up = upl.single('document')
 router.post('/:id', upload.single('document'),uploadController.addFile)
 router.get('/:id',uploadController.findFileById)
+
 // async function fileup (up,req,res){
 //     try {
 //         const {doc_type}=req.body

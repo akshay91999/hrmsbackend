@@ -20,12 +20,12 @@ const Exp = db.define('Experience', {
         allowNull: false
     },
     durationfrom: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
         isDate:true
     },
     durationto: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
         isDate:true
     },
@@ -38,7 +38,9 @@ const Exp = db.define('Experience', {
         allowNull: false
     },
     
+    
 }
+
 
 );
 

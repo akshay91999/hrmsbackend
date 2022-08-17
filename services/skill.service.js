@@ -3,6 +3,7 @@
 const sequelize = require('sequelize')
 const db = require('../config/database')
 //const Basic = require('../model/basic')
+const Basics = require('../model/basic.model')
 const Skill = require('../model/skill.model')
 var skillService = {
     add: add,
@@ -32,21 +33,46 @@ function findAll() {
     return Skill.findAll();
 }
 
-function findById(id) {
-    return Skill.findByPk(id);
+async function findById(id, res) {
+    const t = await db.transaction();
+    try {
+        let pkid = id;
+        const base = await Basics.findByPk(pkid, { transaction: t })
+        
+        const sk = await Skill.findAll({where: { basic_id: pkid }} , { transaction: t })
+        t.commit();
+        if (!sk.deletedAt) {
+            return res.status(200).json({sk})
+        }
+        else {
+            return res.status(201).json({ message: "user not exist" })
+        }
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    }
+
 }
 function deleteById(id) {
     return Skill.destroy({ where: { id: id } });
 }
 
-function update(sk, id) {
-    var updateSkill = {
-        hardskills: sk.hardskills,
-        softskills: sk.softskills,
+async function update(up,id,res) {
+    const t = await db.transaction();
+    try {
+        let pp = up;
+
         
+        const skills = await Skill.update({...pp }, { where: { basic_id: id } }, { transaction: t })
         
+        t.commit();
+        return res.status(200).json({ message: "Updated successfully", })
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
     };
-    return Skill.update(updateSkill, { where: { id: id } });
 }
 
 module.exports = skillService;
