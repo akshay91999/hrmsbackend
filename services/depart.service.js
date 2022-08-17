@@ -15,7 +15,7 @@ async function add(depData,dep,res) {
  try {
         let pp = depData;
         const dpart = await Depart.findOne({where:{dp_id:dep.dp_id}}, { transaction: t });
-        const [designation,created] = await Designate.findOrCreate({where:{dp_id:dpart.dp_id,designation:depData.designation},defaults: {...pp}},{transaction:t});
+        const [designation,created] = await Designate.findOrCreate({where:{dp_id:dpart.dp_id,designation:depData.designation},defaults: {...pp}});
         t.commit();
         return res.status(200).json({ dpart, designation })
     }
