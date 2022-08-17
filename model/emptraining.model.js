@@ -7,7 +7,7 @@ const Training = db.define('EmpTraining', {
         primaryKey: true,
         autoIncrement: true
     },
-    dept_id:{
+    dp_id:{
         type:Sequelize.INTEGER,
         allowNull:false
     },

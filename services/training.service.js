@@ -12,12 +12,12 @@ var trainingService = {
     deleteById: deleteById
 }
 
-async function add(tn,res,pid) {
+async function add(tn,res,trnid) {
     const t = await db.transaction();
     try{
         let pp = tn;
-        //const basic = await Basic.create({...pp},{transaction:t});
-        const training = await Training.create({...pp},{transaction:t});
+        
+        const training = await Training.create({...pp,dp_id:trnid},{transaction:t});
         t.commit();
         return res.status(200).json({training})
     }
@@ -36,8 +36,8 @@ async function findById(id, res) {
     const t = await db.transaction();
     try {
         let pkid = id;
-        const tn = await Training.findByPk(pkid , { transaction: t })
-        const tn1 = await Training.findAll({where: {dept_id:pkid}},{transaction:t}) 
+        //const tn = await Training.findByPk(pkid , { transaction: t })
+        const tn1 = await Training.findAll({where: {dp_id:pkid}},{transaction:t}) 
         t.commit();
         return res.status(200).json({tn1})
     }

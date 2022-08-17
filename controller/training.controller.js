@@ -14,7 +14,8 @@ function addTrn(req, res) {
   
 
     let trnData = req.body;
-    trainingService.add(trnData, res).
+    let trnid = req.params.id
+    trainingService.add(trnData, res,trnid).
         then((data) => {
             res.send(data);
         })

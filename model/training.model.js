@@ -10,7 +10,7 @@ const Training = db.define('Training', {
     // emp_id: {
     //     type: Sequelize.INTEGER
     // },
-    dept_id:{
+    dp_id:{
         type:Sequelize.INTEGER
     },
     training_name: {
