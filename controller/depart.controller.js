@@ -1,5 +1,4 @@
 const vacService = require('../services/depart.service');
-const trnService = require('../services/training.service')
 const Depart =require('../model/department.model')
 var depController = {
     addDep: addDep,

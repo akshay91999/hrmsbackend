@@ -6,7 +6,7 @@ const expRoutes = require('./exp.route');
 const skillRoutes = require('./skill.route');
 const jobRoutes = require('./job.route');
 const uploadRoutes = require('./upload.route');
-const deptRoutes = require('./dep.route')
+const depRoutes = require('./dep.route')
 const trainingRoutes = require('./training.route')
 
 router.use('/accademic', accademic);
@@ -16,7 +16,7 @@ router.use('/skill', skillRoutes);
 router.use('/job', jobRoutes)
 router.use('/report', basicRoutes, expRoutes, skillRoutes, jobRoutes)
 router.use('/upload', uploadRoutes)
-router.use('/depart', deptRoutes)
+router.use('/depart', depRoutes)
 router.use('/addtraining', trainingRoutes)
 //router.use('/uploads',uploadRoutes)
 
