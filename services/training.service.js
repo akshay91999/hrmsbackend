@@ -3,6 +3,8 @@
 const sequelize = require('sequelize')
 const db = require('../config/database')
 //const Basic = require('../model/basic')
+const Dept = require('../model/department.model')
+const Desig = require('../model/designation.model')
 const Training = require('../model/training.model')
 var trainingService = {
     add: add,
@@ -12,12 +14,13 @@ var trainingService = {
     deleteById: deleteById
 }
 
-async function add(tn,res,trnid) {
+async function add(tn,tnData,desData,res) {
     const t = await db.transaction();
     try{
         let pp = tn;
-        
-        const training = await Training.create({...pp,dp_id:trnid},{transaction:t});
+        const dpart = await Dept.findOne({where:{dp_id:tnData.dp_id}}, { transaction: t });
+        const des = await Desig.findOne({where : {ds_id:desData.ds_id,dp_id:dpart.dp_id}})
+        const training = await Training.findOrCreate({where: {dp_id:dpart.dp_id,ds_id:des.ds_id},defaults: {...pp}});
         t.commit();
         return res.status(200).json({training})
     }

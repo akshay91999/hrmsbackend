@@ -1,7 +1,8 @@
 const trainingService = require('../services/training.service');
 
 const db = require('../config/database')
-
+const Depart = require('../model/department.model')
+const Desig = require('../model/designation.model')
 var trainingController = {
     addTrn: addTrn,
     findTrns: findTrns,
@@ -10,12 +11,19 @@ var trainingController = {
     deleteById: deleteById
 }
 
-function addTrn(req, res) {
+async function addTrn(req, res) {
   
 
     let trnData = req.body;
-    let trnid = req.params.id
-    trainingService.add(trnData, res,trnid).
+    const depart = await Depart.findOne({
+        where: { departmentname:trnData.departmentname },
+        
+      });
+      const desig = await Desig.findOne({
+        where: { designation:trnData.designation },
+        
+      });
+    trainingService.add(trnData,depart,desig, res).
         then((data) => {
             res.send(data);
         })

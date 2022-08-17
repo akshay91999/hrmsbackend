@@ -13,6 +13,9 @@ const Training = db.define('Training', {
     dp_id:{
         type:Sequelize.INTEGER
     },
+    ds_id:{
+        type:Sequelize.INTEGER
+    },
     training_name: {
         type: Sequelize.STRING,
         allowNull: false

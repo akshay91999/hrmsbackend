@@ -16,7 +16,7 @@ router.use('/skill', skillRoutes);
 router.use('/job', jobRoutes)
 router.use('/report', basicRoutes, expRoutes, skillRoutes, jobRoutes)
 router.use('/upload', uploadRoutes)
-router.use('/dept', deptRoutes)
+router.use('/depart', deptRoutes)
 router.use('/addtraining', trainingRoutes)
 //router.use('/uploads',uploadRoutes)
 
