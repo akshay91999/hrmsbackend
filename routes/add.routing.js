@@ -9,6 +9,7 @@ const uploadRoutes = require('./upload.route');
 const depRoutes = require('./dep.route')
 const trainingRoutes = require('./training.route')
 const vacancyRoute = require('./vacancy.route')
+const travelRoutes=require('./travel.route')
 
 router.use('/accademic', accademic);
 router.use('/basics', basicRoutes);
