@@ -18,14 +18,6 @@ const Job = db.define('Job', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    department:{
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    designation:{
-        type: Sequelize.STRING,
-        allowNull: false
-    },
     branch: {
         type: Sequelize.STRING,
         allowNull: false

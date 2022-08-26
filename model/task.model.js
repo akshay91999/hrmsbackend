@@ -7,8 +7,18 @@ const Task = db.define('Task', {
         primaryKey: true,
         autoIncrement: true
     },
-    emp_id: {
+    basic_id: {
         type: Sequelize.INTEGER
+    },
+    dp_id:{
+        type: Sequelize.INTEGER
+    },
+    ds_id:{
+        type: Sequelize.INTEGER
+    },
+    projectname: {
+        type: Sequelize.STRING,
+        allowNull: false
     },
     taskname: {
         type: Sequelize.STRING,
@@ -18,11 +28,18 @@ const Task = db.define('Task', {
         type: Sequelize.DATEONLY,
         allowNull: false
     },
-    completed_date: {
+    due_date:{
         type: Sequelize.DATEONLY,
         allowNull: false
     },
-    
+    completed_date: {
+        type: Sequelize.DATEONLY,
+        allowNull: true
+    },
+    status: {
+        type: Sequelize.STRING,
+        allowNull: true
+    }
     
 
 },

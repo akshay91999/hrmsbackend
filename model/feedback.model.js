@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Training = db.define('Training', {
+const Feedback = db.define('Feedback', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -13,14 +13,16 @@ const Training = db.define('Training', {
     dp_id:{
         type:Sequelize.INTEGER
     },
+    basic_id:{
+        type:Sequelize.INTEGER
+    },
     training_name: {
         type: Sequelize.STRING,
         allowNull: false,
-        
-  },
-    trainer: {
+    },
+    feedback: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
     },
     
     
@@ -32,4 +34,4 @@ const Training = db.define('Training', {
 }
 );
 
-module.exports = Training;
+module.exports = Feedback;

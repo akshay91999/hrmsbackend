@@ -21,17 +21,28 @@ const Training = db.define('EmpTraining', {
     },
     trainer: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     time_schedule: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     training_date: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATEONLY,
         allowNull: false
     },
-    
+    checkin: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    checkout: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    status: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
     
 
 },
