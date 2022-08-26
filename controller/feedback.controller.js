@@ -4,7 +4,7 @@ const db = require('../config/database')
 const Dept = require('../model/department.model')
 const Training =  require('../model/training.model')
 const EmpTraining = require('../model/emptraining.model')
-const Feedback = require('../model/feedback.model')
+
 var feedbackController = {
     addFeed: addFeed,
     findAllFeed: findAllFeed,
