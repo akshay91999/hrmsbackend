@@ -1,19 +1,22 @@
+const empTrainingService = require('../services/emptraining.service');
 
-const skillService = require('../services/skill.service');
-var skillController = {
-    addSkill: addSkill,
-    findSkills: findSkills,
-    findSkillById: findSkillById,
-    updateSkill: updateSkill,
+const db = require('../config/database')
+
+var empTrainingController = {
+    addEmpTrn: addEmpTrn,
+    findEmpTrns: findEmpTrns,
+    findEmpTrnById: findEmpTrnById,
+    updateEmpTrn: updateEmpTrn,
     deleteById: deleteById
 }
 
-function addSkill(req, res) {
-    let sk = req.body;
+function addEmpTrn(req, res) {
+  
+
+    let emptrnData = req.body;
     let pid = req.params.id;
-    skillService.add(sk,res,pid).
+    empTrainingService.add(emptrnData, res,pid).
         then((data) => {
-            
             res.send(data);
         })
         .catch((error) => {
@@ -21,9 +24,9 @@ function addSkill(req, res) {
         });
 }
 
-function findSkillById(req, res) {
-    let id=req.params.id
-    skillService.findById(id,res).
+function findEmpTrnById(req, res) {
+    let id = req.params.id
+    empTrainingService.findById(id, res).
         then((data) => {
             res.send(data);
         })
@@ -33,12 +36,11 @@ function findSkillById(req, res) {
 }
 
 function deleteById(req, res) {
-    let id=req.params.id
-    skillService.deleteById(id).
+    empTrainingService.deleteById(req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "Gig deleted successfully",
-                sk: data
+                gig: data
             })
         })
         .catch((error) => {
@@ -46,14 +48,13 @@ function deleteById(req, res) {
         });
 }
 
-function updateSkill(req, res) {
-    let up = req.body;
+function updateEmpTrn(req, res) {
+    let up = req.body
     let id = req.params.id
-    
-    skillService.update(up,id,res).
+    trainingService.update(up, id, res).
         then((data) => {
             res.status(200).json({
-                message: "skill updated successfully",
+                message: "Updated successfully",
                 up: data
             })
         })
@@ -62,8 +63,9 @@ function updateSkill(req, res) {
         });
 }
 
-function findSkills(req, res) {
-    skillService.findAll().
+function findEmpTrns(req, res) {
+    let id = req.body
+    trainingService.findById(id,res).
         then((data) => {
             res.send(data);
         })
@@ -72,4 +74,4 @@ function findSkills(req, res) {
         });
 }
 
-module.exports = skillController;
+module.exports = empTrainingController;

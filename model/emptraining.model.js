@@ -1,56 +1,43 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Job = db.define('Job', {
+const Training = db.define('EmpTraining', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
+    dp_id:{
+        type:Sequelize.INTEGER,
+        allowNull:false
+    },
     basic_id: {
-        type: Sequelize.INTEGER
-    },
-    ds_id: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    dp_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    department:{
+    training_name: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    designation:{
+    trainer: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    branch: {
+    time_schedule: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    package: {
-        type: Sequelize.DOUBLE,
-        allowNull: false
-    },
-    jobtype: {
+    training_date: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    doj: {
-        type: Sequelize.DATEONLY,
-        allowNull: false
-    },
-    deletedAt: {
-        type: Sequelize.DATE,
-        allowNull: true,
-        
-    }
+    
+    
+
 },
 {
     alter:true
 }
 );
 
-module.exports = Job;
+module.exports = Training;

@@ -1,31 +1,34 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Skill = db.define('Skill', {
+const Task = db.define('Task', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    basic_id: {
+    emp_id: {
         type: Sequelize.INTEGER
     },
-    hardskills: {
+    taskname: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    softskills: {
-        type: Sequelize.STRING,
+    assigndate: {
+        type: Sequelize.DATEONLY,
         allowNull: false
     },
-    deletedAt: {
-        type: Sequelize.DATE,
-        allowNull: true
-    }
+    completed_date: {
+        type: Sequelize.DATEONLY,
+        allowNull: false
+    },
+    
+    
+
 },
 {
     alter:true
 }
 );
 
-module.exports = Skill;
+module.exports = Task;

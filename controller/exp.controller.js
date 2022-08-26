@@ -48,11 +48,14 @@ function deleteById(req, res) {
 }
 
 function updateExp(req, res) {
-    expService.update(req.body, req.params.id).
+    let up = req.body;
+    let id = req.params.id
+    
+    expService.update(up,id,res).
         then((data) => {
             res.status(200).json({
                 message: "exp updated successfully",
-                exp: data
+                up: data
             })
         })
         .catch((error) => {

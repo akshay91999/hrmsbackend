@@ -7,10 +7,14 @@ const skillRoutes = require('./skill.route');
 const jobRoutes = require('./job.route');
 const uploadRoutes = require('./upload.route');
 
-const requestRoutes = require('./leave_request.route');
 
 
 
+=======
+const depRoutes = require('./dep.route')
+const trainingRoutes = require('./training.route')
+const vacancyRoute = require('./vacancy.route')
+>>>>>>> e1da13418f43cbbb46ed59436323f399c1aa66c5
 
 router.use('/accademic', accademic);
 router.use('/basics', basicRoutes);
@@ -19,10 +23,6 @@ router.use('/skill', skillRoutes);
 router.use('/job', jobRoutes)
 router.use('/report', basicRoutes, expRoutes, skillRoutes, jobRoutes)
 router.use('/upload', uploadRoutes)
-
-
-router.use('/request', requestRoutes)
-
 
 //router.use('/uploads',uploadRoutes)
 

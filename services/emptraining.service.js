@@ -1,25 +1,25 @@
 const sequelize = require('sequelize')
 const db = require('../config/database')
 
-const Basic = require('../model/basic.model')
-//const Basic = require('../model/basic.model')
-const Exp = require('../model/exp.model')
-var expService = {
+const EmpTraining = require('../model/emptraining.model')
+const Job = require('../model/job.model')
+var EmpTrnService = {
     add: add,
-    findAll:findAll,
+    
     findById: findById,
     update: update,
     
 }
 
-async function add(exp,res,pid) {
+async function add(emptrn,res,pid) {
     const t = await db.transaction();
     try{
-        let pp = exp;
+        let pp = emptrn;
         //const basic = await Basic.create({...pp},{transaction:t});
-        const Expr = await Exp.create({...pp,basic_id:pid},{transaction:t});
+        const dept = await Job.findById(pid,{transaction:t})
+        const EmpTrng = await EmpTraining.create({...pp,basic_id:pid,dept_id},{transaction:t});
         t.commit();
-        return res.status(200).json({Expr})
+        return res.status(200).json({EmpTrng})
     }
     
         catch(error) {
@@ -28,16 +28,15 @@ async function add(exp,res,pid) {
         }
 }
 
-async function findById(id, res) {
+async function findById(up, res) {
     const t = await db.transaction();
     try {
-        let pkid = id;
-        const base = await Basics.findByPk(pkid, { transaction: t })
-        
-        const exp = await Exp.findAll({where: { basic_id: pkid }} , { transaction: t })
+        let pkid = up;
+        const Trng = await Training.findById({ pkid }, { transaction: t })
+        const emptrng = await EmpTraining.findAll({ where: { dept_id:pkid} }, { transaction: t })
         t.commit();
-        if (!exp.deletedAt) {
-            return res.status(200).json({exp})
+        if (!trng.deletedAt) {
+            return res.status(200).json({trng})
         }
         else {
             return res.status(201).json({ message: "user not exist" })
@@ -50,18 +49,13 @@ async function findById(id, res) {
 
 }
 
-
-function findAll() {
-    return Exp.findAll();
-}
-
-async function update(up,id,res) {
+async function update(up, id, res) {
     const t = await db.transaction();
     try {
         let pp = up;
 
         
-        const exp = await Exp.update({...pp }, { where: { basic_id: id } }, { transaction: t })
+        const emptrng = await EmpTraining.update({ ...pp }, { where: { id: id } }, { transaction: t })
         
         t.commit();
         return res.status(200).json({ message: "Updated successfully", })
@@ -71,5 +65,4 @@ async function update(up,id,res) {
         t.rollback();
     };
 }
-
-module.exports = expService;
+module.exports = EmpTrnService;

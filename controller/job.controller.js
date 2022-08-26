@@ -1,8 +1,8 @@
 // const skillDao = require('../dao/skill.dao');
 const sequelize = require('sequelize')
 const db = require('../config/database')
-const Basic = require('../model/basic.model')
-const Job = require('../model/job.model')
+const jobService = require('../services/job.service');
+
 var jobController = {
     addJob: addJob,
     findJobs: findJobs,
@@ -26,8 +26,8 @@ function addJob(req, res) {
 }
 
 function findJobById(req, res) {
-    let jobs=req.params.id
-    jobService.findById(jobs,res).
+    let id=req.params.id
+    jobService.findById(id,res).
         then((data) => {
             res.send(data);
         })
@@ -51,11 +51,14 @@ function deleteById(req, res) {
 }
 
 function updateJob(req, res) {
-    jobService.update(req.body, req.params.id).
+    let up = req.body;
+    let id = req.params.id
+    
+    jobService.update(up,id,res).
         then((data) => {
             res.status(200).json({
-                message: "exp updated successfully",
-                job: data
+                message: "job updated successfully",
+                up: data
             })
         })
         .catch((error) => {
