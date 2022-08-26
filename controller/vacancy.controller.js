@@ -25,7 +25,9 @@ async function addVac(req, res) {
 }
 //getting vaccancy by dep_id and des_id
 function findVacByPos(req, res) {
-    let { dep, des } = req.params.id
+    let dep = req.params.dp_id;
+    let des = req.params.ds_id;
+    console.log(dep,des)
     vacService.findByPos(dep, des, res).
         then((data) => {
             res.send(data);

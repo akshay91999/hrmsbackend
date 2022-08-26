@@ -1,6 +1,5 @@
 
 const nodemailer = require("nodemailer");
-// pass:"yhpagfperyzuckmu"
 
 var mailService={
     mailer:mailer

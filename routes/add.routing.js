@@ -9,6 +9,9 @@ const uploadRoutes = require('./upload.route');
 const depRoutes = require('./dep.route')
 const trainingRoutes = require('./training.route')
 const vacancyRoute = require('./vacancy.route')
+const candiRoutes = require('./candidate.route')
+const blackRoutes = require('./blackList.route')
+const travelRoutes=require('./travel.route')
 
 router.use('/accademic', accademic);
 router.use('/basics', basicRoutes);
@@ -20,7 +23,11 @@ router.use('/upload', uploadRoutes)
 router.use('/depart', depRoutes)
 router.use('/addtraining', trainingRoutes)
 router.use('/vacancy', vacancyRoute)
+router.use('/candidate',candiRoutes)
+router.use('/blackList',blackRoutes)
 //router.use('/uploads',uploadRoutes)
+router.use('/travel',travelRoutes)
+
 
 
 module.exports = router;

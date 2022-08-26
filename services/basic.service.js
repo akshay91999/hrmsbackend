@@ -14,30 +14,34 @@ var basicService = {
 }
 async function add(empData, res) {
     const isEmailExist = await Contact.findOne({ where: { email: empData.email } })
+    // console.log(isEmailExist)
     if (isEmailExist) {
         return res.status(202).json({ message: "User with the email is already exist" })
     }
     const isphoneExist = await Contact.findOne({ where: { contactnumber: empData.contactnumber } })
+    // console.log(isphoneExist)
     if (isphoneExist) {
         return res.status(203).json({ message: "User with the phone number is already exist" })
     }
     const t = await db.transaction();
     try {
         let pp = empData;
-        const hashedpass = await bcrypt.hash(pp.passwd, 10)
-        const createUser = await Basics.create({ ...pp, passwd: pp.dob }, { transaction: t });
+        const hashedpass = await bcrypt.hash(pp.dob, 10)
+        const createUser = await Basics.create({ ...pp, passwd: hashedpass }, { transaction: t });
         const addr = await Address.create({ ...pp, basic_id: createUser.id }, { transaction: t })
         const parent = await Parents.create({ ...pp, basic_id: createUser.id }, { transaction: t })
         const contact = await Contact.create({ ...pp, basic_id: createUser.id }, { transaction: t })
         let email = contact.email;
         let pass = pp.dob;
+        basic_id=createUser.id
         const mailed = mailService.mailer(email, pass, res);
         t.commit();
-        return res.status(200).json({ createUser, addr, parent, contact, mailed })
+        return res.status(200).json({message:"success" ,data:basic_id})
     }
     catch (error) {
-        return res.status(202).json({ error })
+        console.log(error);
         t.rollback();
+        return res.status(202).json({ error })
     }
 }
 //get by id
@@ -67,10 +71,8 @@ async function updateUser(up, id, res) {
     const t = await db.transaction();
     try {
         let pp = up;
-        const hashedpass = await bcrypt.hash(pp.passwd, 10)
-
-
-        const base = await Basics.update({ ...pp, passwd: hashedpass }, { where: { id: id } }, { transaction: t })
+        
+        const base = await Basics.update({ ...pp}, { where: { id: id } }, { transaction: t })
         const addr = await Address.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
         const parent = await Parents.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
         const contact = await Contact.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
