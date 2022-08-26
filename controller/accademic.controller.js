@@ -1,5 +1,5 @@
 
-const academicDao = require('../services/accademic.service');
+const academicService = require('../services/accademic.service');
 
 var academicController = {
     addAcademic: addAcademic,
@@ -13,7 +13,7 @@ function addAcademic(req, res) {
     let pid=req.params.id;
     let academic = req.body;
     
-    academicDao.add(academic,pid,res).
+    academicService.add(academic,pid,res).
         then((data) => {
             res.send(data);
         })
@@ -23,7 +23,7 @@ function addAcademic(req, res) {
 }
 
 function findAcademicById(req, res) {
-    academicDao.findById(req.params.id).
+    academicService.findById(req.params.id).
         then((data) => {
             res.send(data);
         })
@@ -33,7 +33,7 @@ function findAcademicById(req, res) {
 }
 
 function deleteById(req, res) {
-    academicDao.deleteById(req.params.id).
+    academicService.deleteById(req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "Gig deleted successfully",
@@ -46,7 +46,7 @@ function deleteById(req, res) {
 }
 
 function updateAcademic(req, res) {
-    academicDao.updateAcademic(req.body, req.params.id).
+    academicService.updateAcademic(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "Gig updated successfully",
@@ -59,7 +59,7 @@ function updateAcademic(req, res) {
 }
 
 function findAcademic(req, res) {
-    academicDao.findAll().
+    academicService.findAll().
         then((data) => {
             res.send(data);
         })

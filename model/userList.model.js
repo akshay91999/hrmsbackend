@@ -9,12 +9,12 @@ const Userlist = db.define('UserList', {
         autoIncrement: true
     },
    
- user_id: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique:true,
+//  user_id: {
+//         type: Sequelize.STRING,
+//         allowNull: false,
+//         unique:true,
         
-    },
+//     },
    
     username: {
         type: Sequelize.STRING,

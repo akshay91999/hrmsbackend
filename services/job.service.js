@@ -18,6 +18,7 @@ async function add(job,res,pid) {
         let pp = job;
         //const basic = await Basic.create({...pp},{transaction:t});
         const jobs = await Job.create({...pp,basic_id:pid},{transaction:t});
+        
         t.commit();
         return res.status(200).json({jobs})
     }
