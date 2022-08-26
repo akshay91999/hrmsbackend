@@ -2,28 +2,28 @@
 // const basicDao = require('../dao/basic.dao')
 const sequelize = require('sequelize')
 const db = require('../config/database')
-//const Basic = require('../model/basic')
+const EmpTraining = require('../model/emptraining.model')
 const Dept = require('../model/department.model')
-const Desig = require('../model/designation.model')
-const Training = require('../model/training.model')
-var trainingService = {
+const Feedback = require('../model/feedback.model')
+const Training = require('../model/emptraining.model')
+var feedbackService = {
     add: add,
     findAll: findAll,
-    //find: find,
+    find: find,
     findById: findById,
     update: update,
     deleteById: deleteById
 }
 
-async function add(tn,tnid,res) {
+async function add(tn,tnid,dept,res) {
     const t = await db.transaction();
     try{
         let pp = tn;
         
-        
-        const training = await Training.create({...pp,dp_id:tnid},{transaction:t});
+        const dp = await EmpTraining.findOne({where:{dp_id:dept.dp_id}},{transaction:t})
+        const feedback = await Feedback.create({...pp,basic_id:tnid,dp_id:dp.dp_id},{transaction:t});
         t.commit();
-        return res.status(200).json({training})
+        return res.status(200).json({feedback})
     }
     
         catch(error) {
@@ -51,15 +51,33 @@ function findAll() {
 //     }
 
 // }
-async function findById(tn,dept, res) {
+async function findById(id,tn,trn,dept, res) {
     const t = await db.transaction();
     try {
-        let pkid = tn;
+        
         //const tn = await Training.findByPk(pkid , { transaction: t })
-        const dept1 = await Dept.findOne({where:{dp_id:dept.dp_id}},{transaction:t})
-        const tn2 = await Training.findAll({where: {dp_id:dept1.dp_id}},{transaction:t}) 
+        const dpt = await Dept.findOne({where:{dp_id:id}})
+        const trng = await Training.findOne({where:{training_name:tn.training_name}})
+        const feed = await Feedback.findAll({where: {dp_id:dpt.dp_id,training_name:trng.training_name}},{transaction:t}) 
         t.commit();
-        return res.status(200).json({tn2})
+        return res.status(200).json({feed})
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    }
+
+}
+async function find(tn,dept, res) {
+    const t = await db.transaction();
+    try {
+        
+        //const tn = await Training.findByPk(pkid , { transaction: t })
+        const dpt = await Dept.findOne({where:{dp_id:dept.dp_id}})
+        //const trng = await Training.findOne({where:{training_name:tn.training_name}})
+        const feed = await Feedback.findAll({where: {dp_id:dpt.dp_id,training_name:tn.training_name}},{transaction:t}) 
+        t.commit();
+        return res.status(200).json({feed})
     }
     catch (error) {
         console.log(error);
@@ -88,4 +106,4 @@ async function update(up,id,res) {
     };
 }
 
-module.exports = trainingService;
+module.exports = feedbackService;
