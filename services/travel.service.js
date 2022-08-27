@@ -3,6 +3,7 @@ const db = require('../config/database');
 const Travel = require('../model/travel.model')
 const Basics =require('../model/basic.model');
 const Job=require('../model/job.model')
+const HrTravel=require('../model/hrTravel.model')
 
 var travelService = {
     add: add,
@@ -22,7 +23,9 @@ async function add(TData,id,res) {
         const name= await Basics.findOne({attributes:['firstName','lastName']}, {where:{id:basic_id}},{ transaction: t });
         const dp_id= await Job.findOne({attributes:['dp_id']},{where:{basic_id:basic_id}},{ transaction: t });
          const hrdata={createTravel,name,dp_id}
-         console.log(hrdata)
+        // const hrData= await HrTravel.create({...hrdata},{ transaction: t });
+
+        //  console.log(hrdata)
         return res.status(200).json({message:"success" ,createTravel})
     }
     catch (error) {
