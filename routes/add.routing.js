@@ -30,7 +30,7 @@ router.use('/skill', skillRoutes);
 router.use('/job', jobRoutes)
 router.use('/report', basicRoutes, expRoutes, skillRoutes, jobRoutes)
 router.use('/upload', uploadRoutes)
-router.use('/depart', depRoutes)
+router.use('/depart', deptRoutes)
 router.use('/addtraining', trainingRoutes)
 router.use('/vacancy', vacancyRoute)
 //router.use('/uploads',uploadRoutes)
