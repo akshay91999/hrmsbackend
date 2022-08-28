@@ -45,14 +45,15 @@ async function findById(dep, res) {
     }
 }
 // Update department details
-async function upDepart(up, dp_Id,ds_Id, res) {
+async function upDepart(upData,dp_Id,ds_Id, res) {
     const t = await db.transaction();
     try {
-        let pp = up;
+        let pp = upData;
         const upDepart = await Depart.update({ ...pp}, { where: { dp_id: dp_Id } }, { transaction: t })
-        const designation = await Designate.update({ ...pp }, { where: { dp_id: upDepart.dp_id,ds_id:ds_Id} }, { transaction: t })
+        // const getDepart= await Depart.findOne({where:{dp_id:dp_Id}},{ transaction: t })
+        const designation = await Designate.update({ ...pp }, { where: {ds_id:ds_Id} }, { transaction: t })
         t.commit();
-        return res.status(200).json({ message: "Updated successfully",upDepart,designation })
+        return res.status(200).json({ message: "Updated successfully from service",upDepart,designation })
     }
     catch (error) {
         console.log(error);

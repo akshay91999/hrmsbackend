@@ -28,8 +28,13 @@ const VacancyList = db.define('vacancy', {
         type: Sequelize.DATEONLY,
         allowNull: false
     },
+    status: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+    },
     deletedAt: {                   //Status of deleted vaccancy
         type: Sequelize.DATEONLY
     },
+
 });
 module.exports = VacancyList;

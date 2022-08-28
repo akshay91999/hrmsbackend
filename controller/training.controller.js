@@ -5,7 +5,8 @@ const Depart = require('../model/department.model')
 const Desig = require('../model/designation.model')
 var trainingController = {
     addTrn: addTrn,
-    findTrns: findTrns,
+    //findTrns: findTrns,
+    findTrn: findTrn,
     findTrnById: findTrnById,
     updateTrn: updateTrn,
     deleteById: deleteById
@@ -15,15 +16,10 @@ async function addTrn(req, res) {
   
 
     let trnData = req.body;
-    const depart = await Depart.findOne({
-        where: { departmentname:trnData.departmentname },
-        
-      });
-      const desig = await Desig.findOne({
-        where: { designation:trnData.designation },
-        
-      });
-    trainingService.add(trnData,depart,desig, res).
+    let trnid = req.params.id
+    
+      
+    trainingService.add(trnData,trnid, res).
         then((data) => {
             res.send(data);
         })
@@ -71,9 +67,23 @@ function updateTrn(req, res) {
         });
 }
 
-function findTrns(req, res) {
+// function findTrns(req, res) {
     
-    trainingService.findAll(req,res).
+//     trainingService.findAll(req,res).
+//         then((data) => {
+//             res.send(data);
+//         })
+//         .catch((error) => {
+//             console.log(error);
+//         });
+// }
+async function findTrn(req, res) {
+    let tn = req.body
+    const depart = await Depart.findOne({
+        where: { dp_id: tn.dp_id }
+        
+    });
+    trainingService.findById(tn,depart,res).
         then((data) => {
             res.send(data);
         })

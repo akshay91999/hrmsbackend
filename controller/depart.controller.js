@@ -47,12 +47,13 @@ function findDeps(req, res) {
 //update department
 function updateDep(req, res) {
     let upData = req.body;
-    let dp_id = req.params.dp_Id;
-    let ds_id = req.params.ds_Id;
-    vacService.upDepart(upData, ds_id, dp_id, res).
+    let dp_Id = req.params.dp_Id;
+    let ds_Id = req.params.ds_Id;
+    vacService.upDepart(upData,dp_Id,ds_Id, res).
         then((data) => {
             res.status(200).json({
-                message: "Updated successfully from depart controller",data
+                message: "Updated successfully from depart controller",
+                data
                
             })
         })
