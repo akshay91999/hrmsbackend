@@ -15,23 +15,21 @@ var travelService = {
 async function add(TData,id,res) {
    
     const t = await db.transaction();
-    try {
-        
+    try { 
         const createTravel = await Travel.create({ ...TData,basic_id:id}, { transaction: t });
-        t.commit();
         const basic_id = createTravel.basic_id;
         const name= await Basics.findOne({attributes:['firstName','lastName']}, {where:{id:basic_id}},{ transaction: t });
-        const dp_id= await Job.findOne({attributes:['dp_id']},{where:{basic_id:basic_id}},{ transaction: t });
+        const dp_id= await Job.findOne({attributes:['departmentname']},{where:{basic_id:basic_id}},{ transaction: t });
          const hrdata={createTravel,name,dp_id}
         // const hrData= await HrTravel.create({...hrdata},{ transaction: t });
-
-        //  console.log(hrdata)
-        return res.status(200).json({message:"success" ,createTravel})
+        t.commit();
+         console.log(hrdata)
+        return res.status(200).json({message:"success" ,createTravel,hrdata})
     }
     catch (error) {
         console.log(error);
         t.rollback();
-        return res.status(202).json({messege: error.path })
+        return res.status(202).json({error})
     }
 }
 //get by id
@@ -68,12 +66,18 @@ async function updatedata(up, T_id, res) {
         return res.status(202).json({messege: error.path }) 
     };
 }
+
+// show all travel data
 async function findall(req, res) {
     const t = await db.transaction();
     try{
     const Tdata =await Travel.findAll({transaction: t });
+    const basicid=Tdata.basic_id
+    const name =await Basics.findAll({attributes:["id","firstName","lastName"]},{where:{basic_id:basicid}},{transaction: t });
+    const departmentname =await Job.findAll({attributes:["basic_id","departmentname"]},{where:{basic_id:basicid}},{transaction: t });
     t.commit();
-    return res.status(200).json({ message: "success", Tdata})
+    console.log(Tdata,name,departmentname)
+    return {Tdata,name,departmentname}
     }
     catch (error) {
         console.log(error);

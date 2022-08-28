@@ -14,8 +14,8 @@ const Job = db.define('Job', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    dp_id: {
-        type: Sequelize.INTEGER,
+    departmentname: {
+        type: Sequelize.STRING,
         allowNull: false
     },
     branch: {

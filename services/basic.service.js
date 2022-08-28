@@ -13,16 +13,7 @@ var basicService = {
     updateUser: updateUser
 }
 async function add(empData, res) {
-    const isEmailExist = await Contact.findOne({ where: { email: empData.email } })
-    // console.log(isEmailExist)
-    if (isEmailExist) {
-        return res.status(202).json({ message: "User with the email is already exist" })
-    }
-    const isphoneExist = await Contact.findOne({ where: { contactnumber: empData.contactnumber } })
-    // console.log(isphoneExist)
-    if (isphoneExist) {
-        return res.status(203).json({ message: "User with the phone number is already exist" })
-    }
+   
     const t = await db.transaction();
     try {
         let pp = empData;
@@ -34,7 +25,7 @@ async function add(empData, res) {
         let email = contact.email;
         let pass = pp.dob;
         basic_id=createUser.id
-        const mailed = mailService.mailer(email, pass, res);
+        const mailed = mailService.mailer(email, pass, res);//sending userid and password to employee
         t.commit();
         return res.status(200).json({message:"success" ,data:basic_id})
     }

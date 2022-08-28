@@ -18,9 +18,6 @@ const Parent = db.define('Parent', {
     fcontactnumber: {
         type: Sequelize.STRING,
         allowNull: false,
-        validate:{
-            is:/^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$/
-         }
     },
     mothername: {
         type: Sequelize.STRING,
@@ -29,9 +26,6 @@ const Parent = db.define('Parent', {
     mcontactnumber: {
         type: Sequelize.STRING,
         allowNull: false,
-        validate:{
-            is:/^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$/
-         }  
     },
     maritalstatus: {
         type: Sequelize.STRING,
@@ -43,10 +37,7 @@ const Parent = db.define('Parent', {
     }, 
     scontactnumber: {
         type: Sequelize.STRING,
-        validate:{
-            is:/^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$/
-         }  
-              
+         allowNull:true     
     }, 
     deletedAt: {
         type: Sequelize.DATEONLY,
