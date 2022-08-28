@@ -20,11 +20,10 @@ const Learning = db.define('Learning', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    department: {
+    departmentname: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    
     
    },
      

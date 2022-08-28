@@ -37,7 +37,7 @@ function updateLearning(req, res) {
     learningService.updateLearning(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
-                message: "Gig updated successfully",
+                message: "updated successfully",
               learning: data
             })
         })
@@ -47,7 +47,8 @@ function updateLearning(req, res) {
 }
 
 function findLearning(req, res) {
-    learningService.findAll().
+    let id=req.body.id
+    learningService.findAll(id).
         then((data) => {
             res.send(data);
         })

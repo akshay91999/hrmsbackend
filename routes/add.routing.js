@@ -10,16 +10,7 @@ const requestRoutes = require('./leave_request.route');
 const deptRoutes = require('./dep.route');
 const leaveRoutes = require('./leavepackage.route');
 const learningRoutes = require('./learning.route');
-const learnRoutes = require('./hod_learn.route');
 const visitorRoutes = require('./visitor.route');
-
-
-
-
-
-
-
-
 const trainingRoutes = require('./training.route')
 const vacancyRoute = require('./vacancy.route')
 
@@ -27,13 +18,16 @@ router.use('/accademic', accademic);
 router.use('/basics', basicRoutes);
 router.use('/exp', expRoutes);
 router.use('/skill', skillRoutes);
-router.use('/job', jobRoutes)
-router.use('/report', basicRoutes, expRoutes, skillRoutes, jobRoutes)
-router.use('/upload', uploadRoutes)
-router.use('/depart', depRoutes)
-router.use('/addtraining', trainingRoutes)
-router.use('/vacancy', vacancyRoute)
-//router.use('/uploads',uploadRoutes)
+router.use('/job', jobRoutes);
+router.use('/report', basicRoutes, expRoutes, skillRoutes, jobRoutes);
+router.use('/upload', uploadRoutes);
+router.use('/depart', deptRoutes);
+router.use('/addtraining', trainingRoutes);
+router.use('/vacancy', vacancyRoute);
+router.use('/request',requestRoutes);
+router.use('/leavepackage',leaveRoutes);
+router.use('/learning',learningRoutes);
+router.use('/visitor',visitorRoutes);
 
 
 module.exports = router;
