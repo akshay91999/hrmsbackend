@@ -46,4 +46,4 @@ const Approval = db.define('Approval', {
 },
 );
 
-module.exports = Request;
+module.exports = Approval;

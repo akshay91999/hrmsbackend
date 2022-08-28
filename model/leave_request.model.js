@@ -16,8 +16,8 @@ const Request = db.define('Request', {
         allowNull: false
     },
     
-    no_leave: {
-        type: Sequelize.DATEONLY,
+    no_days: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
    
@@ -28,13 +28,11 @@ const Request = db.define('Request', {
    
     leave_type: {
         type: Sequelize.STRING,
-        enum: ['MEDICAL', 'FAMILY', 'OTHERS'],
-        default: 'OTHERS'
+        allowNull:false
     },
     status: {
     type: Sequelize.STRING,
-    enum: ['PENDING', 'APPROVED', 'REJECTED'],
-    default: 'PENDING'
+    allowNull:false
     },
    
  

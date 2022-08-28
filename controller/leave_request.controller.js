@@ -32,7 +32,8 @@ function findRequest(req, res) {
         });
 }
 function findRequestById(req, res) {
-    requestService.findById(req.params.id).
+    let id=req.params.id
+    requestService.findById(id,res).
         then((data) => {
             res.send(data);
         })
