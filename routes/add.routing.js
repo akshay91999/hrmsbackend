@@ -21,10 +21,14 @@ router.use('/skill', skillRoutes);
 router.use('/job', jobRoutes)
 router.use('/report', basicRoutes, expRoutes, skillRoutes, jobRoutes)
 router.use('/upload', uploadRoutes)
-router.use('/depart', depRoutes)
+router.use('/depart', deptRoutes)
 router.use('/addtraining', trainingRoutes)
 router.use('/vacancy', vacancyRoute)
-//router.use('/uploads',uploadRoutes)
+router.use('/request',requestRoutes)
+router.use('/leavepackage',leaveRoutes)
+router.use('/learning',learningRoutes)
+router.use('/visitor',visitorRoutes)
+
 
 
 module.exports = router;
