@@ -1,4 +1,3 @@
-
 const requestService = require('../services/leave_request.service');
 
 var requestController = {
@@ -9,12 +8,11 @@ var requestController = {
     updateRequest: updateRequest,
     
 }
-
 function addRequest(req, res) {
     let pid=req.params.id;
-    let request = req.body;
+    let rData = req.body;
     
-    requestService.add(request,pid,res).
+    requestService.add(rData,pid,res).
         then((data) => {
             res.send(data);
         })
@@ -41,15 +39,12 @@ function findRequestById(req, res) {
             console.log(error);
         });
 }
-
-
-
-
+// update request by employee and update status by HR
 function updateRequest(req, res) {
     requestService.updateRequest(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
-                message: "Gig updated successfully",
+                message: "success",
               request: data
             })
         })
@@ -57,7 +52,4 @@ function updateRequest(req, res) {
             console.log(error);
         });
 }
-
-
-
 module.exports = requestController;

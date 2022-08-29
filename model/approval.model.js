@@ -7,6 +7,9 @@ const Approval = db.define('Approval', {
         primaryKey: true,
          autoIncrement: true
      },
+    lv_id: {
+        type: Sequelize.INTEGER, 
+    },
     basic_id: {
         type: Sequelize.INTEGER, 
     },
@@ -40,7 +43,11 @@ const Approval = db.define('Approval', {
          type: Sequelize.INTEGER,
          allowNull:false
     },
-   
+    status: {
+        type: Sequelize.STRING,
+        defaultValue:"pending",
+        allowNull:false
+        }
  
     
 },

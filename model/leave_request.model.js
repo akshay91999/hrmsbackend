@@ -32,11 +32,9 @@ const Request = db.define('Request', {
     },
     status: {
     type: Sequelize.STRING,
+    defaultValue:"pending",
     allowNull:false
-    },
-   
- 
-    
+    },   
 },
 );
 
