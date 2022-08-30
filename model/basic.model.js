@@ -35,12 +35,7 @@ const Basic = db.define('Basic', {
         allowNull: true,
         
     },
-    userList_id: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-             
-    },
-    deletedAt: {
+       deletedAt: {
         type: Sequelize.DATE,
         allowNull: true
     }
@@ -48,11 +43,6 @@ const Basic = db.define('Basic', {
 {
 
     alter:true,
-
-
-    // alter:true
-    // force:true
-
 });
 
 

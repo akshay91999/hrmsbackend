@@ -40,13 +40,13 @@ async function findById(id, res) {
     const t = await db.transaction();
     try {
         let pkid = id;
-        const base = await Basics.findByPk(pkid, { transaction: t })
+        const base = await Basics.findByPk(pkid, {attributes:{exclude:['passwd']}},{ transaction: t })
         const addr = await Address.findOne({ where: { basic_id: pkid } }, { transaction: t })
         const parent = await Parents.findOne({ where: { basic_id: pkid } }, { transaction: t })
         const contact = await Contact.findOne({ where: { basic_id: pkid } }, { transaction: t })
         t.commit();
         if (!base.deletedAt) {
-            return res.status(200).json({ base, addr, parent, contact })
+            return { base, addr, parent, contact }
         }
         else {
             return res.status(201).json({ message: "user not exist" })
@@ -78,7 +78,7 @@ async function updateUser(up, id, res) {
 async function findall(req, res) {
     const t = await db.transaction();
     try{
-    const base =await Basics.findAll({transaction: t })
+    const base =await Basics.findAll({attributes:{exclude:['passwd']}},{transaction: t })
     const contact =await Contact.findAll({transaction: t })
     t.commit();
     return {base,contact};

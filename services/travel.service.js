@@ -43,7 +43,7 @@ async function findById(id, res) {
             return res.status(200).json({ travel })
         }
         else {
-            return res.status(201).json({ message: "user not exist" })
+            return res.status(201).json({ message: "no data" })
         }
     }
     catch (error) {

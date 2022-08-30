@@ -26,7 +26,7 @@ const Address = db.define('Address', {
         allowNull: false
     },
     pincode: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,       
     },
     currentaddress: {
@@ -42,7 +42,7 @@ const Address = db.define('Address', {
         allowNull: true
     },
     currentpincode: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: true,       
     },
     deletedAt: {
