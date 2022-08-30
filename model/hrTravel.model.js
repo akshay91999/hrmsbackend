@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Contact = db.define('Contact', {
+const HrTravel = db.define('HrTravel', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -9,38 +9,42 @@ const Contact = db.define('Contact', {
     },
     basic_id: {
         type: Sequelize.INTEGER,
-        allowNull: false     
+        allowNull: false,
+
     },
-    contactnumber: {
+    name:{
         type: Sequelize.STRING,
         allowNull: false,
-        },
-    altcontactnumber: {
-        type: Sequelize.STRING,
-        allowNull: true,
-     },
-    email: {
+    },
+    dp_id:{
         type: Sequelize.STRING,
         allowNull: false,
-        unique:true
     },
-    altemail: {
+    date: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+
+    },  
+    time: {
+        type: Sequelize.TIME,
+        allowNull: false,
+    },
+    trip_for: {
         type: Sequelize.STRING,
-        allowNull: true,
-        validate:{
-            isEmail:true
-        },
-        unique:true
+        allowNull: false,
+
+    },
+    location: {
+        type: Sequelize.STRING,
+        allowNull: false,
     },
     deletedAt: {
         type: Sequelize.DATE,
         allowNull: true
     }
-    
 },
-{
- alter:true
-  //force:true
-});
-
-module.exports = Contact;
+    {
+        alter: true
+    }
+);
+module.exports = HrTravel;

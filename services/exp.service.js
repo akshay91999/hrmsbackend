@@ -1,5 +1,7 @@
 const sequelize = require('sequelize')
 const db = require('../config/database')
+
+const Basic = require('../model/basic.model')
 //const Basic = require('../model/basic.model')
 const Exp = require('../model/exp.model')
 var expService = {

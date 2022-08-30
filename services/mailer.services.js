@@ -21,7 +21,7 @@ var transporter = nodemailer.createTransport({
 var mailOptions = {
   from: 'hrmsbackend2022@gmail.com',
   to: emailid,
-  subject: 'Sending Email using Node.js',
+  subject: 'bheema credentials!!!',
   text: 'your id is '+emailid+' and password is :'+pass
 };
 transporter.sendMail(mailOptions, function(error, info){

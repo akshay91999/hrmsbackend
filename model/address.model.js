@@ -1,3 +1,4 @@
+
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
@@ -25,9 +26,24 @@ const Address = db.define('Address', {
         allowNull: false
     },
     pincode: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        
+        type: Sequelize.STRING,
+        allowNull: false,       
+    },
+    currentaddress: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    currentstate: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    currentcountry: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    currentpincode: {
+        type: Sequelize.STRING,
+        allowNull: true,       
     },
     deletedAt: {
         type: Sequelize.DATE,

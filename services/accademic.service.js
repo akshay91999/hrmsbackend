@@ -1,7 +1,7 @@
 const Academic = require('../model/accademic.model.js');
 const db=require("../config/database")
 
-var academicDao = {
+var academicService = {
     findAll: findAll,
     add: add,
     findById: findById,
@@ -21,16 +21,16 @@ function deleteById(id) {
     return Academic.destroy({ where: { id: id } });
 }
 
-async function add(gig,pid,res) {
+async function add(Adata,pid,res) {
 
    
     const t =  await db.transaction();
     try {
 
-        let pp = gig;
+        let pp = Adata;
       
         
-        const createUser = await Academic.create({...pp,user_id:pid}, { transaction: t });
+        const createUser = await Academic.create({...pp,basic_id:pid}, { transaction: t });
         
         t.commit();
         return res.status(200).json({createUser})
@@ -57,4 +57,4 @@ function updateAcademic(academic, id) {
     };
     return Academic.update(updateAcademic, { where: { id: id } });
 }
-module.exports = academicDao;
+module.exports = academicService;

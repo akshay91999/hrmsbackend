@@ -1,19 +1,18 @@
+const visitorService = require('../services/visitor.service');
 
-const academicService = require('../services/accademic.service');
-
-var academicController = {
-    addAcademic: addAcademic,
-    findAcademic: findAcademic,
-    findAcademicById: findAcademicById,
-    updateAcademic: updateAcademic,
+var visitorController = {
+    addVisitor: addVisitor,
+    findVisitor: findVisitor,
+    findVisitorById: findVisitorById,
+    updateVisitor: updateVisitor,
     deleteById: deleteById
 }
 
-function addAcademic(req, res) {
+function addVisitor(req, res) {
     let pid=req.params.id;
-    let academic = req.body;
+    let visitor = req.body;
     
-    academicService.add(academic,pid,res).
+    visitorService.add(visitor,pid,res).
         then((data) => {
             res.send(data);
         })
@@ -22,8 +21,8 @@ function addAcademic(req, res) {
         });
 }
 
-function findAcademicById(req, res) {
-    academicService.findById(req.params.id).
+function findVisitorById(req, res) {
+    visitorService.findById(req.params.id).
         then((data) => {
             res.send(data);
         })
@@ -33,11 +32,11 @@ function findAcademicById(req, res) {
 }
 
 function deleteById(req, res) {
-    academicService.deleteById(req.params.id).
+    visitorService.deleteById(req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "Gig deleted successfully",
-                academic: data
+                visitor: data
             })
         })
        .catch((error) => {
@@ -45,12 +44,12 @@ function deleteById(req, res) {
         });
 }
 
-function updateAcademic(req, res) {
-    academicService.updateAcademic(req.body, req.params.id).
+function updateVisitor(req, res) {
+    visitorService.updatevisitor(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
                 message: "Gig updated successfully",
-              academic: data
+              visitor: data
             })
         })
         .catch((error) => {
@@ -58,8 +57,8 @@ function updateAcademic(req, res) {
         });
 }
 
-function findAcademic(req, res) {
-    academicService.findAll().
+function findVisitor(req, res) {
+    visitorService.findAll().
         then((data) => {
             res.send(data);
         })
@@ -68,4 +67,4 @@ function findAcademic(req, res) {
         });
 }
 
-module.exports = academicController;
+module.exports = visitorController;

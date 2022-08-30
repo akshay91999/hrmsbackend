@@ -1,5 +1,6 @@
 const basicService = require('../services/basic.service');
-const db = require('../config/database')
+const db = require('../config/database');
+const Contact =require('../model/contact.model')
 
 var baseController = {
     addEmp: addEmp,
@@ -9,8 +10,48 @@ var baseController = {
     deleteById: deleteById
 }
 //add employee
-function addEmp(req, res) {
-  let empData = req.body;
+async function addEmp(req, res) {
+    let empData = req.body;
+    let emailregex=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    let phoneRegex = /^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$/
+    // emails validation
+    if(!emailregex.test(empData.email)){
+        return res.status(202).json({ message: "Enter a valid email" })
+    }
+    const isEmailExist = await Contact.findOne({ where: { email: empData.email } })
+    if (isEmailExist) {
+        return res.status(202).json({ message: "User with the email is already exist" })
+    }
+    const isAltEmailExist = await Contact.findOne({ where: { altemail: empData.altemail } })
+        if (isAltEmailExist) {
+        return res.status(202).json({ message: "User with the alternative email is already exist" })
+    }
+    if(!emailregex.test(empData.altemail)){
+        return res.status(202).json({ message: "Enter a valid alternative email" })
+    }
+    // phone number validation
+    const isphoneExist = await Contact.findOne({ where: { contactnumber: empData.contactnumber } })
+    if (isphoneExist) {
+        return res.status(203).json({ message: "User with the phone number is already exist" })
+    }
+    if (!phoneRegex.test(empData.contactnumber)) {
+        return res.status(203).json({ message: "Enter valid phone number" })
+    }
+    if (!phoneRegex.test(empData.altcontactnumber)) {
+        return res.status(203).json({ message: "Enter a valid alternative phone number" })
+    }
+    if (!phoneRegex.test(empData.fcontactnumber)) {
+        return res.status(203).json({ message: "Enter a valid father phone number" })
+    }
+    if (!phoneRegex.test(empData.mcontactnumber)) {
+        return res.status(203).json({ message: "Enter a valid mother phone number" })
+    }
+    if (empData.scontactnumber) {
+        if (!phoneRegex.test(empData.contactnumber)) {
+            return res.status(203).json({ message: "Enter valid spouse phone number" })
+        }
+    }
+
     basicService.add(empData, res).
         then((data) => {
             res.send(data);

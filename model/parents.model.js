@@ -9,8 +9,7 @@ const Parent = db.define('Parent', {
     },
     basic_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
-             
+        allowNull: false          
     },
     fathername: {
         type: Sequelize.STRING,
@@ -18,7 +17,7 @@ const Parent = db.define('Parent', {
     },
     fcontactnumber: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
     },
     mothername: {
         type: Sequelize.STRING,
@@ -26,15 +25,20 @@ const Parent = db.define('Parent', {
     },
     mcontactnumber: {
         type: Sequelize.STRING,
-        allowNull: false
-       
+        allowNull: false,
     },
     maritalstatus: {
         type: Sequelize.STRING,
-        allowNull: false
-       
-    },
-    
+        allowNull: false      
+    }, 
+    spousename: {
+        type: Sequelize.STRING,
+        
+    }, 
+    scontactnumber: {
+        type: Sequelize.STRING,
+         allowNull:true     
+    }, 
     deletedAt: {
         type: Sequelize.DATEONLY,
         allowNull: true
