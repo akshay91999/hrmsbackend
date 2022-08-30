@@ -8,7 +8,8 @@ const Job = db.define('Job', {
         autoIncrement: true
     },
     basic_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        unique:true
     },
     ds_id: {
         type: Sequelize.INTEGER,

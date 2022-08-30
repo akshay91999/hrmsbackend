@@ -30,7 +30,7 @@ async function findById(id, res) {
     const t = await db.transaction();
     try {
         let pkid = id;
-        const base = await Basics.findByPk(pkid, { transaction: t })
+        //const base = await Basic.findByPk(pkid, { transaction: t })
         
         const exp = await Exp.findAll({where: { basic_id: pkid }} , { transaction: t })
         t.commit();

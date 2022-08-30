@@ -12,6 +12,7 @@ const vacancyRoute = require('./vacancy.route')
 const EmpTrainingRoute = require('./emptraining.route')
 const FeedbackRoute = require('./feedback.route')
 const TaskRoute = require('./task.route')
+const TokenRoutes = require('./canteen.route')
 
 router.use('/accademic', accademic);
 router.use('/basics', basicRoutes);
@@ -26,6 +27,7 @@ router.use('/vacancy', vacancyRoute)
 router.use('/emptraining',EmpTrainingRoute)
 router.use('/feedback',FeedbackRoute)
 router.use('/task',TaskRoute)
+router.use('/token',TokenRoutes)
 //router.use('/uploads',uploadRoutes)
 
 

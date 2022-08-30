@@ -6,7 +6,7 @@ const Contact = require('../model/contact.model')
 const Job = require('../model/job.model')
 const Dept = require('../model/department.model')
 const Desig = require('../model/designation.model')
-
+const View = require('../model/empview.model')
 const Address = require('../model/address.model')
 const Task = require('../model/task.model')
 const Basic = require('../model/basic.model')
@@ -14,7 +14,6 @@ var taskService = {
     add: add,
     find:find,
     findAll:findAll,
-    findById: findById,
     update: update,
     complete:complete
     
@@ -41,12 +40,9 @@ async function add(task,res,job,pid) {
 async function find() {
     const t = await db.transaction();
     try{
-        const base =await Basics.findOne({attributes: ['id','firstName']},{transaction: t })
-        const contact =await Contact.findAll({where:{basic_id:base.id}},{attributes: ['contactnumber','email']},{transaction: t })
-        const job = await Job.findOne({where:{basic_id:base.id}},{transaction:t})
-        const dept = await Dept.findAll({attributes: ['departmentname']},{where:{dp_id:job.dp_id}},{transaction:t})
+        const view = await View.findAll({transaction:t})
         t.commit();
-        return {base,contact,dept};
+        return {view};
         }
         catch (error) {
             console.log(error);
@@ -54,22 +50,22 @@ async function find() {
         }
  }
 
- async function findById(tn, res) {
-    const t = await db.transaction();
-    try {
-        let pkid = tn;
-        //const tn = await Training.findByPk(pkid , { transaction: t })
+//  async function findById(tn, res) {
+//     const t = await db.transaction();
+//     try {
+//         let pkid = tn;
+//         //const tn = await Training.findByPk(pkid , { transaction: t })
        
-        const tn2 = await EmpTraining.findAll({where: {dp_id:pkid}},{transaction:t}) 
-        t.commit();
-        return res.status(200).json({tn2})
-    }
-    catch (error) {
-        console.log(error);
-        t.rollback();
-    }
+//         const tn2 = await EmpTraining.findAll({where: {dp_id:pkid}},{transaction:t}) 
+//         t.commit();
+//         return res.status(200).json({tn2})
+//     }
+//     catch (error) {
+//         console.log(error);
+//         t.rollback();
+//     }
 
-}
+// }
  async function findAll(id,req,res) {
     const t = await db.transaction();
     try {

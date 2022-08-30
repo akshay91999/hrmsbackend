@@ -3,8 +3,11 @@
 const sequelize = require('sequelize')
 const db = require('../config/database')
 //const Basic = require('../model/basic')
-const Basics = require('../model/basic.model')
+const Basic = require('../model/basic.model')
+const Contact = require('../model/contact.model')
+const Dept = require('../model/department.model')
 const Job = require('../model/job.model')
+const View = require('../model/empview.model')
 var jobService = {
     add: add,
     findAll: findAll,
@@ -17,8 +20,18 @@ async function add(job,res,pid) {
     const t = await db.transaction();
     try{
         let pp = job;
-        //const basic = await Basic.create({...pp},{transaction:t});
+        const basic = await Basic.findOne({attributes:['id','firstName']},{where:{basic_id:pid}},{transaction:t});
+        const contact = await Contact.findOne({attributes:['email','contactnumber']},{where:{basic_id:pid}},{transaction:t});
+        
         const jobs = await Job.create({...pp,basic_id:pid},{transaction:t});
+        const dpt= await Dept.findOne({attributes:['departmentname']},{where:{dp_id:jobs.dp_id}},{transaction:t});
+        let basic_id = basic.id
+        let name = basic.firstName
+        let email = contact.email
+        let contactnumber = contact.contactnumber
+        let departmentname = dpt.departmentname
+        const data = {basic_id,name,email,contactnumber,departmentname}
+        const view = await View.create({...data},{transaction:t})
         t.commit();
         return res.status(200).json({jobs})
     }
