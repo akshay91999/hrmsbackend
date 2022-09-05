@@ -29,11 +29,11 @@ function findTravelById(req, res) {
             console.log(error);
         });
 }
-// update blacklist data
+// update travel data
 function upTravel(req, res) {
     let up = req.body;
     let T_id = req.params.id;
-    travelService.upCandidate(up, T_id, res).
+    travelService.updatedata(up, T_id, res).
         then((data) => {
             res.status(200).json({
                 message: "Updated successfully",

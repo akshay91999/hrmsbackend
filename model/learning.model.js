@@ -7,11 +7,6 @@ const Learning = db.define('Learning', {
         primaryKey: true,
         autoIncrement: true
     },
-    basic_id: {
-        type: Sequelize.INTEGER,
-       
-      
-    },
     link: {
         type: Sequelize.STRING,
         allowNull: false
@@ -22,11 +17,15 @@ const Learning = db.define('Learning', {
     },
     departmentname: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
     },
-    
-   },
-     
+    deletedAt: {                       //Status of deleted learning 
+        type: Sequelize.DATE,
+        allowNull: true
+    }
+
+},
+
 );
 
 module.exports = Learning;

@@ -10,12 +10,16 @@ var depController = {
 // adding a new department
 async function addDep(req, res) {
 
-    let vData = req.body;
+    let depData = req.body;
+    if (!depData.departmentname||!depData.designation){
+        return res.status(200).json({ messege:"Please enter all the fields"})
+
+    }
     const [depart, created] = await Depart.findOrCreate({
-        where: { departmentname: vData.departmentname },
-        defaults: { ...vData }
+        where: { departmentname: depData.departmentname },
+        defaults: { ...depData }
     });
-    vacService.add(vData, depart, res).
+    vacService.add(depData, depart, res).
         then((data) => {
             res.send(data);
         })
@@ -25,7 +29,7 @@ async function addDep(req, res) {
 }
 //getting department by dep_id
 function findDepbyid(req, res) {
-    let dep = req.params.id
+    let dep = req.params.dp_id
     vacService.findById(dep, res).
         then((data) => {
             res.send(data);

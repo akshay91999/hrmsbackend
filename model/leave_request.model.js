@@ -16,8 +16,8 @@ const Request = db.define('Request', {
         allowNull: false
     },
     
-    no_days: {
-        type: Sequelize.INTEGER,
+    leave_to: {
+        type: Sequelize.DATEONLY,
         allowNull: false
     },
    

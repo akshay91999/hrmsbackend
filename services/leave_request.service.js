@@ -46,22 +46,22 @@ async function add(rData,pid,res) {
 
         let pp =rData;
         const addleave = await Request.create({...pp,basic_id:pid}, { transaction: t });
-        //const pic = await Upload.findOne({attribute:['document']}, {basic_id:pid,type}, { transaction: t });
-        const fname = await Basic.findOne({attribute:['firstName','id']},{where:{id:pid}}, { transaction: t });
-        const jb = await job.findOne({attribute:['dp_id']}, {where:{basic_id:pid}}, { transaction: t });
-        const dpt = await department.findOne({attribute:['departmentname']}, {where:{dp_id:job.dp_id}}, { transaction: t });
-        let leave_from = pp.leave_from
-        let no_days = pp.no_days
-        let leave_type = pp.leave_type
-        let reason = pp.reason
-        let name = fname.firstName
-        let basic_id=fname.id
-        let lv_id=addleave.id
-        let departmentname = dpt.departmentname
-        const hrget = {name,departmentname,no_days,leave_type,leave_from,reason,basic_id,lv_id}
-        const approve = await Approval.create({...hrget},{transaction:t})
+        // //const pic = await Upload.findOne({attribute:['document']}, {basic_id:pid,type}, { transaction: t });
+        // const fname = await Basic.findOne({attribute:['firstName','id']},{where:{id:pid}}, { transaction: t });
+        // const jb = await job.findOne({attribute:['dp_id']}, {where:{basic_id:pid}}, { transaction: t });
+        // const dpt = await department.findOne({attribute:['departmentname']}, {where:{dp_id:job.dp_id}}, { transaction: t });
+        // let leave_from = pp.leave_from
+        // let no_days = pp.no_days
+        // let leave_type = pp.leave_type
+        // let reason = pp.reason
+        // let name = fname.firstName
+        // let basic_id=fname.id
+        // let lv_id=addleave.id
+        // let departmentname = dpt.departmentname
+        // const hrget = {name,departmentname,no_days,leave_type,leave_from,reason,basic_id,lv_id}
+        // const approve = await Approval.create({...hrget},{transaction:t})
         t.commit();
-        return res.status(200).json({addleave,approve})
+        return res.status(200).json({addleave})
     }
     catch (e) {
         console.log(e);

@@ -19,8 +19,7 @@ async function add(canData, res) {
     }
     catch (error) {
         t.rollback();
-        return res.status(202).json({ "error": error })
-      
+        return res.status(202).json({ "error": error })  
     }
 }
 //get by candidate id

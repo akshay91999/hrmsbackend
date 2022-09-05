@@ -24,7 +24,10 @@ async function add(job,res,pid) {
         const contact = await Contact.findOne({attributes:['email','contactnumber']},{where:{basic_id:pid}},{transaction:t});
         
         const jobs = await Job.create({...pp,basic_id:pid},{transaction:t});
+<<<<<<< HEAD
 
+=======
+>>>>>>> 944f5980e7e83dbf82aa9d89404aef3a5fb529ca
         const dpt= await Dept.findOne({attributes:['departmentname']},{where:{dp_id:jobs.dp_id}},{transaction:t});
         let basic_id = basic.id
         let name = basic.firstName
@@ -33,9 +36,12 @@ async function add(job,res,pid) {
         let departmentname = dpt.departmentname
         const data = {basic_id,name,email,contactnumber,departmentname}
         const view = await View.create({...data},{transaction:t})
+<<<<<<< HEAD
 
         
 
+=======
+>>>>>>> 944f5980e7e83dbf82aa9d89404aef3a5fb529ca
         t.commit();
         return res.status(200).json({jobs})
     }
