@@ -32,6 +32,8 @@ async function add(job,res,pid) {
         // let departmentname = dpt.departmentname
         // const data = {basic_id,name,email,contactnumber,departmentname}
         // const view = await View.create({...data},{transaction:t})
+
+    
         t.commit();
         return res.status(200).json({jobs})
     }
