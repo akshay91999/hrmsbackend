@@ -5,7 +5,7 @@ const Address = require('../model/address.model')
 const Parents = require('../model/parents.model')
 const Contact = require('../model/contact.model')
 const mailService = require('../services/mailer.services')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 var basicService = {
     add: add,
     findall: findall,
@@ -18,7 +18,7 @@ async function add(empData, res) {
     try {
         let pp = empData;
         const hashedpass = await bcrypt.hash(pp.dob, 10)
-        const createUser = await Basics.create({ ...pp, passwd: hashedpass }, { transaction: t });
+        const createUser = await Basics.create({ ...pp, password: hashedpass }, { transaction: t });
         const addr = await Address.create({ ...pp, basic_id: createUser.id }, { transaction: t })
         const parent = await Parents.create({ ...pp, basic_id: createUser.id }, { transaction: t })
         const contact = await Contact.create({ ...pp, basic_id: createUser.id }, { transaction: t })

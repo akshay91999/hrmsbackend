@@ -30,7 +30,7 @@ const Basic = db.define('Basic', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    passwd: {
+    password: {
         type: Sequelize.STRING,
         allowNull: true,
         
