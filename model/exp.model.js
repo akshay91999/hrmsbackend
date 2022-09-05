@@ -12,7 +12,7 @@ const Exp = db.define('Experience', {
         type: Sequelize.INTEGER,
     },
     employeeid: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
     employeetype: {
