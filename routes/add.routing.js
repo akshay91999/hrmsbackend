@@ -18,6 +18,8 @@ const FeedbackRoute = require('./feedback.route')
 const TaskRoute = require('./task.route')
 const TokenRoutes = require('./canteen.route')
 const blacklistRoutes=require('./blackList.route')
+const candiRoutes=require('./candidate.route')
+const travelRoutes=require('./travel.route')
 
 router.use('/accademic', accademic);
 router.use('/basics', basicRoutes);
@@ -38,6 +40,8 @@ router.use('/leavepackage',leaveRoutes)
 router.use('/learning',learningRoutes)
 router.use('/visitor',visitorRoutes)
 router.use('/blacklist',blacklistRoutes)
+router.use('/candidate',candiRoutes)
+router.use('/travel',travelRoutes)
 
 
 module.exports = router;

@@ -38,9 +38,11 @@ async function findById(id, res) {
     try {
         let pkid = id;
         const travel = await Travel.findOne({ where: { basic_id: pkid } }, { transaction: t })
+        const base= await Basics.findOne({ where: {id: pkid } }, { transaction: t })
+        const name=base.firstName
         t.commit();
         if (!travel.deletedAt) {
-            return res.status(200).json({ travel })
+            return res.status(200).json({name, travel })
         }
         else {
             return res.status(201).json({ message: "no data" })

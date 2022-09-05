@@ -34,7 +34,7 @@ async function add(tn,tnid,res) {
 
 function findAll() {
     return Training.findAll();
-}
+} 
 
 // async function findById(id, res) {
 //     const t = await db.transaction();

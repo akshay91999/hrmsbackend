@@ -34,7 +34,7 @@ async function findByPos(dep,des,res) {
         const designate = await Designate.findAll({ where: { ds_id: des} }, { transaction: t })
         const department = await Depart.findAll({ where: { dp_id: dep} }, { transaction: t })
         t.commit();
-        return res.status(201).json({msg:"commited", department, designate, viewVacancy })
+        return res.status(201).json({msg:"success", department, designate, viewVacancy })
 
     }
     catch (error) {
@@ -51,7 +51,7 @@ async function findall(req,res) {
         const designate = await Designate.findAll({ transaction: t })
         const department = await Depart.findAll({ transaction: t })
         t.commit();
-        return {viewVacancy};
+        return {viewVacancy,department,designate};
     }
     catch (error) {
         console.log(error);

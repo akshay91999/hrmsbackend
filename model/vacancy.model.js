@@ -30,7 +30,7 @@ const VacancyList = db.define('vacancy', {
     },
     status: {
         type: Sequelize.BOOLEAN,
-        defaultValue: true
+        defaultValue: "false"
     },
     deletedAt: {                   //Status of deleted vaccancy
         type: Sequelize.DATEONLY

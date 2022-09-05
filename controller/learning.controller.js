@@ -3,16 +3,16 @@ const learningService = require('../services/learning.service');
 var learningController = {
     addLearning: addLearning,
     findLearning: findLearning,
-    
+    findAllLearning:findAllLearning,
     updateLearning: updateLearning,
     deleteById: deleteById
 }
-
+// adding learning links
 function addLearning(req, res) {
-    let pid=req.params.id;
-    let learning = req.body;
+    let dp_id=req.params.dp_id;
+    let learnData = req.body;
     
-    learningService.add(learning,pid,res).
+    learningService.add(learnData,dp_id,res).
         then((data) => {
             res.send(data);
         })
@@ -20,21 +20,31 @@ function addLearning(req, res) {
             console.log(error);
         });
 }
-function deleteById(req, res) {
-    learningService.deleteById(req.params.id).
+// view departmentwise
+function findLearning(req, res) {
+    let dp_id=req.params.dp_id
+    learningService.findBydpid(dp_id).
         then((data) => {
-            res.status(200).json({
-                message: "Gig deleted successfully",
-                learning: data
-            })
+            res.send(data);
         })
-       .catch((error) => {
+        .catch((error) => {
+            console.log(error);
+        });
+}
+function findAllLearning(req,res) {
+    learningService.findAllLink(req,res).
+        then((data) => {
+            res.send(data);
+            })
+        .catch((error) => {
             console.log(error);
         });
 }
 
 function updateLearning(req, res) {
-    learningService.updateLearning(req.body, req.params.id).
+    let id=req.params.id
+    let upData=req.body
+    learningService.updateLearning(upData,id).
         then((data) => {
             res.status(200).json({
                 message: "updated successfully",
@@ -45,18 +55,18 @@ function updateLearning(req, res) {
             console.log(error);
         });
 }
-
-function findLearning(req, res) {
-    let id=req.body.id
-    learningService.findAll(id).
+function deleteById(req, res) {
+    learningService.deleteById(req.params.id).
         then((data) => {
-            res.send(data);
+            res.status(200).json({
+                message: "deleted successfully",
+                learning: data
+            })
         })
-        .catch((error) => {
+       .catch((error) => {
             console.log(error);
         });
 }
-
 
 
 module.exports = learningController;

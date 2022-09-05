@@ -32,12 +32,7 @@ const Candidate = db.define('Candidate', {
         validate:{
            is:/^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$/
         }
-    },
-    highestqualification: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        
-    },
+    },   
     yoe: {
         type: Sequelize.INTEGER,
         allowNull: false
