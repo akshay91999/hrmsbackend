@@ -81,7 +81,7 @@ async function findall(req, res) {
     try{
     const base =await Basics.findAll({attributes:{exclude:['password']}},{transaction: t })
     const contact =await Contact.findAll({transaction: t })
-    const job= await Job.findAll({where:{basic_id:pkid}})
+    const job= await Job.findAll({transaction: t })
     t.commit();
     if(!base.deletedAt){
     return {message:"success" ,base,contact,job};
