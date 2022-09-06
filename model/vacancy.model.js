@@ -8,12 +8,12 @@ const VacancyList = db.define('vacancy', {
         primaryKey: true,
         autoIncrement: true
     },
-    dp_id: {
-        type: Sequelize.INTEGER,
+    departmentname: {
+        type: Sequelize.STRING,
         allowNull: false
     },
-    ds_id: {
-        type: Sequelize.INTEGER,
+    designation: {
+        type: Sequelize.STRING,
         allowNull: false
     },
     vacancynumber: {           //no of vacancy

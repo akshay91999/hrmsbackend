@@ -7,6 +7,7 @@ const Basic = require('../model/basic.model')
 const Contact = require('../model/contact.model')
 const Dept = require('../model/department.model')
 const Job = require('../model/job.model')
+const designation=require('../model/designation.model')
 const View = require('../model/empview.model')
 var jobService = {
     add: add,
@@ -16,24 +17,16 @@ var jobService = {
     deleteById: deleteById
 }
 
-async function add(job,res,pid) {
+async function add(jobdata,res,pid) {
     const t = await db.transaction();
     try{
-        let pp = job;
-        // const basic = await Basic.findOne({attributes:['id','firstName']},{where:{basic_id:pid}},{transaction:t});
-        // const contact = await Contact.findOne({attributes:['email','contactnumber']},{where:{basic_id:pid}},{transaction:t});
-        
-        const jobs = await Job.create({...pp,basic_id:pid},{transaction:t});
-        // const dpt= await Dept.findOne({attributes:['departmentname']},{where:{dp_id:jobs.dp_id}},{transaction:t});
-        // let basic_id = basic.id
-        // let name = basic.firstName
-        // let email = contact.email
-        // let contactnumber = contact.contactnumber
-        // let departmentname = dpt.departmentname
-        // const data = {basic_id,name,email,contactnumber,departmentname}
-        // const view = await View.create({...data},{transaction:t})
-
-    
+        const depart= await Dept.findOne({where:{dp_id:jobdata.dp_id}})
+        const des=await designation.findOne({where:{ds_id:jobdata.ds_id}})
+        const jobs = await Job.create({
+            ...jobdata,basic_id:pid,
+            departmentname:depart.departmentname,
+            designation:des.designation
+        },{transaction:t});   
         t.commit();
         return res.status(200).json({jobs})
     }
@@ -52,8 +45,6 @@ async function findById(id, res) {
     const t = await db.transaction();
     try {
         let pkid = id;
-        const base = await Basics.findByPk(pkid, { transaction: t })
-        
         const job = await Job.findAll({where: { basic_id: pkid }} , { transaction: t })
         t.commit();
         if (!job.deletedAt) {
@@ -77,10 +68,7 @@ async function update(up,id,res) {
     const t = await db.transaction();
     try {
         let pp = up;
-
-        
         const exp = await Job.update({...pp }, { where: { basic_id: id } }, { transaction: t })
-        
         t.commit();
         return res.status(200).json({ message: "Updated successfully", })
     }

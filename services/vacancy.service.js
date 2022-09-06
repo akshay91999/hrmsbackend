@@ -11,18 +11,21 @@ var vacancyService = {
     upVacancy: upVacancy
 }
 // add vaccancy function called from vacancy.controller
-async function add(vData,dep, res) {
+async function add(vData,des, res) {
     const t = await db.transaction();
     try {
-        const dpart = await Depart.findOne({where:{dp_id:dep.dp_id}}, { transaction: t });
-        const [designation,created] = await Designate.findOrCreate({where:{dp_id:dpart.dp_id,designation:vData.designation},defaults: {...vData}});
-        const createvacancy = await Vacancy.create({ ...vData, dp_id: dpart.dp_id, ds_id: designation.ds_id }, { transaction: t });
+        const dsname = des.designation
+        console.log(dsname)
+        const dpart= await Depart.findOne({where:{dp_id:vData.dp_id}})
+        console.log(dpart.departmentname)
+        const createvacancy = await Vacancy.create({ ...vData, departmentname: dpart.departmentname, designation:dsname }, { transaction: t });
         t.commit();
-        return res.status(200).json({dpart,designation,createvacancy });
+        console.log(createvacancy)
+        return res.status(200).json({message:"success"});
     }
     catch (error) {
         t.rollback();
-        return res.status(205).json({ error });
+        return res.status(202).json({message:"fail", error });
         
     }
 }
@@ -30,11 +33,13 @@ async function add(vData,dep, res) {
 async function findByPos(dep,des,res) {
     const t = await db.transaction();
     try {
-        const viewVacancy = await Vacancy.findAll({ where: { dp_id: dep, ds_id: des, deletedAt:null } }, { transaction: t })
-        const designate = await Designate.findAll({ where: { ds_id: des} }, { transaction: t })
-        const department = await Depart.findAll({ where: { dp_id: dep} }, { transaction: t })
+       
+        const depart = await Depart.findOne({ where: { dp_id: dep} }, { transaction: t })
+        const designate = await Designate.findOne({ where: { ds_id: des} }, { transaction: t })
+        const viewVacancy = await Vacancy.findAll({ where: { departmentname: depart.departmentname, designation:designate.designation, deletedAt:null } }, { transaction: t })
+        
         t.commit();
-        return res.status(201).json({msg:"success", department, designate, viewVacancy })
+        return res.status(201).json({msg:"success",viewVacancy })
 
     }
     catch (error) {
@@ -48,10 +53,8 @@ async function findall(req,res) {
         const t = await db.transaction();
     try {
         const viewVacancy = await Vacancy.findAll({ where: { deletedAt: null} }, { transaction: t })
-        const designate = await Designate.findAll({ transaction: t })
-        const department = await Depart.findAll({ transaction: t })
-        t.commit();
-        return {viewVacancy,department,designate};
+            t.commit();
+        return {viewVacancy};
     }
     catch (error) {
         console.log(error);

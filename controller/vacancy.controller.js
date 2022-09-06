@@ -1,5 +1,6 @@
 const vacService = require('../services/vacancy.service');
 const Depart=require('../model/department.model')
+const Design=require('../model/designation.model')
 
 var vacController = {
     addVac: addVac,
@@ -11,11 +12,12 @@ var vacController = {
 async function addVac(req, res) {
     let vData = req.body;
 
-    const [depart, created] = await Depart.findOrCreate({
-        where: { departmentname:vData.departmentname },
+    const [des, created] = await Design.findOrCreate({
+        where: { designation:vData.designation,dp_id:vData.dp_id },
         defaults: {...vData}
       });
-    vacService.add(vData,depart,res).
+    //   console.log(des)
+    vacService.add(vData,des,res).
         then((data) => {
             res.send(data);
         })

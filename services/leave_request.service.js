@@ -15,14 +15,15 @@ var requestService = {
 }
 
 function findAll() {
-      return Approval.findAll({where:{status:"accept"}});
+      return Request.findAll({where:{status:"pending"}});
+    //   also get name
 }
 
 async function findById(id,res) {
     try {
         
         const current = new Date().getFullYear()+"-01"+"-01"
-        const Lv=await leavePackage.findOne({attribute:['total_paid','total_unpaid']},{where:{id:"1"}}) //total granted paid leave
+        const Lv=await leavePackage.findOne({attribute:['total_paid','total_unpaid']},{where:{id:id}}) //total granted paid leave
         // const unpaidLv=await leavePackage.findOne({attribute:['total_unpaid']},{where:{id:"1"}})//total granted unpaid leave
         const usedPaid = await Request.sum('no_days',{where:{"leave_from":{[Op.gt]:current},leave_type:"paid",status:"accept"}});
         const usedUnpaid = await Request.sum('no_days',{where:{"leave_from":{[Op.gt]:current},leave_type:"unpaid",status:"accept"}});

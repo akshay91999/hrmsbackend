@@ -1,4 +1,3 @@
-// const skillDao = require('../dao/skill.dao');
 const sequelize = require('sequelize')
 const db = require('../config/database')
 const jobService = require('../services/job.service');

@@ -4,6 +4,7 @@ const Basics = require('../model/basic.model')
 const Address = require('../model/address.model')
 const Parents = require('../model/parents.model')
 const Contact = require('../model/contact.model')
+const Job =require('../model/job.model')
 const mailService = require('../services/mailer.services')
 const bcrypt = require('bcryptjs')
 var basicService = {
@@ -80,8 +81,11 @@ async function findall(req, res) {
     try{
     const base =await Basics.findAll({attributes:{exclude:['passwd']}},{transaction: t })
     const contact =await Contact.findAll({transaction: t })
+    const job= await Job.findAll({where:{basic_id:pkid}})
     t.commit();
-    return {base,contact};
+    if(!base.deletedAt){
+    return {base,contact,job};
+    }
     }
     catch (error) {
         console.log(error);

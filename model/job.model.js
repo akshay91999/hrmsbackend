@@ -11,16 +11,16 @@ const Job = db.define('Job', {
         type: Sequelize.INTEGER,
         unique:true
     },
-    ds_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    dp_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    branch: {
+    designation: {
         type: Sequelize.STRING,
+        allowNull: false
+    },
+    departmentname: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    user_type: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     package: {
