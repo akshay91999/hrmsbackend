@@ -41,7 +41,7 @@ async function findById(id, res) {
     const t = await db.transaction();
     try {
         let pkid = id;
-        const base = await Basics.findByPk(pkid, {attributes:{exclude:['passwd']}},{ transaction: t })
+        const base = await Basics.findByPk(pkid, {attributes:{exclude:['password']}},{ transaction: t })
         const addr = await Address.findOne({ where: { basic_id: pkid } }, { transaction: t })
         const parent = await Parents.findOne({ where: { basic_id: pkid } }, { transaction: t })
         const contact = await Contact.findOne({ where: { basic_id: pkid } }, { transaction: t })
@@ -64,7 +64,7 @@ async function updateUser(up, id, res) {
     try {
         let pp = up;
         
-        const base = await Basics.update({ ...pp}, { where: { id: id } }, { transaction: t })
+        const base = await Basics.update({ ...pp}, {attributes:{exclude:['password']}}, { where: { id: id } }, { transaction: t })
         const addr = await Address.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
         const parent = await Parents.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
         const contact = await Contact.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
@@ -79,12 +79,12 @@ async function updateUser(up, id, res) {
 async function findall(req, res) {
     const t = await db.transaction();
     try{
-    const base =await Basics.findAll({attributes:{exclude:['passwd']}},{transaction: t })
+    const base =await Basics.findAll({attributes:{exclude:['password']}},{transaction: t })
     const contact =await Contact.findAll({transaction: t })
     const job= await Job.findAll({where:{basic_id:pkid}})
     t.commit();
     if(!base.deletedAt){
-    return {base,contact,job};
+    return {message:"success" ,base,contact,job};
     }
     }
     catch (error) {
