@@ -27,9 +27,9 @@ async function add(vData,des, res) {
 async function findBypending(res) {
     const t = await db.transaction();
     try {
-        const viewVacancy = await db.query("SELECT v.*,dp.departmentname,ds.designation FROM public.vacancies AS v,public.departments AS dp,public.designation as ds WHERE dp.dp_id=v.dp_id AND ds.ds_id=v.ds_id AND v.status='pending'", { transaction: t })
+        const [viewVacancy,metadata] = await db.query("SELECT v.*,dp.departmentname,ds.designation FROM public.vacancies AS v,public.departments AS dp,public.designations AS ds WHERE dp.dp_id=v.dp_id AND ds.ds_id=v.ds_id AND v.status='pending'", { transaction: t })
         t.commit();
-        return res.status(201).json({msg:"success",viewVacancy })
+        return viewVacancy
 
     }
     catch (error) {

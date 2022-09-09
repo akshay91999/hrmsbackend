@@ -23,7 +23,7 @@ async function addVac(req, res) {
         });
 }
 //getting for HR to approve vacancy
-function findVac(req, res) {
+function findVac(req,res) {
    
     vacService.findBypending(req,res).
         then((data) => {

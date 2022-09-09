@@ -21,6 +21,7 @@ const blacklistRoutes=require('./blackList.route')
 const candiRoutes=require('./candidate.route')
 const travelRoutes=require('./travel.route')
 const canService=require('../services/candidate.service')
+const signinService=require('../services/signin.service')
 
 
 router.use('/accademic', accademic);
@@ -45,5 +46,6 @@ router.use('/blacklist',blacklistRoutes)
 router.use('/candidate',candiRoutes)
 router.use('/travel',travelRoutes)
 router.use('/candidate_approved',router.get('/', canService.approvedcandi));
+router.use('/signin',router.post('/', signinService.signin));
 
 module.exports = router;
