@@ -16,7 +16,7 @@ async function add(blackData,can_id,res) {
         const addBlackList = await BlackList.create({ ...blackData,c_id:can_id }, { transaction: t });
         const upBlackList = await Candidate.update({status:"Black Listed"}, { where: { id: can_id} }, { transaction: t });
         t.commit();
-        return res.status(200).json({addBlackList})
+        return res.status(200).json({message:"success"})
     }
     catch (error) {
         t.rollback();
@@ -30,9 +30,11 @@ async function findById(rej_id, res) {
     try {
         const viewrej = await BlackList.findOne({ where: { id: rej_id } }, { transaction: t })
         const viewCandidate = await Candidate.findOne({ where: { id:viewrej.c_id } }, { transaction: t })
+        const [viewCandidates,metadata] = await db.query("SELECT * FROM public.blacklist AS b,public.candidate AS c WHERE b.id="+rej_id+" AND b.c_id=c.id AND c.deletedat=null", { transaction: t })
+
         t.commit();
-        if (!viewCandidate.deletedAt) {
-            return res.status(200).json({ viewCandidate,viewrej })
+        if (!viewCandidate.deletedat) {
+            return ({message:"success"},viewCandidates);
         }
         else {
             return res.status(201).json({ message: "Candidate not exist" ,viewrej})
@@ -50,6 +52,7 @@ async function upRejection(upData, rej_id, res) {
     try {
         let pp = upData;
         const upReject = await BlackList.update({ ...pp }, { where: { id: rej_id } }, { transaction: t })
+        const candi=await Candidate.update({...pp},{where:{id:upReject.c_id}})
         t.commit();
         return res.status(200).json({ message: "Updated successfully", upReject})
     }
@@ -62,10 +65,11 @@ async function upRejection(upData, rej_id, res) {
 async function findall() {
     const t = await db.transaction();
     try {
-        const viewList = await BlackList.findAll({ transaction: t });
-        const viewCandidate = await Candidate.findAll({ where: {status:"Black Listed"} }, { transaction: t });
+        // const viewList = await BlackList.findAll({ transaction: t });
+        // const viewCandidate = await Candidate.findAll({ where: {status:"Black Listed"} }, { transaction: t });
+        const [viewCandidate,metadata] = await db.query("SELECT * FROM public.blacklist AS b,public.candidate AS c WHERE b.c_id=c.id", { transaction: t })
         t.commit();
-        return {viewList,viewCandidate};
+        return viewCandidate;
     }
     catch (error) {
         console.log(error);

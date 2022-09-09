@@ -2,17 +2,18 @@ const requestService = require('../services/leave_request.service');
 
 var requestController = {
     addRequest: addRequest,
-   findRequest:findRequest,
-   findRequestById:findRequestById,
-    
+    findRequest: findRequest,
+    findRequestById: findRequestById,
     updateRequest: updateRequest,
-    
+    reject: reject,
+    viewreject:viewreject
+
 }
 function addRequest(req, res) {
-    let pid=req.params.id;
+    let pid = req.params.id;
     let rData = req.body;
-    
-    requestService.add(rData,pid,res).
+
+    requestService.add(rData, pid, res).
         then((data) => {
             res.send(data);
         })
@@ -21,7 +22,7 @@ function addRequest(req, res) {
         });
 }
 function findRequest(req, res) {
-    requestService.findAll().
+    requestService.findAll(req, res).
         then((data) => {
             res.send(data);
         })
@@ -30,8 +31,8 @@ function findRequest(req, res) {
         });
 }
 function findRequestById(req, res) {
-    let id=req.params.id
-    requestService.findById(id,res).
+    let id = req.params.id
+    requestService.findById(id, res).
         then((data) => {
             res.send(data);
         })
@@ -45,8 +46,30 @@ function updateRequest(req, res) {
         then((data) => {
             res.status(200).json({
                 message: "success",
-              request: data
+                request: data
             })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+//reject a leave by HR
+function reject(req, res) {
+    requestService.rejectleave(req.body, req.params.id).
+        then((data) => {
+            res.status(200).json({
+                message: "success",
+                request: data
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+function viewreject(req, res) {
+       requestService.viewrejectlv(req, res).
+        then((data) => {
+            res.send(data);
         })
         .catch((error) => {
             console.log(error);

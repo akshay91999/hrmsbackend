@@ -18,7 +18,11 @@ async function add(depData,dep,res) {
         const dpart = await Depart.findOne({where:{dp_id:dep.dp_id}}, { transaction: t });
         const [designation,created] = await Designate.findOrCreate({where:{dp_id:dpart.dp_id,designation:depData.designation},defaults: {...pp}});
         t.commit();
-        return res.status(200).json({ dpart, designation })
+        if(created==false){
+            return {message:"This position is already exist"}
+        }
+        console.log(created)
+        return res.status(200).json({message:"success"})
     }
     catch (error) {
         return res.status(202).json({ error })
@@ -32,7 +36,7 @@ async function findById(dep, res) {
         const viewDepart = await Depart.findOne({where:{dp_id:dep}}, { transaction: t })
         const viewDesignation = await Designate.findAll({ where: { dp_id: dep } }, { transaction: t })
         t.commit();
-        if (!viewDepart.deletedAt) {
+        if (!viewDepart.deletedat) {
             return res.status(200).json({ viewDepart, viewDesignation })
         }
         else {
@@ -64,9 +68,9 @@ async function findall() {
     const t = await db.transaction();
     try {
         const viewAlldep = await Depart.findAll({ transaction: t })
-        const viewAlldes = await Designate.findAll({ transaction: t })
+        // const viewAlldes = await Designate.findAll({ transaction: t })
         t.commit();
-        return { viewAlldep, viewAlldes };
+        return { viewAlldep};
     }
     catch (error) {
         console.log(error);

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Upload = db.define('Upload', {
+const Upload = db.define('upload', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -17,6 +17,10 @@ const Upload = db.define('Upload', {
     doc_type: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    deletedat: {
+        type: Sequelize.DATE,
+        allowNull: true
     }
 },
 {

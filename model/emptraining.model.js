@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Training = db.define('EmpTraining', {
+const Training = db.define('emptraining', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -43,6 +43,10 @@ const Training = db.define('EmpTraining', {
         type: Sequelize.STRING,
         allowNull: true
     },
+    deletedat: {
+        type: Sequelize.DATE,
+        allowNull: true
+    }
     
 
 },

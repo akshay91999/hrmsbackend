@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Job = db.define('Job', {
+const Job = db.define('job', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -11,12 +11,12 @@ const Job = db.define('Job', {
         type: Sequelize.INTEGER,
         unique:true
     },
-    designation: {
-        type: Sequelize.STRING,
+    ds_id: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
-    departmentname: {
-        type: Sequelize.STRING,
+    dp_id: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     user_type: {
@@ -35,7 +35,7 @@ const Job = db.define('Job', {
         type: Sequelize.DATEONLY,
         allowNull: false
     },
-    deletedAt: {
+    deletedat: {
         type: Sequelize.DATE,
         allowNull: true,
         

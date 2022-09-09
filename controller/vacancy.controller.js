@@ -1,22 +1,19 @@
 const vacService = require('../services/vacancy.service');
-const Depart=require('../model/department.model')
 const Design=require('../model/designation.model')
 
 var vacController = {
     addVac: addVac,
-    findVacByPos: findVacByPos,
-    findVacs: findVacs,
+    findVac: findVac,
+    findvacApproved: findvacApproved,
     updateVac: updateVac,
 }
 // adding a new vacancy
 async function addVac(req, res) {
     let vData = req.body;
-
     const [des, created] = await Design.findOrCreate({
         where: { designation:vData.designation,dp_id:vData.dp_id },
         defaults: {...vData}
       });
-    //   console.log(des)
     vacService.add(vData,des,res).
         then((data) => {
             res.send(data);
@@ -25,12 +22,10 @@ async function addVac(req, res) {
             console.log(error);
         });
 }
-//getting vaccancy by dep_id and des_id
-function findVacByPos(req, res) {
-    let dep = req.params.dp_id;
-    let des = req.params.ds_id;
-    console.log(dep,des)
-    vacService.findByPos(dep, des, res).
+//getting for HR to approve vacancy
+function findVac(req, res) {
+   
+    vacService.findBypending(req,res).
         then((data) => {
             res.send(data);
         })
@@ -39,8 +34,8 @@ function findVacByPos(req, res) {
         });
 }
 //view all vacancy
-function findVacs(req,res) {
-    vacService.findall().
+function findvacApproved(req,res) {
+    vacService.findallApprove().
     then((data) => {
         res.send(data);
     })

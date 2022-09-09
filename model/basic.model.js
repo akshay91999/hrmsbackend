@@ -2,17 +2,17 @@ const Sequelize = require('sequelize');
 const db = require('../config/database');
 
 
-const Basic = db.define('Basic', {
+const Basic = db.define('basic', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    firstName: {
+    firstname: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    lastName: {
+    lastname: {
         type: Sequelize.STRING,
         allowNull: false
     },
@@ -35,7 +35,7 @@ const Basic = db.define('Basic', {
         allowNull: true,
         
     },
-       deletedAt: {
+       deletedat: {
         type: Sequelize.DATE,
         allowNull: true
     }

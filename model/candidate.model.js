@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Candidate = db.define('Candidate', {
+const Candidate = db.define('candidate', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -26,6 +26,10 @@ const Candidate = db.define('Candidate', {
             isEmail:true
         } 
     },
+    cv: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     mobile: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -42,7 +46,7 @@ const Candidate = db.define('Candidate', {
         type:Sequelize.STRING,
         defaultValue:"pending"
     },
-    deletedAt: {
+    deletedat: {
         type: Sequelize.DATE,
         allowNull: true
     }

@@ -6,16 +6,17 @@ var CandidateService = {
     add: add,
     findall: findall,
     findById: findById,
-    upCandidate: upCandidate
+    upCandidate: upCandidate,
+    approvedcandi:approvedcandi
 }
 //adding candidate
-async function add(canData, res) {
+async function add(canData,doc, res) {
 
     const t = await db.transaction();
     try {
-        const create_candidate = await Candidate.create({ ...canData}, { transaction: t });
+        const create_candidate = await Candidate.create({ ...canData,cv:doc}, { transaction: t });
         t.commit();
-        return res.status(200).json({ create_candidate })
+        return res.status(200).json({message:"success" })
     }
     catch (error) {
         t.rollback();
@@ -58,10 +59,29 @@ async function upCandidate(upData, can_id, res) {
 async function findall(res) {
     const t = await db.transaction();
     try {
-        const viewAllCan = await Candidate.findAll({where:{status:"pending",deletedAt:null}},{ transaction: t })
+        const viewAllCan = await Candidate.findAll({where:{status:"pending",deletedat:null}},{ transaction: t })
         t.commit();
        
-        return { viewAllCan };
+        return  viewAllCan ;
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    }
+}
+
+//get all approved candidate  which is called from add.router
+async function approvedcandi(req,res) {
+    const t = await db.transaction();
+    try {
+        const viewCandidate = await Candidate.findAll({ where: {status:"approved"} }, { transaction: t })
+        t.commit();
+        if (!viewCandidate.deletedAt) {
+            return res.status(200).send( viewCandidate)
+        }
+        else {
+            return res.status(201).json({ message: "Candidate not exist" })
+        }
     }
     catch (error) {
         console.log(error);

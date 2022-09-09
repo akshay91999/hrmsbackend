@@ -1,31 +1,23 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Training = db.define('Training', {
+const Training = db.define('training', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    // emp_id: {
-    //     type: Sequelize.INTEGER
-    // },
     dp_id:{
         type:Sequelize.INTEGER
     },
     training_name: {
         type: Sequelize.STRING,
-        allowNull: false,
-        
+        allowNull: false    
   },
     trainer: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    
-    
-    
-
 },
 {
     alter:true

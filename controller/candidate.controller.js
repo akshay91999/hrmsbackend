@@ -9,8 +9,10 @@ var canController={
 
 // adding candidate
 async function addCan(req,res){
+   
+            let doc=req.file.path
             let canData=req.body;
-            canService.add(canData,res).
+            canService.add(canData,doc,res).
             then((data)=>{
                 res.send(data);
             }).catch((error)=>{

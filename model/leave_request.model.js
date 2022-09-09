@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database.js');
 
-const Request = db.define('Request', {
+const Request = db.define('request', {
      id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -15,12 +15,14 @@ const Request = db.define('Request', {
         type: Sequelize.DATEONLY,
         allowNull: false
     },
-    
     leave_to: {
         type: Sequelize.DATEONLY,
         allowNull: false
     },
-   
+    no_days: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
     reason: {
         type: Sequelize.STRING,
         allowNull: false
@@ -35,7 +37,7 @@ const Request = db.define('Request', {
     defaultValue:"pending",
     allowNull:false
     },   
-},
+}
 );
 
 module.exports = Request;

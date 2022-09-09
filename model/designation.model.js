@@ -14,6 +14,10 @@ const designation = db.define('designation', {
     designation: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    deletedat: {
+        type: Sequelize.DATE,
+        allowNull: true
     }
 },
     {

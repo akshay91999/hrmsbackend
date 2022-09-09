@@ -1,15 +1,12 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Feedback = db.define('Feedback', {
+const Feedback = db.define('feedback', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    // emp_id: {
-    //     type: Sequelize.INTEGER
-    // },
     dp_id:{
         type:Sequelize.INTEGER
     },
@@ -24,7 +21,10 @@ const Feedback = db.define('Feedback', {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    
+    deletedat: {
+        type: Sequelize.DATE,
+        allowNull: true
+    }
     
     
 

@@ -1,24 +1,20 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database.js');
 
-const Leave = db.define('leave', {
+const Rejectedlv = db.define('leav_reject', {
      id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
          autoIncrement: true
      },
-    
-   
-    
-    total_paid: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+    lv_id: {
+        type: Sequelize.INTEGER, 
     },
-    total_unpaid: {
-        type: Sequelize.INTEGER,
+    Rejectreason: {
+        type: Sequelize.STRING,
         allowNull: false
-    },
+    }   
 },
 );
 
-module.exports = Leave;
+module.exports = Rejectedlv;

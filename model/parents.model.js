@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Parent = db.define('Parent', {
+const Parent = db.define('parent', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -39,7 +39,7 @@ const Parent = db.define('Parent', {
         type: Sequelize.STRING,
          allowNull:true     
     }, 
-    deletedAt: {
+    deletedat: {
         type: Sequelize.DATEONLY,
         allowNull: true
     }

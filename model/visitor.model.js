@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database.js');
 
-const Visitor = db.define('Visitor', {
+const Visitor = db.define('visitor', {
      id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -10,7 +10,7 @@ const Visitor = db.define('Visitor', {
     
     photo: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     name: {
         type: Sequelize.STRING,
@@ -23,7 +23,7 @@ const Visitor = db.define('Visitor', {
     },
    
    idproof_no: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
    
@@ -39,14 +39,14 @@ const Visitor = db.define('Visitor', {
         type: Sequelize.STRING,
         allowNull:false
     },
-    departmentname: {
-        type: Sequelize.STRING,
+    dp_id: {
+        type: Sequelize.INTEGER,
         allowNull:false
     },
     status: {
         type: Sequelize.STRING,
         allowNull:false,
-        default:'checkin'
+        
     },
  
     

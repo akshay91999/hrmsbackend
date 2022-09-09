@@ -20,6 +20,8 @@ const TokenRoutes = require('./canteen.route')
 const blacklistRoutes=require('./blackList.route')
 const candiRoutes=require('./candidate.route')
 const travelRoutes=require('./travel.route')
+const canService=require('../services/candidate.service')
+
 
 router.use('/accademic', accademic);
 router.use('/basics', basicRoutes);
@@ -42,6 +44,6 @@ router.use('/visitor',visitorRoutes)
 router.use('/blacklist',blacklistRoutes)
 router.use('/candidate',candiRoutes)
 router.use('/travel',travelRoutes)
-
+router.use('/candidate_approved',router.get('/', canService.approvedcandi));
 
 module.exports = router;

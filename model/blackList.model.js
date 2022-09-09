@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const BlackList = db.define('Can_Blacklist', {
+const BlackList = db.define('can_blacklist', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -17,7 +17,7 @@ const BlackList = db.define('Can_Blacklist', {
         allowNull: false,
         unique:true
     },
-    deletedAt: {
+    deletedat: {
         type: Sequelize.DATE,
         allowNull: true
     }

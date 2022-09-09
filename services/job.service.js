@@ -1,14 +1,6 @@
-// const expDao = require('../dao/exp.dao');
-// const basicDao = require('../dao/basic.dao')
 const sequelize = require('sequelize')
 const db = require('../config/database')
-//const Basic = require('../model/basic')
-const Basic = require('../model/basic.model')
-const Contact = require('../model/contact.model')
-const Dept = require('../model/department.model')
 const Job = require('../model/job.model')
-const designation=require('../model/designation.model')
-const View = require('../model/empview.model')
 var jobService = {
     add: add,
     findAll: findAll,
@@ -20,13 +12,8 @@ var jobService = {
 async function add(jobdata,res,pid) {
     const t = await db.transaction();
     try{
-        const depart= await Dept.findOne({where:{dp_id:jobdata.dp_id}})
-        const des=await designation.findOne({where:{ds_id:jobdata.ds_id}})
-        const jobs = await Job.create({
-            ...jobdata,basic_id:pid,
-            departmentname:depart.departmentname,
-            designation:des.designation
-        },{transaction:t});   
+       
+        const jobs = await Job.create({...jobdata,basic_id:pid},{transaction:t});   
         t.commit();
         return res.status(200).json({jobs})
     }
@@ -44,10 +31,11 @@ function findAll() {
 async function findById(id, res) {
     const t = await db.transaction();
     try {
-        let pkid = id;
-        const job = await Job.findAll({where: { basic_id: pkid }} , { transaction: t })
+        // let pkid = id;
+        // const job = await Job.findAll({where: { basic_id: pkid }} , { transaction: t })
+        const [job,metadata]=await db.query("SELECT dp.departmentname,ds.designation,j.user_type,j.package,j.jobtype,j.doj,j.deletedat FROM public.jobs AS j,public.departments AS dp,public.designation AS ds WHERE j.basic_id="+id+" AND j.dp_id=dp.dp_id AND j.ds_id=ds.ds_id", { transaction: t })
         t.commit();
-        if (!job.deletedAt) {
+        if (!job.deletedat) {
             return res.status(200).json({job})
         }
         else {

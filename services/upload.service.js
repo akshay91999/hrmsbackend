@@ -1,5 +1,3 @@
-// const expDao = require('../dao/exp.dao');
-// const basicDao = require('../dao/basic.dao')
 const sequelize = require('sequelize')
 const db = require('../config/database')
 const path = require('path')
@@ -35,7 +33,7 @@ async function add(up,res,pid,doc){
     try {
         let pid=up
         
-        const uploads = await Upload.findAll({ where: { basic_id: pid }})
+        const uploads = await Upload.findOne({ where: { basic_id: pid ,doc_type:"photo"}})
         return res.status(201).json({uploads})
     } catch (error) {
         console.log(error);

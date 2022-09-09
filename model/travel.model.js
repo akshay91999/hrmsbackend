@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Travel = db.define('Travel', {
+const Travel = db.define('travel', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -30,7 +30,12 @@ const Travel = db.define('Travel', {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    deletedAt: {
+    status: {
+    type: Sequelize.STRING,
+    defaultValue:"pending",
+    allowNull:false
+    },
+    deletedat: {
         type: Sequelize.DATE,
         allowNull: true
     }

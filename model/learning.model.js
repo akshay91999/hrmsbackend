@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database.js');
 
-const Learning = db.define('Learning', {
+const Learning = db.define('learning', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -19,7 +19,7 @@ const Learning = db.define('Learning', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    deletedAt: {                       //Status of deleted learning 
+    deletedat: {                       //Status of deleted learning 
         type: Sequelize.DATE,
         allowNull: true
     }

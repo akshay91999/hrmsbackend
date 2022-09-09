@@ -1,18 +1,22 @@
 const visitorService = require('../services/visitor.service');
+const path = require('path')
 
 var visitorController = {
     addVisitor: addVisitor,
     findVisitor: findVisitor,
+
     findVisitorById: findVisitorById,
     updateVisitor: updateVisitor,
     deleteById: deleteById
 }
 
 function addVisitor(req, res) {
-    let pid=req.params.id;
-    let visitor = req.body;
-    
-    visitorService.add(visitor,pid,res).
+    let vdata = req.body;
+    let pid = req.params.id;
+    let doc = req.file.path
+  
+  
+    visitorService.add(vdata,pid,res,doc).
         then((data) => {
             res.send(data);
         })
@@ -35,7 +39,7 @@ function deleteById(req, res) {
     visitorService.deleteById(req.params.id).
         then((data) => {
             res.status(200).json({
-                message: "Gig deleted successfully",
+                message: "deleted successfully",
                 visitor: data
             })
         })
@@ -48,7 +52,7 @@ function updateVisitor(req, res) {
     visitorService.updatevisitor(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
-                message: "Gig updated successfully",
+                message: "updated successfully",
               visitor: data
             })
         })

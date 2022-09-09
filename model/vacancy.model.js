@@ -1,19 +1,18 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-
 const VacancyList = db.define('vacancy', {
     v_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    departmentname: {
-        type: Sequelize.STRING,
+    dp_id: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
-    designation: {
-        type: Sequelize.STRING,
+    ds_id: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     vacancynumber: {           //no of vacancy
@@ -30,9 +29,9 @@ const VacancyList = db.define('vacancy', {
     },
     status: {
         type: Sequelize.BOOLEAN,
-        defaultValue: "false"
+        defaultValue: "pending"
     },
-    deletedAt: {                   //Status of deleted vaccancy
+    deletedat: {                   //Status of deleted vaccancy
         type: Sequelize.DATEONLY
     },
 

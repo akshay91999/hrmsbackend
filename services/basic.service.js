@@ -33,25 +33,17 @@ async function add(empData, res) {
     catch (error) {
         console.log(error);
         t.rollback();
-        return res.status(202).json({ error })
+        return res.status(202).json({ error:error.errors.map((e)=>e.message).join(", ") })
     }
 }
 //get by id
 async function findById(id, res) {
     const t = await db.transaction();
     try {
-        let pkid = id;
-        const base = await Basics.findByPk(pkid, {attributes:{exclude:['password']}},{ transaction: t })
-        const addr = await Address.findOne({ where: { basic_id: pkid } }, { transaction: t })
-        const parent = await Parents.findOne({ where: { basic_id: pkid } }, { transaction: t })
-        const contact = await Contact.findOne({ where: { basic_id: pkid } }, { transaction: t })
-        t.commit();
-        if (!base.deletedAt) {
-            return { base, addr, parent, contact }
-        }
-        else {
-            return res.status(201).json({ message: "user not exist" })
-        }
+        
+        const [person,metadata]= await db.query("SELECT b.firstname,b.lastname,b.gender,b.dob,b.nationality,a.*,c.*,p.* FROM public.basics AS b,public.addresses AS a,public.contacts AS c,public.parents AS p WHERE b.id="+id+" AND b.id=a.basic_id AND b.id=c.basic_id AND b.id=p.basic_id ", { transaction: t })
+        t.commit
+        return person
     }
     catch (error) {
         console.log(error);

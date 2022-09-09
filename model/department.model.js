@@ -11,6 +11,10 @@ const depart = db.define('department', {
         type: Sequelize.STRING,
         allowNull: false,
         unique:true
+    },
+    deletedat: {
+        type: Sequelize.DATE,
+        allowNull: true
     }
 },
     {

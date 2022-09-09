@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database.js');
 
-const Academic = db.define('Academic', {
+const Academic = db.define('academic', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,

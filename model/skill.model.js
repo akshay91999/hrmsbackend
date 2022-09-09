@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Skill = db.define('Skill', {
+const Skill = db.define('skill', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -18,7 +18,7 @@ const Skill = db.define('Skill', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    deletedAt: {
+    deletedat: {
         type: Sequelize.DATE,
         allowNull: true
     }

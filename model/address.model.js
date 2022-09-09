@@ -2,7 +2,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Address = db.define('Address', {
+const Address = db.define('address', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -45,7 +45,7 @@ const Address = db.define('Address', {
         type: Sequelize.STRING,
         allowNull: true,       
     },
-    deletedAt: {
+    deletedat: {
         type: Sequelize.DATE,
         allowNull: true
     }

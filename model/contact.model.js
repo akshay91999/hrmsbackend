@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Contact = db.define('Contact', {
+const Contact = db.define('contact', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -32,7 +32,7 @@ const Contact = db.define('Contact', {
         },
         unique:true
     },
-    deletedAt: {
+    deletedat: {
         type: Sequelize.DATE,
         allowNull: true
     }

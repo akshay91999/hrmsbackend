@@ -13,8 +13,18 @@ function findAll() {
     return Academic.findAll();
 }
 
-function findById(id) {
-    return Academic.findByPk(id);
+async function findById(id) {
+    const t = await db.transaction();
+    try {
+        
+        const [academic,metadata]= await db.query("SELECT * FROM public.academics AS a WHERE a.basic_id="+id, { transaction: t })
+        t.commit
+        return academic
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    }
 }
 
 function deleteById(id) {
@@ -22,16 +32,10 @@ function deleteById(id) {
 }
 
 async function add(Adata,pid,res) {
-
-   
     const t =  await db.transaction();
     try {
-
-        let pp = Adata;
-      
-        
+        let pp = Adata;  
         const createUser = await Academic.create({...pp,basic_id:pid}, { transaction: t });
-        
         t.commit();
         return res.status(200).json({createUser})
     }
@@ -44,17 +48,6 @@ async function add(Adata,pid,res) {
 
 
 function updateAcademic(academic, id) {
-    var updateAcademic = {
-        institution_name:academic.institution_name,
-        programme: academic.programme,
-        board: academic.board,
-        branch: academic.branch,
-        course_type: academic.course_type,
-        score:academic.score,
-        duration:academic.duration,
-        cerificate:academic.cerificate,
-        course:academic.course
-    };
-    return Academic.update(updateAcademic, { where: { id: id } });
+    return Academic.update({...academic}, { where: { id: id } });
 }
 module.exports = academicService;
