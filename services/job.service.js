@@ -33,10 +33,10 @@ async function findById(id, res) {
     try {
         // let pkid = id;
         // const job = await Job.findAll({where: { basic_id: pkid }} , { transaction: t })
-        const [job,metadata]=await db.query("SELECT dp.departmentname,ds.designation,j.user_type,j.package,j.jobtype,j.doj,j.deletedat FROM public.jobs AS j,public.departments AS dp,public.designation AS ds WHERE j.basic_id="+id+" AND j.dp_id=dp.dp_id AND j.ds_id=ds.ds_id", { transaction: t })
+        const [job,metadata]=await db.query("SELECT dp.departmentname,ds.designation,j.user_type,j.package,j.jobtype,j.doj,j.deletedat FROM public.jobs AS j,public.departments AS dp,public.designations AS ds WHERE j.basic_id="+id+" AND j.dp_id=dp.dp_id AND j.ds_id=ds.ds_id", { transaction: t })
         t.commit();
         if (!job.deletedat) {
-            return res.status(200).json({job})
+            return (job.reduce((obj, item) => ({ ...obj, [item[1]]: item })))
         }
         else {
             return res.status(201).json({ message: "user not exist" })
