@@ -28,7 +28,7 @@ const VacancyList = db.define('vacancy', {
         allowNull: false
     },
     status: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING,
         defaultValue: "pending"
     },
     deletedat: {                   //Status of deleted vaccancy
