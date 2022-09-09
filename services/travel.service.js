@@ -71,7 +71,11 @@ async function updatedata(up, T_id, res) {
 // show all status pending travel data
 async function findall(req, res) {
     const t = await db.transaction();
-    let date=new Date()
+    let yyyy=new Date().getFullYear()
+    let mm=new Date().getMonth() + 1
+    let dd=new Date().getDate()
+    let date= formatDate(yyyy+"-"+mm+"-"+dd)
+     console.log(date)
     try{
    const [travel,metadata]= await db.query("SELECT t.*,b.firstname,d.departmentname FROM public.travels AS t,public.basics AS b,public.jobs AS j,public.departments AS d WHERE t.status='pending' AND t.basic_id=b.id AND j.basic_id=b.id AND d.dp_id=j.dp_id AND t.date>="+date, { transaction: t })
     t.commit();
