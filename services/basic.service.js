@@ -41,7 +41,7 @@ async function findById(id, res) {
     const t = await db.transaction();
     try {
         
-        const [person,metadata]= await db.query("SELECT b.firstname,b.lastname,b.gender,b.dob,b.nationality,a.*,c.*,p.* FROM public.basics AS b,public.addresses AS a,public.contacts AS c,public.parents AS p WHERE b.id="+id+" AND b.id=a.basic_id AND b.id=c.basic_id AND b.id=p.basic_id ", { transaction: t })
+        const [person,metadata]= await db.query("SELECT b.firstname,b.lastname,b.gender,b.dob,b.nationality,u.document,a.*,c.*,p.* FROM public.basics AS b,public.addresses AS a,public.contacts AS c,public.parents AS p,public.uploads AS u WHERE b.id="+id+" AND b.id=a.basic_id AND b.id=c.basic_id AND b.id=p.basic_id AND u.basic_id=b,id", { transaction: t })
         t.commit
         return person
     }

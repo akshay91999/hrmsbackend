@@ -6,7 +6,10 @@ var upload = multer({dest:'images/'});
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './cv');
-     }
+     },
+    filename: function (req, file, cb) {
+        cb(null , file.originalname);
+    }
 });
 var upload = multer({ storage: storage })
 router.post('/', upload.single('cv'), canController.addCan)
