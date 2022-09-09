@@ -41,7 +41,7 @@ async function findById(id, res) {
     const t = await db.transaction();
     try {
 
-        const [person, metadata] = await db.query("SELECT (b.firstname,b.lastname) AS name,b.gender,b.dob,b.nationality,u.document,a.*,c.*,p.* FROM public.basics AS b,public.addresses AS a,public.contacts AS c,public.parents AS p,public.uploads AS u WHERE b.id=" + id + " AND b.id=a.basic_id AND b.id=c.basic_id AND b.id=p.basic_id AND u.basic_id=b.id AND u.doc_type='photo'", { transaction: t })
+        const [person, metadata] = await db.query("SELECTb.firstname  || ' '|| b.lastname AS name,b.gender,b.dob,b.nationality,u.document,a.*,c.*,p.* FROM public.basics AS b,public.addresses AS a,public.contacts AS c,public.parents AS p,public.uploads AS u WHERE b.id=" + id + " AND b.id=a.basic_id AND b.id=c.basic_id AND b.id=p.basic_id AND u.basic_id=b.id AND u.doc_type='photo'", { transaction: t })
         t.commit
         return (person);
     }
@@ -71,10 +71,10 @@ async function updateUser(up, id, res) {
 async function findall(req, res) {
     const t = await db.transaction();
     try {
-        // const base =await Basics.findAll({attributes:{exclude:['password']}},{transaction: t })
+        const base =await Basics.findAll({attributes:{exclude:['password']}},{transaction: t })
         // const contact =await Contact.findAll({transaction: t })
         // const job= await Job.findAll({transaction: t })
-        const [person, metadata] = await db.query("SELECT b.firstname,b.lastname,c.contactnumber,c.email,dp.departmentname,ds.designation u.document FROM public.basics AS b,public.departments AS dp,public.contacts AS c,public.designations AS ds,public.uploads AS u ,public.jobs AS j WHERE b.id=c.basic_id AND b.id=p.basic_id AND u.basic_id=b.id AND j.basic_id=b.id AND j.dp_id=dp.dp_id AND j.ds_id=ds.ds_id AND u.doc_type='photo' AND ", { transaction: t })
+        const [person, metadata] = await db.query("SELECT b.firstname  || ' '|| b.lastname AS name,c.contactnumber,c.email,dp.departmentname,ds.designation, u.document FROM public.basics AS b,public.departments AS dp,public.contacts AS c,public.designations AS ds,public.uploads AS u ,public.jobs AS j WHERE b.id=c.basic_id AND u.basic_id=b.id AND j.basic_id=b.id AND j.dp_id=dp.dp_id AND j.ds_id=ds.ds_id AND u.doc_type='photo'", { transaction: t })
         t.commit();
         if (!base.deletedat) {
             return { message: "success", person };
