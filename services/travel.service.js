@@ -74,10 +74,9 @@ async function findall(req, res) {
   let date= new Date().toISOString().slice(0, 10)
     console.log(date)
     try{
-   const [travel,metadata]= await db.query("SELECT t.*,b.firstname,d.departmentname FROM public.travels AS t,public.basics AS b,public.jobs AS j,public.departments AS d WHERE t.status='pending' AND t.basic_id=b.id AND j.basic_id=b.id AND d.dp_id=j.dp_id AND t.date>="+date, { transaction: t })
+   const [travel,metadata]= await db.query("SELECT t.*,b.firstname,d.departmentname FROM public.travels AS t,public.basics AS b,public.jobs AS j,public.departments AS d WHERE t.status='pending' AND t.basic_id=b.id AND j.basic_id=b.id AND d.dp_id=j.dp_id ", { transaction: t })
     t.commit();
-    console.log(travel)
-    return {travel}
+    return travel;
     }
     catch (error) {
         console.log(error);
@@ -91,10 +90,9 @@ async function findallApproved(req, res) {
     const t = await db.transaction();
     let date=new Date()
     try{
-   const [travel,metadata]= await db.query("SELECT t.*,b.firstname,d.departmentname FROM public.travels AS t,public.basics AS b,public.jobs AS j,public.department AS d WHERE t.status='accept' AND t.basic_id=b.id AND j.basic_id=b.id AND d.dp_id=j.dp_id AND t.date>="+date, { transaction: t })
+   const [travel,metadata]= await db.query("SELECT t.*,b.firstname,d.departmentname FROM public.travels AS t,public.basics AS b,public.jobs AS j,public.department AS d WHERE t.status='accept' AND t.basic_id=b.id AND j.basic_id=b.id AND d.dp_id=j.dp_id", { transaction: t })
     t.commit();
-    console.log(travel)
-    return {travel}
+    return travel;
     }
     catch (error) {
         console.log(error);
@@ -109,10 +107,9 @@ async function findApproved(req, res) {
     const t = await db.transaction();
     try{
         let date=new Date()
-   const [travel,metadata]= await db.query("SELECT t.*,b.firstname,d.departmentname FROM public.travels AS t,public.basics AS b,public.jobs AS j,public.department AS d WHERE t.basic_id="+id+"AND t.status='accept' AND t.basic_id=b.id AND j.basic_id=b.id AND d.dp_id=j.dp_id AND t.date>="+date, { transaction: t })
+   const [travel,metadata]= await db.query("SELECT t.*,b.firstname,d.departmentname FROM public.travels AS t,public.basics AS b,public.jobs AS j,public.department AS d WHERE t.basic_id="+id+"AND t.status='accept' AND t.basic_id=b.id AND j.basic_id=b.id AND d.dp_id=j.dp_id ", { transaction: t })
     t.commit();
-    console.log(travel)
-    return {travel}
+    return travel;
     }
     catch (error) {
         console.log(error);
