@@ -74,7 +74,7 @@ async function findall(res) {
 async function approvedcandi(req,res) {
     const t = await db.transaction();
     try {
-        const viewCandidate = await Candidate.findAll({ where: {status:"approved"} }, { transaction: t })
+        const viewCandidate = await Candidate.findAll({ where: {status:"accept"} }, { transaction: t })
         t.commit();
         if (!viewCandidate.deletedAt) {
             return res.status(200).send( viewCandidate)

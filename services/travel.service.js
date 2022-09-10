@@ -74,7 +74,7 @@ async function findall(req, res) {
   let date= new Date().toISOString().slice(0, 10)
     console.log(date)
     try{
-   const [travel,metadata]= await db.query("SELECT t.*,b.firstname,d.departmentname FROM public.travels AS t,public.basics AS b,public.jobs AS j,public.departments AS d WHERE t.status='pending' AND t.basic_id=b.id AND j.basic_id=b.id AND d.dp_id=j.dp_id ", { transaction: t })
+   const [travel,metadata]= await db.query("SELECT t.*,b.firstname ||''||b.lastname AS name,d.departmentname FROM public.travels AS t,public.basics AS b,public.jobs AS j,public.departments AS d WHERE t.status='pending' AND t.basic_id=b.id AND j.basic_id=b.id AND d.dp_id=j.dp_id ", { transaction: t })
     t.commit();
     return travel;
     }

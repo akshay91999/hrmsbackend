@@ -1,34 +1,35 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database.js');
 
-const Academic = db.define('academic', {
+const Academic = db.define('Academic', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    user_id: {
+    basic_id: {
         type: Sequelize.INTEGER,
        
       
     },
-    institution_name: {
+    school: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    programme: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
+    
     board: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    branch: {
-        type: Sequelize.STRING,
+    courseid: {
+         type: Sequelize.INTEGER,
+        allowNull: false
+     },
+    branchid: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
-    course_type: {
+    coursetype: {
         type: Sequelize.STRING,
         allowNull: false
     },
@@ -36,19 +37,16 @@ const Academic = db.define('academic', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    duration: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    certificate: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    course: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
     
+    durtnfrm: {
+        type: Sequelize.DATEONLY,
+        allowNull: false
+    },
+    durtnto: {
+        type: Sequelize.DATEONLY,
+        allowNull: false
+    },
+   
    },
      
 );

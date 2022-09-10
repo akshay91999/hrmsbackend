@@ -1,4 +1,3 @@
-
 const academicService = require('../services/accademic.service');
 
 var academicController = {
@@ -23,8 +22,9 @@ function addAcademic(req, res) {
 }
 
 function findAcademicById(req, res) {
-    academicService.findById(req.params.id).
-        then((data) => {
+    let id=req.params.id
+    academicService.findById(id,res).
+     then((data) => {
             res.send(data);
         })
         .catch((error) => {
@@ -49,7 +49,7 @@ function updateAcademic(req, res) {
     academicService.updateAcademic(req.body, req.params.id).
         then((data) => {
             res.status(200).json({
-                message: "Gig updated successfully",
+                message: "updated successfully",
               academic: data
             })
         })
