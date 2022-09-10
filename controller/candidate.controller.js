@@ -2,9 +2,10 @@ const canService=require('../services/candidate.service');
 
 var canController={
     addCan:addCan,
-    findCanById:findCanById,
+    findCanBypending:findCanBypending,
     findCandidates: findCandidates,
-    upCan:upCan
+    upCan:upCan,
+    allapprovedcandi
 }
 
 // adding candidate
@@ -20,10 +21,10 @@ async function addCan(req,res){
             })
 
 }
-// view candidate by their id
-function findCanById(req, res) {
-    let id = req.params.id
-    canService.findById(id, res).
+// view pending candidate 
+function findCanBypending(req, res) {
+   
+    canService.findBypending(req, res).
         then((data) => {
             res.send(data);
         })
@@ -49,6 +50,15 @@ function upCan(req, res) {
 
 function  findCandidates(req, res) {
     canService.findall().
+        then((data) => {
+            res.send(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+function  allapprovedcandi(req, res) {
+    canService.approvedcandi().
         then((data) => {
             res.send(data);
         })

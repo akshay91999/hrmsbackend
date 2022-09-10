@@ -5,7 +5,7 @@ const Candidate = require('../model/candidate.model');
 var CandidateService = {
     add: add,
     findall: findall,
-    findById: findById,
+    findBypending: findBypending,
     upCandidate: upCandidate,
     approvedcandi:approvedcandi
 }
@@ -23,18 +23,13 @@ async function add(canData,doc, res) {
         return res.status(202).json({ "error": error })  
     }
 }
-//get by candidate id
-async function findById(can_id, res) {
+//get by candidate not selected
+async function findBypending(can_id, res) {
     const t = await db.transaction();
     try {
-        const viewCandidate = await Candidate.findOne({ where: { id: can_id,status:"pending"} }, { transaction: t })
+        const [view,metadata] =await db.query("SELECT c.*,dp.departmentname,ds.designation FROM public.candidates AS c,public.departments AS dp,public.designations AS ds WHERE c.dp_id=dp.dp_id AND c.ds_id=ds.ds_id AND c.selection is NULL AND c.deletedat is NULL AND c.status='pending'", { transaction: t })
         t.commit();
-        if (!viewCandidate.deletedAt) {
-            return res.status(200).json({ viewCandidate })
-        }
-        else {
-            return res.status(201).json({ message: "Candidate not exist" })
-        }
+            return res.status(200).json(view)
     }
     catch (error) {
         console.log(error);
@@ -55,14 +50,14 @@ async function upCandidate(upData, can_id, res) {
         t.rollback();
     };
 }
-//view all candidate
+//view all SELECTED candidate 
 async function findall(res) {
     const t = await db.transaction();
     try {
-        const viewAllCan = await Candidate.findAll({where:{status:"pending",deletedat:null}},{ transaction: t })
-        t.commit();
+        const [view,metadata] =await db.query("SELECT c.*,dp.departmentname,ds.designation FROM public.candidates AS c,public.departments AS dp,public.designations AS ds WHERE c.dp_id=dp.dp_id AND c.ds_id=ds.ds_id AND c.selection is true AND  c.deletedat is null AND c.status='pending'", { transaction: t })
+                t.commit();
        
-        return  viewAllCan ;
+        return  view ;
     }
     catch (error) {
         console.log(error);
@@ -74,14 +69,11 @@ async function findall(res) {
 async function approvedcandi(req,res) {
     const t = await db.transaction();
     try {
-        const viewCandidate = await Candidate.findAll({ where: {status:"accept"} }, { transaction: t })
+        
+        const [view,metadata] =await db.query("SELECT c.*,dp.departmentname,ds.designation FROM public.candidates AS c,public.departments AS dp,public.designations AS ds WHERE c.dp_id=dp.dp_id AND c.ds_id=ds.ds_id AND c.selection is true AND  c.deletedat is null AND c.status='accept'", { transaction: t })
         t.commit();
-        if (!viewCandidate.deletedAt) {
-            return res.status(200).send( viewCandidate)
-        }
-        else {
-            return res.status(201).json({ message: "Candidate not exist" })
-        }
+       
+            return (view);          
     }
     catch (error) {
         console.log(error);

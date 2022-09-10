@@ -42,6 +42,10 @@ const Candidate = db.define('candidate', {
         allowNull: false
              
     },
+    selection:{
+        type:Sequelize.BOOLEAN,
+        allowNull: true
+    },
     status:{
         type:Sequelize.STRING,
         defaultValue:"pending"
