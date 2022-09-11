@@ -63,7 +63,7 @@ async function updateUser(up, id, res) {
     try {
         let pp = up;
 
-        const base = await Basics.update({ ...pp }, { attributes: { exclude: ['password'] } }, { where: { id: id } }, { transaction: t })
+        const base = await Basics.update({ ...pp }, { where: { id: id } }, { attributes: { exclude: ['password'] } }, { transaction: t })
         const addr = await Address.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
         const parent = await Parents.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
         const contact = await Contact.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })

@@ -21,6 +21,7 @@ const blacklistRoutes=require('./blackList.route')
 const candiRoutes=require('./candidate.route')
 const travelRoutes=require('./travel.route')
 const signinService=require('../services/signin.service')
+const GrievanceRoute=require('./grievance.route.js')
 
 
 router.use('/accademic', accademic);
@@ -44,6 +45,7 @@ router.use('/visitor',visitorRoutes)
 router.use('/blacklist',blacklistRoutes)
 router.use('/candidate',candiRoutes)
 router.use('/travel',travelRoutes)
+router.use('/travel',GrievanceRoute)
 router.use('/signin',router.post('/', signinService.signin));
 
 module.exports = router;

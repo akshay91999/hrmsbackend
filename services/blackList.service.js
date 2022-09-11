@@ -28,18 +28,14 @@ async function add(blackData,can_id,res) {
 async function findById(rej_id, res) {
     const t = await db.transaction();
     try {
-        const viewrej = await BlackList.findOne({ where: { id: rej_id } }, { transaction: t })
-        const viewCandidate = await Candidate.findOne({ where: { id:viewrej.c_id } }, { transaction: t })
-        const [viewCandidates,metadata] = await db.query("SELECT * FROM public.blacklist AS b,public.candidate AS c WHERE b.id="+rej_id+" AND b.c_id=c.id AND c.deletedat=null", { transaction: t })
-
+        // const viewrej = await BlackList.findOne({ where: { id: rej_id } }, { transaction: t })
+        // const viewCandidate = await Candidate.findOne({ where: { id:viewrej.c_id } }, { transaction: t })
+        const [viewCandidates,metadata] = await db.query("SELECT c.*,b.*,dp.departmentname,ds.designation FROM public.can_blacklists AS b,public.candidates AS c ,public.departments AS dp,public.designations AS ds WHERE b.id="+rej_id+" AND b.c_id=c.id AND c.ds_id=ds.ds_id AND c.dp_id=dp.dp_id", { transaction: t })
         t.commit();
-        if (!viewCandidate.deletedat) {
+        
             return ({message:"success"},viewCandidates);
         }
-        else {
-            return res.status(201).json({ message: "Candidate not exist" ,viewrej})
-        }
-    }
+        
     catch (error) {
         t.rollback();
         return res.status(202).json({ "error": error })
@@ -67,9 +63,9 @@ async function findall() {
     try {
         // const viewList = await BlackList.findAll({ transaction: t });
         // const viewCandidate = await Candidate.findAll({ where: {status:"Black Listed"} }, { transaction: t });
-        const [viewCandidate,metadata] = await db.query("SELECT * FROM public.blacklists AS b,public.candidate AS c WHERE b.c_id=c.id", { transaction: t })
+        const [viewCandidates,metadata] = await db.query("SELECT c.*,b.*,dp.departmentname,ds.designation FROM public.can_blacklists AS b,public.candidates AS c ,public.departments AS dp,public.designations AS ds WHERE b.c_id=c.id AND c.ds_id=ds.ds_id AND c.dp_id=dp.dp_id", { transaction: t })
         t.commit();
-        return viewCandidate;
+        return viewCandidates;
     }
     catch (error) {
         console.log(error);
