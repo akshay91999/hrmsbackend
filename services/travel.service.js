@@ -3,6 +3,7 @@ const db = require('../config/database');
 const Travel = require('../model/travel.model')
 const Basics =require('../model/basic.model');
 const Job=require('../model/job.model')
+const { Op } = require("sequelize");
 
 
 var travelService = {
@@ -38,7 +39,12 @@ async function findById(id, res) {
     const t = await db.transaction();
     try {
         let pkid = id;
-        const travel = await Travel.findAll({ where: { basic_id: pkid,status:"pending"} }, { transaction: t })
+        const travel = await Travel.findAll({where: {
+            [Op.or]: [
+              { status: "pending" },
+              { status: "accept" }
+            ],basic_id:pkid
+          }}, { transaction: t })
         t.commit();
         if (!travel.deletedAt) {
             return res.status(200).json({travel })

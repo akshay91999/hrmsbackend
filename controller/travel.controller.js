@@ -4,7 +4,9 @@ var travelController={
     addtravel:addtravel,
     findTravelById:findTravelById,
     findTravels:  findTravels,
-    upTravel:upTravel
+    upTravel:upTravel,
+    findTravelapproved:findTravelapproved,
+    findTravelByIdapproved:findTravelByIdapproved
 }
 // adding BlackList
 async function addtravel(req,res){
@@ -47,6 +49,26 @@ function upTravel(req, res) {
 
 function  findTravels(req, res) {
     travelService.findall().
+        then((data) => {
+            res.send(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+function  findTravelapproved(req, res) {
+    travelService.findallApproved().
+        then((data) => {
+            res.send(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+function findTravelByIdapproved(req, res) {
+    let id = req.params.id
+    travelService.findById(id, res).
         then((data) => {
             res.send(data);
         })

@@ -67,7 +67,7 @@ async function findall() {
     try {
         // const viewList = await BlackList.findAll({ transaction: t });
         // const viewCandidate = await Candidate.findAll({ where: {status:"Black Listed"} }, { transaction: t });
-        const [viewCandidate,metadata] = await db.query("SELECT * FROM public.blacklist AS b,public.candidate AS c WHERE b.c_id=c.id", { transaction: t })
+        const [viewCandidate,metadata] = await db.query("SELECT * FROM public.blacklists AS b,public.candidate AS c WHERE b.c_id=c.id", { transaction: t })
         t.commit();
         return viewCandidate;
     }
