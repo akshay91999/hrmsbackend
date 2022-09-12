@@ -45,7 +45,7 @@ router.use('/visitor',visitorRoutes)
 router.use('/blacklist',blacklistRoutes)
 router.use('/candidate',candiRoutes)
 router.use('/travel',travelRoutes)
-router.use('/travel',GrievanceRoute)
+router.use('/grievance',GrievanceRoute)
 router.use('/signin',router.post('/', signinService.signin));
 
 module.exports = router;
