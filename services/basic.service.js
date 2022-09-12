@@ -62,8 +62,16 @@ async function updateUser(up, id, res) {
     const t = await db.transaction();
     try {
         let pp = up;
+        var basic_up = {
+            firstname: pp.firstname,
+            lastname: pp.lastname,
+            gender: pp.gender,
+            dob: pp.dob,
+            nationality: pp.nationality,
+            deletedat: pp.deletedat
+        }
 
-        const base = await Basics.update({ ...pp }, { where: { id: id } }, { attributes: { exclude: ['password'] } }, { transaction: t })
+        const base = await Basics.update({ ...basic_up }, { where: { id: id } }, { transaction: t })
         const addr = await Address.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
         const parent = await Parents.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
         const contact = await Contact.update({ ...pp }, { where: { basic_id: id } }, { transaction: t })
@@ -83,9 +91,9 @@ async function findall(req, res) {
         // const job= await Job.findAll({transaction: t })
         const [person, metadata] = await db.query("SELECT b.id,b.firstname  || ' '|| b.lastname AS name,b.gender,c.contactnumber,c.email,dp.departmentname,ds.designation, u.document FROM public.basics AS b,public.departments AS dp,public.contacts AS c,public.designations AS ds,public.uploads AS u ,public.jobs AS j WHERE b.id=c.basic_id AND u.basic_id=b.id AND j.basic_id=b.id AND j.dp_id=dp.dp_id AND j.ds_id=ds.ds_id AND u.doc_type='photo'", { transaction: t })
         t.commit();
-        
-            return { message: "success", person };
-        
+
+        return { message: "success", person };
+
     }
     catch (error) {
         console.log(error);
