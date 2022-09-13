@@ -35,7 +35,7 @@ async function add(rData, pid, res) {
 async function findAll(req, res) {
     const t = await db.transaction();
     try {
-        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstName||' '||b.lastName as name,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='pending' AND d.dp_id=j.dp_id", { transaction: t })
+        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstname||' '||b.lastname as name,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='pending' AND d.dp_id=j.dp_id", { transaction: t })
         t.commit();
         return (hrleave)
     }
@@ -66,19 +66,19 @@ async function findById(id, res) {
 
 }
 
-async function findAll(req, res) {
-    const t = await db.transaction();
-    try {
-        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstName,b.lastName,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='pending' AND d.dp_id=j.dp_id", { transaction: t })
-        t.commit();
-        return (hrleave)
-    }
-    catch (e) {
-        console.log(e);
-        t.rollback();
-        return (e)
-    }
-}
+// async function findAll(req, res) {
+//     const t = await db.transaction();
+//     try {
+//         const [hrleave, metadata] = await db.query("SELECT r.*,b.firstname||' '||b.lastname as name,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='pending' AND d.dp_id=j.dp_id", { transaction: t })
+//         t.commit();
+//         return (hrleave)
+//     }
+//     catch (e) {
+//         console.log(e);
+//         t.rollback();
+//         return (e)
+//     }
+// }
 //reject a leave by HR
 async function rejectleave(request, id) {
     var updateRequest = await Request.update({status:'reject' }, { where: { id: id } });

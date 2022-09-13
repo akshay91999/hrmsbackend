@@ -13,8 +13,9 @@ var baseController = {
 async function addEmp(req, res) {
     let empData = req.body;
     let emailregex=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-    let phoneRegex = /^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$/
-    // emails validation
+    let phoneRegex = /^[6789]\d{9}$/
+    let pincodeRegex = /^[6]\d{5}$/
+    // email validation
     if(!emailregex.test(empData.email)){
         return res.status(202).json({ message: "Enter a valid email" })
     }
@@ -51,6 +52,10 @@ async function addEmp(req, res) {
             return res.status(203).json({ message: "Enter valid spouse phone number" })
         }
     }
+    if (!pincodeRegex.test(empData.pincode)) {
+        return res.status(203).json({ message: "Enter a valid pincode" })
+    }
+
 
     basicService.add(empData, res).
         then((data) => {

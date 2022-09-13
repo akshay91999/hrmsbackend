@@ -16,7 +16,7 @@ const Parent = db.define('parent', {
         allowNull: false
     },
     fcontactnumber: {
-        type: Sequelize.STRING,
+        type: Sequelize.DOUBLE,
         allowNull: false,
     },
     mothername: {
@@ -24,7 +24,7 @@ const Parent = db.define('parent', {
         allowNull: false
     },
     mcontactnumber: {
-        type: Sequelize.STRING,
+        type: Sequelize.DOUBLE,
         allowNull: false,
     },
     maritalstatus: {
@@ -36,7 +36,7 @@ const Parent = db.define('parent', {
         
     }, 
     scontactnumber: {
-        type: Sequelize.STRING,
+        type: Sequelize.DOUBLE,
          allowNull:true     
     }, 
     deletedat: {
