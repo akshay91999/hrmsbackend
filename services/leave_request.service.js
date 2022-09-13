@@ -55,7 +55,7 @@ async function findById(id, res) {
         const usedUnpaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: current }, leave_type: "unpaid", status: "accept" } }, { transaction: t });
         const balancePaid = Lv.total_paid - usedPaid
         const balanceUnpaid = Lv.total_unpaid - usedUnpaid
-        const leaveData = await Request.findAll({ where: { basic_id: id, "leave_from": { [Op.gt]: current }, status: "accept" } }, { transaction: t });
+        const leaveData = await Request.findAll({ where: { basic_id: id, "leave_from": { [Op.gt]: current } } }, { transaction: t });
         t.commit();
          return { balancePaid, usedPaid, balanceUnpaid, usedUnpaid, leaveData }
     }
