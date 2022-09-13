@@ -12,9 +12,11 @@ const Rejectedlv = db.define('leav_reject', {
     },
     Rejectreason: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     }   
-},
+},{
+    alter :true
+}
 );
 
 module.exports = Rejectedlv;
