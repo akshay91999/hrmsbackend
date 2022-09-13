@@ -1,20 +1,21 @@
+
 const sequelize = require('sequelize')
 const db = require('../config/database')
 const path = require('path')
 const multer = require('multer')
-//const Basic = require('../model/basic')
 const Upload = require('../model/upload.model')
-//const { request } = require('http')
+
 var uploadService = {
     add: add,
-    findById:findById
+    findById:findById,
+    update:update
     }
     var storage = multer.diskStorage({
         destination: function(req, file, cb) {
-            cb(null, './images');
+            cb(null, './upload');
          },
         filename: function (req, file, cb) {
-            cb(null , file.originalname);
+            cb(null , Date.now()+path.extname(file.originalname));
         }
     });
     var upload = multer({ storage: storage })
@@ -33,8 +34,18 @@ async function add(up,res,pid,doc){
     try {
         let pid=up
         
-        const uploads = await Upload.findOne({ where: { basic_id: pid ,doc_type:"photo"}})
+        const uploads = await Upload.findAll({ where: { basic_id: pid }})
         return res.status(201).json({uploads})
+    } catch (error) {
+        console.log(error);
+    }
+  };
+  async function update(up,pid,res,doc){
+    try {
+        
+        let pp=up
+        const uploads = await Upload.update({document:doc,doc_type:pp.doc_type},{where:{ basic_id:pid }})
+        return res.status(201).json({message:"update success"})
     } catch (error) {
         console.log(error);
     }
