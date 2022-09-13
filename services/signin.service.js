@@ -14,13 +14,13 @@ async function signin(req, res) {
 
     const { email, password } = req.body
     if (!email || !password) {
-        return res.status(422).json({ error: "please add email or password" })
+        return res.status(201).json({ message: "please add email or password" })
     }
 
     const savedUser = await Contact.findOne({ where: { email: email } }, { transaction: t })
     if (!savedUser) {
         t.rollback();
-        return res.status(422).json({ error: "Invalid email or password" })
+        return res.status(201).json({ message: "Invalid email or password" })
 
     }
     const base = await Basic.findOne({ where: { id: savedUser.basic_id } }, { transaction: t })
@@ -37,12 +37,12 @@ async function signin(req, res) {
                 return res.json({ token, user: { id, firstname, email, user_type } })
             }
             else {
-                return res.status(422).json({ error: "invalid password" })
+                return res.status(202).json({ message: "invalid password" })
             }
         })
         .catch(err => {
             console.log(err)
-            return res.status(422).json({ error: "internal error", err })
+            return res.status(422).json({ message: "internal error", err })
 
         })
 }
