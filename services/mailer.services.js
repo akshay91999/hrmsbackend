@@ -6,7 +6,7 @@ var mailService={
     mailer:mailer
 }
 
-async function mailer(email,pass,res){
+async function mailer(email,pass,name,res){
 
     let emailid=email
 
@@ -21,8 +21,8 @@ var transporter = nodemailer.createTransport({
 var mailOptions = {
   from: 'hrmsbackend2022@gmail.com',
   to: emailid,
-  subject: 'bheema credentials!!!',
-  text: 'your id is '+emailid+' and password is :'+pass
+  subject: 'Bheema credentials!!!',
+  text: 'Welcome '+name+' to Bheema , your id is '+emailid+' and password is :'+pass
 };
 transporter.sendMail(mailOptions, function(error, info){
   if (error) {
@@ -38,4 +38,4 @@ transporter.sendMail(mailOptions, function(error, info){
 
 
 }
-module.exports=mailService
+module.exports=mailService;

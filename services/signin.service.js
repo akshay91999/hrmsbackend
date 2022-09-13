@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../keys')
 const Job = require('../model/job.model')
+const Login = require('../model/loginstatus.model')
 
 var sign = { signin: signin }
 
@@ -25,7 +26,7 @@ async function signin(req, res) {
     }
     const base = await Basic.findOne({ where: { id: savedUser.basic_id } }, { transaction: t })
     const job = await Job.findOne({ where: { basic_id: savedUser.basic_id } }, { transaction: t })
-
+    const Log = await Login.findOne({ where: { basic_id: savedUser.basic_id } })
     t.commit();
     bcrypt.compare(password, base.password)
         .then(doMatch => {
@@ -34,7 +35,8 @@ async function signin(req, res) {
                 const token = jwt.sign({ id: base.id }, JWT_SECRET)
                 const { id, firstname } = base
                 const { user_type } = job
-                return res.json({ token, user: { id, firstname, email, user_type } })
+                const { p_change } = Log
+                return res.json({ token, user: { id, p_change, user_type, firstname, email, user_type } })
             }
             else {
                 return res.status(202).json({ message: "invalid password" })
