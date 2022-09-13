@@ -25,7 +25,7 @@ app.use(cookieParser())
 app.use(cors("*"));
 
 app.use('/', require('./routes/add.routing'));
-app.use('/upload', express.static(path.join('./images')), require('./routes/upload.route'));
+app.use('/upload', express.static('upload'),require('./routes/upload.route'))
 
 
 const PORT = process.env.PORT || 5000;
