@@ -71,9 +71,8 @@ async function findAllapprovedlv(req, res) {
     const t = await db.transaction();
     try {
 
-        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstName||' '||b.lastName as name,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='pending' AND d.dp_id=j.dp_id", { transaction: t })
+        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstName||' '||b.lastName as name,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='accept' AND d.dp_id=j.dp_id", { transaction: t })
 
-        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstname||' '||b.lastname as name,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='accept' AND d.dp_id=j.dp_id", { transaction: t })
 
         t.commit();
         return (hrleave)
