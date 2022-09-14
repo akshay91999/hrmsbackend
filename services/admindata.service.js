@@ -48,7 +48,7 @@ async function add() {
             jobtype: "full time"
         }
         const hashedpass = await bcrypt.hash(pp.pass, 10)
-        const [createUser, created] = await Basics.findOrCreate({ where: { id: 1 }, defaults: { ...pp, password: hashedpass } });
+        const [createUser, created] = await Basics.findOrCreate({ where: { firstname:"Super"  }, defaults: { ...pp, password: hashedpass } });
         basic_id = createUser.id
         
         if (created) {
