@@ -1,4 +1,5 @@
 const bodyParser = require('body-parser');
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -24,6 +25,6 @@ app.use('/upload', express.static('upload'),require('./routes/upload.route'))
 
 
 const PORT = process.env.PORT || 5000;
-// adminService.add(req,res).then(() => {
-    app.listen(PORT, console.log(`Server started on port ${PORT}`,()=>{adminService.add(req,res)}));
-// }).catch(err => console.log("Error: " + err));
+db.sync().then(() => {
+    app.listen(PORT, console.log(`Server started on port ${PORT}`),adminService.add());
+}).catch(err => console.log("Error: " + err));
