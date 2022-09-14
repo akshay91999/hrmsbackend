@@ -36,35 +36,21 @@ async function add(task,res,job,pid) {
 
 
 
-async function find() {
+async function find(req, res) {
     const t = await db.transaction();
-    try{
-        const view = await View.findAll({transaction:t})
+    try {
+        const [task, metadata] = await db.query("SELECT r.*,b.firstName||' '||b.lastName as name,d.departmentname FROM public.tasks AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND d.dp_id=j.dp_id", { transaction: t })
         t.commit();
-        return {view};
-        }
-        catch (error) {
-            console.log(error);
-            t.rollback();
-        }
- }
+        return (task)
+    }
+    catch (e) {
+        console.log(e);
+        t.rollback();
+        return (e)
+    }
+}
 
-//  async function findById(tn, res) {
-//     const t = await db.transaction();
-//     try {
-//         let pkid = tn;
-//         //const tn = await Training.findByPk(pkid , { transaction: t })
-       
-//         const tn2 = await EmpTraining.findAll({where: {dp_id:pkid}},{transaction:t}) 
-//         t.commit();
-//         return res.status(200).json({tn2})
-//     }
-//     catch (error) {
-//         console.log(error);
-//         t.rollback();
-//     }
 
-// }
  async function findAll(id,req,res) {
     const t = await db.transaction();
     try {
