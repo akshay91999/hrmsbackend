@@ -14,8 +14,7 @@ var EmpTrnService = {
     find:find,
     update: update,
     updateHR:updateHR,
-    checkin:checkin,
-    checkout:checkout
+    
     
     
 }
@@ -94,7 +93,7 @@ async function update(up, id,trn,trn1,res) {
         let pp = up;
 
         const basic = await Basic.findOne({where:{id:trn.id}})
-        const emptrng = await EmpTraining.update({...pp,basic_id:basic.id} ,{ where: { dp_id: id,training_name:trn1.training_name } }, { transaction: t })
+        const emptrng = await EmpTraining.update({...pp,basic_id:basic.id,checkin:sequelize.literal('CURRENT_TIMESTAMP'),checkout:sequelize.literal('CURRENT_TIMESTAMP')} ,{ where: { dp_id: id,training_name:trn1.training_name } }, { transaction: t })
         
         t.commit();
         return res.status(200).json({ message: "Updated successfully", emptrng})
@@ -121,38 +120,38 @@ async function updateHR(up, trn,dpt,res) {
         t.rollback();
     };
 }
-async function checkin(id,res) {
-    const t = await db.transaction();
-    try {
+// async function checkin(id,res) {
+//     const t = await db.transaction();
+//     try {
         
 
         
-        const cin = await EmpTraining.update({checkin:sequelize.literal('CURRENT_TIMESTAMP')}, { where: { basic_id: id } }, { transaction: t })
+//         const cin = await EmpTraining.update({checkin:sequelize.literal('CURRENT_TIMESTAMP'),checkout:sequelize.literal('CURRENT_TIMESTAMP')}, { where: { basic_id: id } }, { transaction: t })
         
-        t.commit();
-        return res.status(200).json({ message: "Updated successfully", })
-    }
-    catch (error) {
-        console.log(error);
-        t.rollback();
-    };
-}
-async function checkout(id,res) {
-    const t = await db.transaction();
-    try {
+//         t.commit();
+//         return res.status(200).json({ message: "Updated successfully", })
+//     }
+//     catch (error) {
+//         console.log(error);
+//         t.rollback();
+//     };
+// }
+// async function checkout(id,res) {
+//     const t = await db.transaction();
+//     try {
         
 
         
-        const cin = await EmpTraining.update({checkout:sequelize.literal('CURRENT_TIMESTAMP')}, { where: { basic_id: id } }, { transaction: t })
+//         const cin = await EmpTraining.update({checkout:sequelize.literal('CURRENT_TIMESTAMP')}, { where: { basic_id: id } }, { transaction: t })
         
-        t.commit();
-        return res.status(200).json({ message: "Updated successfully", })
-    }
-    catch (error) {
-        console.log(error);
-        t.rollback();
-    };
-}
+//         t.commit();
+//         return res.status(200).json({ message: "Updated successfully", })
+//     }
+//     catch (error) {
+//         console.log(error);
+//         t.rollback();
+//     };
+// }
 function findAll() {
     return EmpTraining.findAll();
 }

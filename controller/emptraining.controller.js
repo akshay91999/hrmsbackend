@@ -14,9 +14,7 @@ var empTrainingController = {
     findEmp: findEmp,
     updateEmpTrn: updateEmpTrn,
     updateEmpTrns: updateEmpTrns,
-    updateCheckin: updateCheckin,
-    updateCheckout: updateCheckout,
-    deleteById: deleteById
+        deleteById: deleteById
 }
 
 async function addEmpTrn(req, res) {
@@ -125,36 +123,7 @@ async function updateEmpTrns(req, res) {
             console.log(error);
         });
 }
-function updateCheckout(req, res) {
-    
-    let id = req.params.id
-    
-    empTrainingService.checkout(id,res).
-        then((data) => {
-            res.status(200).json({
-                message: "exp updated successfully",
-                up: data
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-function updateCheckin(req, res) {
-    
-    let id = req.params.id
-    
-    empTrainingService.checkin(id,res).
-        then((data) => {
-            res.status(200).json({
-                message: "exp updated successfully",
-                up: data
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
+
 function findEmpTrns(req, res) {
  
     empTrainingService.findAll().

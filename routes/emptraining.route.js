@@ -10,8 +10,6 @@ router.get('/view/:id',empTrnController.findEmpTrnId);
 router.get('/',empTrnController.findEmp);
 router.put('/:id', empTrnController.updateEmpTrn);
 router.put('/', empTrnController.updateEmpTrns);
-router.put('/checkin/:id', empTrnController.updateCheckin);
-router.put('/checkout/:id', empTrnController.updateCheckout);
 router.delete('/:id', empTrnController.deleteById);
 
 module.exports = router;
