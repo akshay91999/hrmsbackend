@@ -36,7 +36,7 @@ async function add(rData, pid, res) {
 async function findAll(req, res) {
     const t = await db.transaction();
     try {
-        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstname||' '||b.lastname as name,d.departmentname,r.leave_from||'-'||r.leave_to as date FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='pending' AND d.dp_id=j.dp_id AND j.user_type not hr", { transaction: t })
+        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstname||' '||b.lastname as name,d.departmentname,r.leave_from||'-'||r.leave_to as date FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='pending' AND d.dp_id=j.dp_id AND j.user_type!='3'", { transaction: t })
         t.commit();
         return (hrleave)
     }

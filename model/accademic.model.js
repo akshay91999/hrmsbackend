@@ -22,11 +22,11 @@ const Academic = db.define('academic', {
         allowNull: false
     },
     courseid: {
-         type: Sequelize.INTEGER,
+         type: Sequelize.STRING,
         allowNull: false
      },
     branchid: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
     coursetype: {
