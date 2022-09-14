@@ -33,12 +33,11 @@ async function add() {
             fcontactnumber: "9991111000",
             mothername: "xxxxx",
             mcontactnumber: "9999888855",
-            maritalstatus: "married",
+            maritalstatus: "single",
             contactnumber: "6666555555",
             altcontactnumber: "6665558888",
-            email: "admin@arvension.com",
+            email: "superadmin@arvension.com",
             altemail: "arv@gmail.com",
-            scontactnumber: "7777888855",
             pass: "admin123",
             departmentname: "Management",
             designation: "Super Admin",
@@ -48,7 +47,7 @@ async function add() {
             jobtype: "full time"
         }
         const hashedpass = await bcrypt.hash(pp.pass, 10)
-        const [createUser, created] = await Basics.findOrCreate({ where: { id: 1 }, defaults: { ...pp, password: hashedpass } });
+        const [createUser, created] = await Basics.findOrCreate({ where: { firstname: 'Super' }, defaults: { ...pp, password: hashedpass } });
         basic_id = createUser.id
         
         if (created) {

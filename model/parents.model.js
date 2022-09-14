@@ -33,7 +33,7 @@ const Parent = db.define('parent', {
     }, 
     spousename: {
         type: Sequelize.STRING,
-        
+        allowNull:true
     }, 
     scontactnumber: {
         type: Sequelize.DOUBLE,
