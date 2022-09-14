@@ -14,6 +14,7 @@ var sign = { signin: signin }
 
 async function signin(req, res) {
     const t = await db.transaction();
+    
 
     const { email, password } = req.body
     if (!email || !password) {
@@ -45,7 +46,8 @@ async function signin(req, res) {
                 const { p_change } = Log
                 const {departmentname}=Dep
                 const{designation}=Des
-                return res.json({ token, user: { id, p_change, user_type, name, email, departmentname,designation } })
+
+                return res.cookie('access_token',token,{httpOnly:true}).json({ token, user: { id, p_change, user_type, name, email, departmentname,designation } })
             }
             else {
                 return res.status(202).json({ message: "invalid password" })

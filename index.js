@@ -1,9 +1,10 @@
 const bodyParser = require('body-parser');
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const path=require('path')
-// const adminService=require('./services')
+const adminService=require('./services/admindata.service')
 const cookieParser = require('cookie-parser')
 //Database Connection
 const db = require('./config/database');
@@ -24,6 +25,6 @@ app.use('/upload', express.static('upload'),require('./routes/upload.route'))
 
 
 const PORT = process.env.PORT || 5000;
-// app.use().then(() => {
-    app.listen(PORT, console.log(`Server started on port ${PORT}`));
+// adminService.add(req,res).then(() => {
+    app.listen(PORT, console.log(`Server started on port ${PORT}`,()=>{adminService.add(req,rsres)}));
 // }).catch(err => console.log("Error: " + err));

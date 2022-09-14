@@ -37,6 +37,10 @@ const Request = db.define('request', {
     defaultValue:"pending",
     allowNull:false
     },   
+    deletedat: {
+        type: Sequelize.DATE,
+        allowNull:true
+    }
 }
 );
 
