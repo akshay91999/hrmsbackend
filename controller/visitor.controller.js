@@ -13,7 +13,7 @@ var visitorController = {
 function addVisitor(req, res) {
     let vdata = req.body;
     let pid = req.params.id;
-    let doc = req.file.path
+    let doc = req.file.path;
   
   
     visitorService.add(vdata,pid,res,doc).
@@ -26,7 +26,8 @@ function addVisitor(req, res) {
 }
 
 function findVisitorById(req, res) {
-    visitorService.findById(req.params.id).
+    let pid = req.params.id;
+    visitorService.findById(pid,res).
         then((data) => {
             res.send(data);
         })

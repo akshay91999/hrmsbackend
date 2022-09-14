@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database.js');
 
-const Visitor = db.define('visitor', {
+const Visitor = db.define('Visitor', {
      id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -23,7 +23,7 @@ const Visitor = db.define('visitor', {
     },
    
    idproof_no: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
     },
    
@@ -39,18 +39,29 @@ const Visitor = db.define('visitor', {
         type: Sequelize.STRING,
         allowNull:false
     },
-    dp_id: {
-        type: Sequelize.INTEGER,
+    departmentname: {
+        type: Sequelize.STRING,
         allowNull:false
     },
     status: {
         type: Sequelize.STRING,
-        allowNull:false,
+        allowNull:true,
+       
         
     },
- 
+    reason: {
+        type: Sequelize.STRING,
+        allowNull:false,
+       
+        
+    },
+    date: {
+        type: Sequelize.DATEONLY,
+        allowNull:false,
+       
     
 },
+}
 );
 
 module.exports = Visitor;
