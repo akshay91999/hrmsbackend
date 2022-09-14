@@ -21,6 +21,9 @@ const candiRoutes=require('./candidate.route')
 const travelRoutes=require('./travel.route')
 const signinService=require('../services/signin.service')
 const GrievanceRoute=require('./grievance.route.js')
+const resetRoute=require('./resetpasswd.route')
+const lvrejectRoute=require('./lvReject.route')
+
 
 
 router.use('/accademic', accademic);
@@ -45,5 +48,7 @@ router.use('/candidate',candiRoutes)
 router.use('/travel',travelRoutes)
 router.use('/grievance',GrievanceRoute)
 router.use('/signin',router.post('/', signinService.signin));
+router.use('/resetpassword',resetRoute);
+router.use('/rejectlv',lvrejectRoute);
 
 module.exports = router;

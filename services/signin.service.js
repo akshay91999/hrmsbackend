@@ -6,6 +6,9 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../keys')
 const Job = require('../model/job.model')
+const Depart=require('../model/department.model')
+const Design=require('../model/designation.model')
+const Login = require('../model/loginstatus.model')
 
 var sign = { signin: signin }
 
@@ -23,18 +26,26 @@ async function signin(req, res) {
         return res.status(201).json({ message: "Invalid email or password" })
 
     }
-    const base = await Basic.findOne({ where: { id: savedUser.basic_id } }, { transaction: t })
-    const job = await Job.findOne({ where: { basic_id: savedUser.basic_id } }, { transaction: t })
 
+    const base = await Basic.findOne({ where: { id: savedUser.basic_id } }, { transaction: t })
+   
     t.commit();
     bcrypt.compare(password, base.password)
-        .then(doMatch => {
+        .then(async doMatch => {
             if (doMatch) {
                 // res.json({message:"successfully signed in"})
                 const token = jwt.sign({ id: base.id }, JWT_SECRET)
-                const { id, firstname } = base
+                const job = await Job.findOne({ where: { basic_id: savedUser.basic_id } }, { transaction: t })
+                const Log = await Login.findOne({ where: { basic_id: savedUser.basic_id } }, { transaction: t })
+                const Dep=await Depart.findOne({where:{dp_id:job.dp_id}}, { transaction: t })
+                const Des=await Design.findOne({where:{ds_id:job.ds_id}}, { transaction: t })
+                const { id, firstname ,lastname} = base
+                let name=firstname+" "+lastname
                 const { user_type } = job
-                return res.json({ token, user: { id, firstname, email, user_type } })
+                const { p_change } = Log
+                const {departmentname}=Dep
+                const{designation}=Des
+                return res.json({ token, user: { id, p_change, user_type, name, email, departmentname,designation } })
             }
             else {
                 return res.status(202).json({ message: "invalid password" })

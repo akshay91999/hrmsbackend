@@ -6,7 +6,8 @@ var requestController = {
     findRequestById: findRequestById,
     updateRequest: updateRequest,
     reject: reject,
-    viewreject:viewreject
+    viewreject:viewreject,
+    approvedLv:approvedLv
 
 }
 function addRequest(req, res) {
@@ -61,6 +62,15 @@ function reject(req, res) {
                 message: "success",
                 request: data
             })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+function approvedLv(req, res) {
+       requestService.findAllapprovedlv(req, res).
+        then((data) => {
+            res.send(data);
         })
         .catch((error) => {
             console.log(error);

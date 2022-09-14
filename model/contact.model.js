@@ -12,11 +12,11 @@ const Contact = db.define('contact', {
         allowNull: false     
     },
     contactnumber: {
-        type: Sequelize.STRING,
+        type: Sequelize.DOUBLE,
         allowNull: false,
         },
     altcontactnumber: {
-        type: Sequelize.STRING,
+        type: Sequelize.DOUBLE,
         allowNull: true,
      },
     email: {
