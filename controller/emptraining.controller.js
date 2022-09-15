@@ -93,7 +93,7 @@ function deleteById(req, res) {
 async function updateEmpTrn(req, res) {
     let up = req.body
     let id = req.params.id
-    const trn = await Basic.findOne({ where: {firstName:up.firstName}})
+    const trn = await Basic.findOne({ where: {firstname:up.firstname}})
     const trn1 = await Training.findOne({ where: {training_name:up.training_name}})
     const emp = await EmpTrn.findOne({ where:{dp_id:id}})
     empTrainingService.update(up, id,trn,trn1, res).

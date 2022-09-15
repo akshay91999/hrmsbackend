@@ -22,8 +22,14 @@ const travelRoutes=require('./travel.route')
 const signinService=require('../services/signin.service')
 const GrievanceRoute=require('./grievance.route.js')
 const resetRoute=require('./resetpasswd.route')
-const lvrejectRoute=require('./lvReject.route')
+const viewRoutes = require('./trainingview.route')
+const shiftRoutes=require('./shift.route')
+const overtimeRoutes = require('./overtime.route')
+const attendanceRoutes = require('./attendance.route')
+const myattendanceRoutes = require('./myattendance.route')
+const showleaveRoute=require('./leaveShow.route')
 const tripapprRoute=require('./travel.appr.route')
+
 
 
 
@@ -50,7 +56,13 @@ router.use('/travel',travelRoutes)
 router.use('/grievance',GrievanceRoute)
 router.use('/signin',router.post('/', signinService.signin));
 router.use('/resetpassword',resetRoute);
-router.use('/rejectlv',lvrejectRoute);
+router.use('/viewtraining',viewRoutes)
+router.use('/shift',shiftRoutes)
+router.use('/overtime',overtimeRoutes)
+router.use('/attendance',attendanceRoutes)
+router.use('/myattendance',myattendanceRoutes)
+router.use('/showleave',showleaveRoute);
 router.use('/approvedtrip',tripapprRoute);
+
 
 module.exports = router;

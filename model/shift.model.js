@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Attendance = db.define('attendance', {
+const Shift = db.define('shift', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -16,24 +16,17 @@ const Attendance = db.define('attendance', {
     date:{
         type: Sequelize.DATEONLY
     },
-    checkin:{
-        type: Sequelize.INTEGER
-    },
-    checkout:{
-        type: Sequelize.INTEGER
-    },
-    status:{
-        type: Sequelize.STRING,
-        defaultValue:"ontime"
-    },
     shift:{
-        type:Sequelize.STRING,
-        
+        type: Sequelize.STRING
+    },
+    employeename:{
+        type:Sequelize.STRING
     }
+
 },
 {
     alter:true
 }
 );
 
-module.exports = Attendance;
+module.exports = Shift;

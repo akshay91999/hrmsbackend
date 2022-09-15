@@ -45,9 +45,10 @@ async function findById(tn, res) {
         let pkid = tn;
         //const tn = await Training.findByPk(pkid , { transaction: t })
        
-        const tn2 = await EmpTraining.findAll({where: {dp_id:pkid}},{transaction:t}) 
+        const tn2 = await EmpTraining.findAll({where: {dp_id:pkid}},{transaction:t})
+        const [emp, metadata] = await db.query("SELECT r.*,b.firstname FROM public.emptrainings AS r ,public.basics as b WHERE b.id=r.basic_id AND b.id=b.id ", { transaction: t })
         t.commit();
-        return res.status(200).json({tn2})
+        return res.status(200).json({emp})
     }
     catch (error) {
         console.log(error);
@@ -77,9 +78,10 @@ async function find(tn,dpt, res) {
         let pp=tn
         //const tn = await Training.findByPk(pkid , { transaction: t })
         const dept = await Dept.findOne({where:{dp_id:dpt.dp_id}})
-        const tn2 = await EmpTraining.findAll({where: {dp_id:dept.dp_id,training_name:pp.training_name}},{transaction:t}) 
+        const tn2 = await EmpTraining.findAll({where: {dp_id:dept.dp_id,training_name:pp.training_name}},{transaction:t})
+         
         t.commit();
-        return res.status(200).json({tn2})
+        return res.status(200).json({tn2,emp})
     }
     catch (error) {
         console.log(error);
