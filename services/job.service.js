@@ -15,7 +15,7 @@ async function add(jobdata,res,pid) {
        
         const jobs = await Job.create({...jobdata,basic_id:pid},{transaction:t});   
         t.commit();
-        return res.status(200).json({jobs})
+        return res.status(200).json({ message: "success",jobs})
     }
     
         catch(error) {
