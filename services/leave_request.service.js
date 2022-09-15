@@ -9,11 +9,12 @@ const moment = require('moment')
 var requestService = {
     add: add,
     findAll: findAll,//all pending
-    findById: findById,//accepted and rejected leaves of purticular employee 
+    findById: findById,//accepted leaves of purticular employee 
     rejectleave: rejectleave,//add reject
     updateRequest: updateRequest,//update leave
     findAllapprovedlv: findAllapprovedlv,// APPROVED LEAVES FOR HR
-    viewrejectlv: viewrejectlv//view rejected lv for HR
+    viewrejectlv: viewrejectlv,//view rejected lv for HR
+    viewappliedlv:viewappliedlv//view applied lv for employee
 }
 //request for leave
 async function add(rData, pid, res) {
@@ -21,7 +22,7 @@ async function add(rData, pid, res) {
     try {
 
         let pp = rData;
-        let no_days = moment(rData.leave_to, "YYYY/MM/DD").diff(moment(rData.leave_from, "YYYY/MM/DD"), 'days')
+        let no_days = moment(rData.leave_to, "YYYY/MM/DD").diff(moment(rData.leave_from, "YYYY/MM/DD"), 'days')+1
         console.log(no_days)
         const addleave = await Request.create({ ...pp, basic_id: pid, no_days: no_days }, { transaction: t });
         t.commit();
@@ -49,9 +50,7 @@ async function findAll(req, res) {
 //employee leave details
 async function findById(id, res) {
     try {
-        const today=new Date()
-        const momentdate= moment().format("YYYY-MM-DD");                                
-        console.log("date ",today,"moment_date  :",momentdate)
+        const today= moment().format("YYYY-MM-DD");                                
 
         const t = await db.transaction();
         const currentyear = new Date().getFullYear() + "-01" + "-01"
@@ -60,7 +59,7 @@ async function findById(id, res) {
         const usedUnpaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: currentyear }, leave_type: "unpaid", status: "accept" } }, { transaction: t });
         const balancePaid = Lv.total_paid - usedPaid
         const balanceUnpaid = Lv.total_unpaid - usedUnpaid
-        const leaveData = await Request.findAll({ where: { basic_id: id, "leave_from": { [Op.gt]: currentyear }, deletedat: null } }, { transaction: t });
+        const leaveData = await Request.findAll({ where: { basic_id: id, "leave_from": { [Op.gt]: currentyear },"leave_from": { [Op.lt]: today }, deletedat: null ,status:'accept'} }, { transaction: t });
         t.commit();
         return { balancePaid, usedPaid, balanceUnpaid, usedUnpaid, leaveData }
     }
@@ -102,6 +101,24 @@ async function viewrejectlv(req, res) {
     const t = await db.transaction();
     try {
         const [hrleaverej, metadata] = await db.query("SELECT r.leave_type,r.leave_from||'-'||r.leave_to as date,b.firstname||' '||b.lastname AS name,d.departmentname,lr.rejectreason FROM public.leav_rejects AS lr ,public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE r.id=lr.lv_id AND b.id=r.basic_id AND j.basic_id=b.id AND r.status='reject' AND d.dp_id=j.dp_id AND r.basic_id="+basic_id, { transaction: t })
+        t.commit();
+        return (hrleaverej)
+    }
+    catch (e) {
+        console.log(e);
+        t.rollback();
+        return (e)
+    }
+}
+async function viewappliedlv(req, res) {
+    let basic_id=req.body.id
+    const t = await db.transaction();
+    try {
+        const today= moment().format("YYYY-MM-DD");                                
+
+        const t = await db.transaction();
+        const currentyear = new Date().getFullYear() + "-01" + "-01"
+        const leaveData = await Request.findAll({ where: { basic_id: id, "leave_from": { [Op.gt]: currentyear },"leave_from": { [Op.gt]: today }, deletedat: null ,[Op.or]: [{ status:'accept' }, {status:'pending'}],} }, { transaction: t });
         t.commit();
         return (hrleaverej)
     }

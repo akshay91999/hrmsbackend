@@ -22,7 +22,7 @@ const travelRoutes=require('./travel.route')
 const signinService=require('../services/signin.service')
 const GrievanceRoute=require('./grievance.route.js')
 const resetRoute=require('./resetpasswd.route')
-const lvrejectRoute=require('./lvReject.route')
+const showleaveRoute=require('./leaveShow.route')
 const tripapprRoute=require('./travel.appr.route')
 
 
@@ -50,7 +50,7 @@ router.use('/travel',travelRoutes)
 router.use('/grievance',GrievanceRoute)
 router.use('/signin',router.post('/', signinService.signin));
 router.use('/resetpassword',resetRoute);
-router.use('/rejectlv',lvrejectRoute);
+router.use('/showleave',showleaveRoute);
 router.use('/approvedtrip',tripapprRoute);
 
 module.exports = router;
