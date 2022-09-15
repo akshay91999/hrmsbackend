@@ -98,7 +98,7 @@ async function viewrejectlv(req, res) {
     let basic_id=req.params.id
     const t = await db.transaction();
     try {
-        const [hrleaverej, metadata] = await db.query("SELECT r.leave_type,r.leave_from||'-'||r.leave_to as date,b.firstName||' '||b.lastName AS name,d.departmentname,lr.rejectreason FROM public.leav_rejects AS lr ,public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE r.id=lr.lv_id AND b.id=r.basic_id AND j.basic_id=b.id AND r.status='reject' AND d.dp_id=j.dp_id r.basic_id="+basic_id, { transaction: t })
+        const [hrleaverej, metadata] = await db.query("SELECT r.leave_type,r.leave_from||'-'||r.leave_to as date,b.firstname||' '||b.lastname AS name,d.departmentname,lr.rejectreason FROM public.leav_rejects AS lr ,public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE r.id=lr.lv_id AND b.id=r.basic_id AND j.basic_id=b.id AND r.status='reject' AND d.dp_id=j.dp_id AND r.basic_id="+basic_id, { transaction: t })
         t.commit();
         return (hrleaverej)
     }
