@@ -45,7 +45,7 @@ async function add(up,res,pid,doc){
         
         let pp=up
         const uploads = await Upload.update({document:doc,doc_type:pp.doc_type},{where:{ basic_id:pid }})
-        return res.status(201).json({message:"update success"})
+        return res.status(201).json({message:"success"})
     } catch (error) {
         console.log(error);
     }
