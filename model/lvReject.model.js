@@ -10,7 +10,7 @@ const Rejectedlv = db.define('leav_reject', {
     lv_id: {
         type: Sequelize.INTEGER, 
     },
-    Rejectreason: {
+    rejectreason: {
         type: Sequelize.STRING,
         allowNull: true
     }   
