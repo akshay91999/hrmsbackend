@@ -108,7 +108,7 @@ function updateEmp(req, res) {
 function findEmps(req, res) {
     basicService.findall().
         then((data) => {
-            res.send(data);
+            return res.send(data);
         })
         .catch((error) => {
             console.log(error);

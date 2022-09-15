@@ -88,11 +88,10 @@ async function updateUser(up, id, res) {
 async function findall(req, res) {
     const t = await db.transaction();
     try {
-        const base = await Basics.findAll({ attributes: { exclude: ['password'] } }, { transaction: t })
-        const [person, metadata] = await db.query("SELECT b.id,b.firstname  || ' '|| b.lastname AS name,b.gender,c.contactnumber,c.email,dp.departmentname,ds.designation, u.document FROM public.basics AS b,public.departments AS dp,public.contacts AS c,public.designations AS ds,public.uploads AS u ,public.jobs AS j WHERE b.id=c.basic_id AND u.basic_id=b.id AND j.basic_id=b.id AND j.dp_id=dp.dp_id AND j.ds_id=ds.ds_id AND u.doc_type='photo'", { transaction: t })
+        const [person, metadata] = await db.query("SELECT b.id,b.firstname  || ' '|| b.lastname AS name,b.gender,c.contactnumber,c.email,dp.departmentname,ds.designation FROM public.basics AS b,public.departments AS dp,public.contacts AS c,public.designations AS ds,public.jobs AS j WHERE b.id=c.basic_id AND j.basic_id=b.id AND j.dp_id=dp.dp_id AND j.ds_id=ds.ds_id", { transaction: t })
         t.commit();
 
-        return { message: "success", person };
+        return  person;
 
     }
     catch (error) {
