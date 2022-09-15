@@ -1,6 +1,9 @@
 const sequelize = require('sequelize')
-const db = require('../config/database')
+const db = require('../config/database');
+const Basic = require('../model/basic.model');
+const Contact = require('../model/contact.model');
 const Job = require('../model/job.model')
+const mailService=require('./mailer.services')
 var jobService = {
     add: add,
     findAll: findAll,
@@ -13,7 +16,13 @@ async function add(jobdata,res,pid) {
     const t = await db.transaction();
     try{
        
-        const jobs = await Job.create({...jobdata,basic_id:pid},{transaction:t});   
+        const jobs = await Job.create({...jobdata,basic_id:pid},{transaction:t});
+        const contact=await Contact.findOne({where:{basic_id:pid}}) 
+        const pp=await Basic.findOne({where:{id:pid}})
+        let email = contact.email;
+        let pass = pp.dob;
+        let name=pp.firstname;
+        const mailed = mailService.mailer(email, pass,name, res);//sending userid and password to employee  
         t.commit();
         return res.status(200).json({ message: "success",jobs})
     }

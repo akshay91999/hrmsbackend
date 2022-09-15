@@ -88,7 +88,7 @@ async function updateUser(up, id, res) {
 async function findall(req, res) {
     const t = await db.transaction();
     try {
-        const [person, metadata] = await db.query("SELECT b.id,b.firstname  || ' '|| b.lastname AS name,b.gender,c.contactnumber,c.email,dp.departmentname,ds.designation FROM public.basics AS b,public.departments AS dp,public.contacts AS c,public.designations AS ds,public.jobs AS j WHERE b.id=c.basic_id AND j.basic_id=b.id AND j.dp_id=dp.dp_id AND j.ds_id=ds.ds_id", { transaction: t })
+        const [person, metadata] = await db.query("SELECT b.id,b.firstname  || ' '|| b.lastname AS name,b.gender,c.contactnumber,c.email,dp.departmentname,ds.designation FROM public.basics AS b,public.departments AS dp,public.contacts AS c,public.designations AS ds,public.jobs AS j WHERE b.id=c.basic_id AND j.basic_id=b.id AND j.dp_id=dp.dp_id AND j.ds_id=ds.ds_id AND j.user_type!=1 ", { transaction: t })
         t.commit();
 
         return  person;
