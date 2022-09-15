@@ -7,7 +7,8 @@ var requestController = {
     updateRequest: updateRequest,
     reject: reject,
     viewreject:viewreject,
-    approvedLv:approvedLv
+    approvedLv:approvedLv,
+    viewapplied:viewapplied
 
 }
 function addRequest(req, res) {
@@ -32,7 +33,7 @@ function findRequest(req, res) {
         });
 }
 function findRequestById(req, res) {
-    let id = req.params.id
+    let id = req.body.id
     requestService.findById(id, res).
         then((data) => {
             res.send(data);
@@ -78,6 +79,15 @@ function approvedLv(req, res) {
 }
 function viewreject(req, res) {
        requestService.viewrejectlv(req, res).
+        then((data) => {
+            res.send(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+function viewapplied(req, res) {
+       requestService.viewappliedlv(req, res).
         then((data) => {
             res.send(data);
         })

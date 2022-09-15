@@ -14,6 +14,7 @@ var sign = { signin: signin }
 
 async function signin(req, res) {
     const t = await db.transaction();
+    
 
     const { email, password } = req.body
     if (!email || !password) {
@@ -23,13 +24,13 @@ async function signin(req, res) {
     const savedUser = await Contact.findOne({ where: { email: email } }, { transaction: t })
     if (!savedUser) {
         t.rollback();
-        return res.status(201).json({ message: "Invalid email or password" })
+        return res.status(201).json({ message: "invalid email or password" })
 
     }
 
     const base = await Basic.findOne({ where: { id: savedUser.basic_id } }, { transaction: t })
-   
     t.commit();
+    const basic_id=base.id;
     bcrypt.compare(password, base.password)
         .then(async doMatch => {
             if (doMatch) {
@@ -43,9 +44,10 @@ async function signin(req, res) {
                 let name=firstname+" "+lastname
                 const { user_type } = job
                 const { p_change } = Log
-                const {departmentname}=Dep
-                const{designation}=Des
-                return res.json({ token, user: { id, p_change, user_type, name, email, departmentname,designation } })
+                const {dp_id}=Dep
+                const{ds_id}=Des
+
+                return res.cookie('access_token',token,{httpOnly:true}).json({ token, user: { id, p_change, user_type, name, email, dp_id,ds_id } })
             }
             else {
                 return res.status(202).json({ message: "invalid password" })
