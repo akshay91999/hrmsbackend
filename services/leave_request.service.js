@@ -49,7 +49,10 @@ async function findAll(req, res) {
 //employee leave details
 async function findById(id, res) {
     try {
-        
+        const today=new Date()
+        const momentdate= moment().format("YYYY-MM-DD");                                
+        console.log("date ",today,"moment_date  :",momentdate)
+
         const t = await db.transaction();
         const currentyear = new Date().getFullYear() + "-01" + "-01"
         const Lv = await leavePackage.findOne({ attribute: ['total_paid', 'total_unpaid'] }, { where: { id: id } }, { transaction: t }) //total granted leave

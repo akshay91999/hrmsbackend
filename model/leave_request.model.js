@@ -38,7 +38,7 @@ const Request = db.define('request', {
     allowNull:false
     },   
     deletedat: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull:true
     }
 }
