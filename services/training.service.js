@@ -36,28 +36,12 @@ function findAll() {
     return Training.findAll();
 } 
 
-// async function findById(id, res) {
-//     const t = await db.transaction();
-//     try {
-//         let pkid = id;
-//         //const tn = await Training.findByPk(pkid , { transaction: t })
-//         const tn1 = await Training.findAll({where: {dp_id:pkid}},{transaction:t}) 
-//         t.commit();
-//         return res.status(200).json({tn1})
-//     }
-//     catch (error) {
-//         console.log(error);
-//         t.rollback();
-//     }
 
-// }
-async function findById(tn,dept, res) {
+async function findById(id ,res) {
     const t = await db.transaction();
     try {
-        let pkid = tn;
-        //const tn = await Training.findByPk(pkid , { transaction: t })
-        const dept1 = await Dept.findOne({where:{dp_id:dept.dp_id}},{transaction:t})
-        const tn2 = await Training.findAll({where: {dp_id:dept1.dp_id}},{transaction:t}) 
+               
+        const tn2 = await Training.findAll({where: {dp_id:id}},{transaction:t}) 
         t.commit();
         return res.status(200).json({tn2})
     }

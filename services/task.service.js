@@ -14,7 +14,7 @@ var taskService = {
     find:find,
     findAll:findAll,
     update: update,
-    complete:complete
+    
     
 }
 
@@ -39,9 +39,9 @@ async function add(task,res,job,pid) {
 async function find(req, res) {
     const t = await db.transaction();
     try {
-        const [task, metadata] = await db.query("SELECT r.*,b.firstName||' '||b.lastName as name,d.departmentname FROM public.tasks AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND d.dp_id=j.dp_id", { transaction: t })
+        const [task, metadata] = await db.query("SELECT r.*,b.firstname||' '||b.lastname as name,c.email,c.contactnumber,d.departmentname FROM public.jobs AS r ,public.basics as b,public.contacts as c,public.departments AS d WHERE b.id=r.basic_id AND c.basic_id=b.id AND d.dp_id=r.dp_id", { transaction: t })
         t.commit();
-        return (task)
+        return ({task})
     }
     catch (e) {
         console.log(e);
@@ -81,7 +81,7 @@ async function update(tk,id,res) {
         let pp = tk;
 
         
-        const tsk = await Task.update({...pp }, { where: { basic_id: id } }, { transaction: t })
+        const tsk = await Task.update({...pp,completed_date:sequelize.literal('CURRENT_TIMESTAMP'),status:"completed" }, { where: { basic_id: id } }, { transaction: t })
         
         t.commit();
         return res.status(200).json({ message: "Updated successfully", })
@@ -91,20 +91,5 @@ async function update(tk,id,res) {
         t.rollback();
     };
 }
-async function complete(id,res) {
-    const t = await db.transaction();
-    try {
-        
 
-        
-        const tsk = await Task.update({completed_date:sequelize.literal('CURRENT_TIMESTAMP'),status:"completed"}, { where: { basic_id: id } }, { transaction: t })
-        
-        t.commit();
-        return res.status(200).json({ message: "Updated successfully", })
-    }
-    catch (error) {
-        console.log(error);
-        t.rollback();
-    };
-}
 module.exports = taskService;

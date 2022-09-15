@@ -5,10 +5,10 @@ var taskController = {
     addTask: addTask,
     findTask: findTask,
     findEmp: findEmp,
-    // findExpById: findExpById,
+    
     updateTask: updateTask,
     updateStatus: updateStatus,
-    // deleteById: deleteById
+   
 }
 
 async function addTask(req, res) {
@@ -93,7 +93,7 @@ function findEmp(req, res) {
 }
 function findTask(req, res) {
     let id = req.params.id
-    taskService.findAll(id,req,res).
+    taskService.indAll(id,req,res).
         then((data) => {
             res.send(data);
         })
