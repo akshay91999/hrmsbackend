@@ -59,7 +59,7 @@ async function findById(id, res) {
         const usedUnpaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: currentyear }, leave_type: "unpaid", status: "accept" } }, { transaction: t });
         const balancePaid = Lv.total_paid - usedPaid
         const balanceUnpaid = Lv.total_unpaid - usedUnpaid
-        const leaveData = await Request.findAll({ where: { basic_id: id, "leave_from": { [Op.gt]: currentyear },"leave_from": { [Op.lt]: today }, deletedat: null ,status:'accept'} }, { transaction: t });
+        const leaveData = await Request.findAll({ where: { basic_id:id, "leave_from": { [Op.gt]: currentyear },"leave_to": { [Op.lt]: today }, deletedat: null ,status:'accept'} }, { transaction: t });
         t.commit();
         return { balancePaid, usedPaid, balanceUnpaid, usedUnpaid, leaveData }
     }
@@ -73,10 +73,8 @@ async function findById(id, res) {
 async function findAllapprovedlv(req, res) {
     const t = await db.transaction();
     try {
-
-        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstName||' '||b.lastName as name,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='accept' AND d.dp_id=j.dp_id", { transaction: t })
-
-
+        const today= moment().format("YYYY-MM-DD");                                
+        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstName||' '||b.lastName as name,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='accept' AND d.dp_id=j.dp_id AND leave_to >"+today, { transaction: t })
         t.commit();
         return (hrleave)
     }
@@ -100,7 +98,7 @@ async function viewrejectlv(req, res) {
     let basic_id=req.params.id
     const t = await db.transaction();
     try {
-        const [hrleaverej, metadata] = await db.query("SELECT r.leave_type,r.leave_from||'-'||r.leave_to as date,b.firstname||' '||b.lastname AS name,d.departmentname,lr.rejectreason FROM public.leav_rejects AS lr ,public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE r.id=lr.lv_id AND b.id=r.basic_id AND j.basic_id=b.id AND r.status='reject' AND d.dp_id=j.dp_id AND r.basic_id="+basic_id, { transaction: t })
+        const [hrleaverej, metadata] = await db.query("SELECT r.id, r.leave_type,r.leave_from||'-'||r.leave_to as date,b.firstname||' '||b.lastname AS name,d.departmentname,lr.rejectreason FROM public.leav_rejects AS lr ,public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE r.id=lr.lv_id AND b.id=r.basic_id AND j.basic_id=b.id AND r.status='reject' AND d.dp_id=j.dp_id AND r.basic_id="+basic_id, { transaction: t })
         t.commit();
         return (hrleaverej)
     }
