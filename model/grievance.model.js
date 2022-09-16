@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database.js');
 
-const Grievance = db.define('grievance', {
+const Grievance = db.define('Grievance', {
      id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -12,9 +12,12 @@ const Grievance = db.define('grievance', {
        
          
      },
-     dp_id:{
-        type:Sequelize.INTEGER
-    },
+     dp_id: {
+        type: Sequelize.INTEGER,
+       
+         
+     },
+     
     date: {
         type: Sequelize.DATEONLY,
         allowNull: false
@@ -26,13 +29,17 @@ const Grievance = db.define('grievance', {
     
     solution: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
    
    status: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull:true,
+        defaultValue:"pending"
     },
+   
+   
+ 
     
 },
 );

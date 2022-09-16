@@ -14,7 +14,8 @@ var requestService = {
     updateRequest: updateRequest,//update leave
     findAllapprovedlv: findAllapprovedlv,// APPROVED LEAVES FOR HR
     viewrejectlv: viewrejectlv,//view rejected lv for HR
-    viewappliedlv:viewappliedlv//view applied lv for employee
+    viewappliedlv:viewappliedlv,//view applied lv for employee
+    showLeavDash:showLeavDash
 }
 //request for leave
 async function add(rData, pid, res) {
@@ -55,8 +56,8 @@ async function findById(id, res) {
         const t = await db.transaction();
         const currentyear = new Date().getFullYear() + "-01" + "-01"
         const Lv = await leavePackage.findOne({ attribute: ['total_paid', 'total_unpaid'] }, { where: { id: id } }, { transaction: t }) //total granted leave
-        const usedPaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: currentyear }, leave_type: "paid", status: "accept" } }, { transaction: t });
-        const usedUnpaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: currentyear }, leave_type: "unpaid", status: "accept" } }, { transaction: t });
+        const usedPaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: currentyear }, leave_type: "paid", status: "accept",basic_id:id } }, { transaction: t });
+        const usedUnpaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: currentyear }, leave_type: "unpaid", status: "accept" ,basic_id:id} }, { transaction: t });
         const balancePaid = Lv.total_paid - usedPaid
         const balanceUnpaid = Lv.total_unpaid - usedUnpaid
         const leaveData = await Request.findAll({ where: { basic_id:id, "leave_from": { [Op.gt]: currentyear },"leave_to": { [Op.lt]: today }, deletedat: null ,status:'accept'} }, { transaction: t });
@@ -73,8 +74,8 @@ async function findById(id, res) {
 async function findAllapprovedlv(req, res) {
     const t = await db.transaction();
     try {
-        const today= moment().format("YYYY-MM-DD");                                
-        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstName||' '||b.lastName as name,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='accept' AND d.dp_id=j.dp_id AND leave_to >"+today, { transaction: t })
+        //  today=  moment().format("YYYY-MM-DD");                         
+        const [hrleave, metadata] = await db.query("SELECT r.*,b.firstName||' '||b.lastName as name,d.departmentname FROM public.requests AS r ,public.basics as b,public.jobs as j,public.departments AS d WHERE b.id=r.basic_id AND j.basic_id=b.id AND status='accept' AND d.dp_id=j.dp_id", { transaction: t })
         t.commit();
         return (hrleave)
     }
@@ -130,6 +131,26 @@ async function updateRequest(request, id) {
     var updateRequest = await Request.update({ ...request }, { where: { id: id } });
     return { message: "updated" };
 }
+//leave data of employeee to show on dashboard
+async function showLeavDash(req,res){
+    const id =req.params.id
+    try{
+    const t = await db.transaction();
+    const currentyear = new Date().getFullYear() + "-01" + "-01"
+    const Lv = await leavePackage.findOne({ attribute: ['total_paid', 'total_unpaid'] }, { where: { id: id } }, { transaction: t }) //total granted leave
+    const usedPaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: currentyear }, leave_type: "paid", status: "accept" ,basic_id:id} }, { transaction: t });
+    const usedUnpaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: currentyear }, leave_type: "unpaid", status: "accept" ,basic_id:id} }, { transaction: t });
+    const total= Lv.total_paid - Lv.total_unpaid;
+    const used=usedPaid + usedUnpaid
+    t.commit();
+    return (total,used);
+    }
+    catch (e) {
+        console.log(e);
+        t.rollback();
+        return (e)
+    }
 
+}
 
 module.exports = requestService;

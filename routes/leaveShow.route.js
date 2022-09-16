@@ -8,6 +8,7 @@ router.put('/:id',requestController.reject)
 router.get('/leavApplied/:id',requestController.viewapplied)
 router.get('/reject/:id',requestController.viewreject)
 router.get('/approved',requestController.approvedLv)
+router.get('/dashboard/:id',requestController.showLvtakenByid)
 
 
 module.exports = router;

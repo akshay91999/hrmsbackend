@@ -8,7 +8,8 @@ var requestController = {
     reject: reject,
     viewreject:viewreject,
     approvedLv:approvedLv,
-    viewapplied:viewapplied
+    viewapplied:viewapplied,
+    showLvtakenByid:showLvtakenByid
 
 }
 function addRequest(req, res) {
@@ -95,4 +96,14 @@ function viewapplied(req, res) {
             console.log(error);
         });
 }
+function showLvtakenByid(req, res) {
+       requestService.showLeavDash(req, res).
+        then((data) => {
+            res.send(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
 module.exports = requestController;
