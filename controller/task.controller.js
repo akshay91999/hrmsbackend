@@ -93,7 +93,7 @@ function findEmp(req, res) {
 }
 function findTask(req, res) {
     let id = req.params.id
-    taskService.indAll(id,req,res).
+    taskService.findAll(id,req,res).
         then((data) => {
             res.send(data);
         })
