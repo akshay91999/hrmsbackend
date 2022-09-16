@@ -111,7 +111,7 @@ async function viewrejectlv(req, res) {
     }
 }
 async function viewappliedlv(req, res) {
-    let basic_id=req.body.id
+    let basic_id=req.params.id
     const t = await db.transaction();
     try {
         const today= moment().format("YYYY-MM-DD");                                
@@ -120,7 +120,7 @@ async function viewappliedlv(req, res) {
         const currentyear = new Date().getFullYear() + "-01" + "-01"
         const leaveData = await Request.findAll({ where: { basic_id: basic_id, "leave_from": { [Op.gt]: currentyear },"leave_from": { [Op.gt]: today }, deletedat: null ,[Op.or]: [{ status:'accept' }, {status:'pending'}],} }, { transaction: t });
         t.commit();
-        return (hrleaverej)
+        return (leaveData)
     }
     catch (e) {
         console.log(e);
