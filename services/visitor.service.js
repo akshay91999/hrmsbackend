@@ -8,30 +8,26 @@ var visitorService = {
     deleteById: deleteById,
     updateVisitor: updateVisitor
 }
-async function add(Adata,pid,res,doc) {
-
+async function add(Adata,doc,res) {
     const t =  await db.transaction();
     try {
         let pp = Adata;
-        const visitors = await Visitor.create({...pp,user_id:pid,photo:doc}, { transaction: t });
+        const visitors = await Visitor.create({...pp,photo:doc}, { transaction: t });
         t.commit();
-        return res.status(200).json({visitors})
+        return res.status(200).json({message:"success"})
     }
     catch (e) {
         console.log(e);
         t.rollback();
         return(e);
     }
-
 }
 async function findAll(req, res) {
     const t = await db.transaction();
     try{
     
-    const visitor =await Visitor.findAll({attributes:["name","address","idproof_no","time_in","time_out","contact_person","departmentname"]},{transaction: t });
-    const visitorlist =await Visitor.findAll({attributes:["name","reason","contact_person","date","status"]},{transaction: t });
     t.commit();
-    return {visitor,visitorlist}
+    return {}
     }
     catch (error) {
         console.log(error);

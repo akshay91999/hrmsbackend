@@ -2,56 +2,52 @@ const Sequelize = require('sequelize');
 const db = require('../config/database.js');
 
 const Visitor = db.define('visitor', {
-    id: {
+     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
-    },
+         autoIncrement: true
+     },
+    
     photo: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
     },
     name: {
         type: Sequelize.STRING,
         allowNull: false
     },
-
+    
     address: {
         type: Sequelize.STRING,
         allowNull: false
     },
-
-    phoneno: {
+   
+   phoneno: {
         type: Sequelize.DOUBLE,
         allowNull: false
     },
-
+   
     time_in: {
         type: Sequelize.TIME,
-        allowNull: false
+        allowNull:false
     },
     time_out: {
         type: Sequelize.TIME,
-        allowNull: false
+        allowNull:false
     },
-    id: {
-        type: Sequelize.STRING,
-        allowNull: false
+    basic_id: {
+        type: Sequelize.INTEGER,
+        allowNull:false
     },
-
     status: {
         type: Sequelize.STRING,
-        allowNull: true,
-        defaultValue: "checkin"
-    },
-    reason: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
-    date: {
+        allowNull:false,
+        defaultValue:'checkin'
+    }, 
+    date:{
         type: Sequelize.DATEONLY,
-        allowNull: false,
-    },
+        allowNull:false
+    } 
 }
 );
 

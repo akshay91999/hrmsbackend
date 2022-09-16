@@ -13,6 +13,7 @@ var EmpTrnService = {
     findId:findId,
     find:find,
     update: update,
+    updateatt:updateatt,
     updateHR:updateHR,
     
     
@@ -56,13 +57,13 @@ async function findById(tn, res) {
     }
 
 }
-async function findId(id,tn, res) {
+async function findId(id, res) {
     const t = await db.transaction();
     try {
         let pkid = id;
         //const tn = await Training.findByPk(pkid , { transaction: t })
-       
-        const tn2 = await EmpTraining.findAll({where: {basic_id:pkid,training_date:tn.training_date,time_schedule:tn.time_schedule,status:"allowed"}},{transaction:t}) 
+       let today = new Date()
+        const tn2 = await EmpTraining.findAll({where: {basic_id:pkid,training_date:today,status:"allowed"}},{transaction:t}) 
         t.commit();
         return res.status(200).json({tn2})
     }
@@ -95,7 +96,21 @@ async function update(up, id,trn,trn1,res) {
         let pp = up;
 
         const basic = await Basic.findOne({where:{id:trn.id}})
-        const emptrng = await EmpTraining.update({...pp,basic_id:basic.id,checkin:sequelize.literal('CURRENT_TIMESTAMP'),checkout:sequelize.literal('CURRENT_TIMESTAMP')} ,{ where: { dp_id: id,training_name:trn1.training_name } }, { transaction: t })
+        const emptrng = await EmpTraining.update({...pp,basic_id:basic.id,} ,{ where: { dp_id: id,training_name:trn1.training_name } }, { transaction: t })
+        
+        t.commit();
+        return res.status(200).json({ message: "Updated successfully", emptrng})
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
+    };
+}
+async function updateatt(id,res){
+    const t = await db.transaction();
+    try {
+        let today = new Date()
+        const emptrng = await EmpTraining.update({checkin:sequelize.literal('CURRENT_TIMESTAMP'),checkout:sequelize.literal('CURRENT_TIMESTAMP')} ,{ where: { basic_id:id,training_date:today,status:"allowed" } }, { transaction: t })
         
         t.commit();
         return res.status(200).json({ message: "Updated successfully", emptrng})
