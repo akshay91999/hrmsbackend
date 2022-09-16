@@ -14,6 +14,7 @@ var empTrainingController = {
     findEmp: findEmp,
     updateEmpTrn: updateEmpTrn,
     updateEmpTrns: updateEmpTrns,
+    updateAtt:updateAtt,
         deleteById: deleteById
 }
 
@@ -52,10 +53,9 @@ function findEmpTrnById(req, res) {
         });
 }
 async function findEmpTrnId(req, res) {
-    let tn = req.body
+    
     let id = req.params.id
-    const trn = await EmpTrn.findOne({where: {training_date:tn.training_date,time_schedule:tn.time_schedule,status:"allowed"}})
-    empTrainingService.findId(id,tn, res).
+    empTrainingService.findId(id, res).
         then((data) => {
             res.send(data);
         })
@@ -123,7 +123,21 @@ async function updateEmpTrns(req, res) {
             console.log(error);
         });
 }
-
+async function updateAtt(req, res) {
+    
+    let id = req.params.id
+    
+    empTrainingService.updateatt(id,res).
+        then((data) => {
+            res.status(200).json({
+                message: "Updated successfully",
+                up: data
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
 function findEmpTrns(req, res) {
  
     empTrainingService.findAll().
