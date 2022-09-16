@@ -12,6 +12,25 @@ var academicService = {
     deleteById: deleteById,
     updateAcademic: updateAcademic
 }
+async function add(csData,pid,res) {
+   
+    const t =  await db.transaction();
+    try {
+
+        let pp = csData;
+      
+          const academic = await Academic.create({...pp,basic_id:pid}, { transaction: t });
+        
+        t.commit();
+        return res.status(200).json({message: "success"})
+    }
+    catch (e) {
+        console.log(e);
+        t.rollback();
+    }
+
+}
+
 
 function findAll() {
     return Academic.findAll();
@@ -40,31 +59,9 @@ async function findById(id, res) {
     }
     
 
-
 function deleteById(id) {
     return Academic.destroy({ where: { id: id } });
 }
-
-async function add(csData,pid,res) {
-
-   
-    const t =  await db.transaction();
-    try {
-
-        let pp = csData;
-      
-          const academic = await Academic.create({...pp,basic_id:pid}, { transaction: t });
-        
-        t.commit();
-        return res.status(200).json({academic})
-    }
-    catch (e) {
-        console.log(e);
-        t.rollback();
-    }
-
-}
-
 
 function updateAcademic(academic, id) {
     var updateAcademic = {

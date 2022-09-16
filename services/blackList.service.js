@@ -33,7 +33,7 @@ async function findById(rej_id, res) {
         const [viewCandidates,metadata] = await db.query("SELECT c.*,b.*,dp.departmentname,ds.designation FROM public.can_blacklists AS b,public.candidates AS c ,public.departments AS dp,public.designations AS ds WHERE b.id="+rej_id+" AND b.c_id=c.id AND c.ds_id=ds.ds_id AND c.dp_id=dp.dp_id", { transaction: t })
         t.commit();
         
-            return ({message:"success"},viewCandidates);
+            return (viewCandidates.reduce((obj, item) => ({ ...obj, [item[1]]: item })));
         }
         
     catch (error) {

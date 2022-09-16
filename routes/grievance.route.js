@@ -9,6 +9,6 @@ router.post('/:id', grievanceController.addGrievance);
 router.get('/:id', grievanceController.findGrievanceById);
 router.get('/', grievanceController.findGrievance);
 router.put('/:id', grievanceController.updateGrievance);
-
+router.put('/status/:id', grievanceController.updateStatus);
 
 module.exports = router;

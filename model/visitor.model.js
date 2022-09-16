@@ -10,7 +10,7 @@ const Visitor = db.define('visitor', {
     
     photo: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
     },
     name: {
         type: Sequelize.STRING,
@@ -22,45 +22,32 @@ const Visitor = db.define('visitor', {
         allowNull: false
     },
    
-   idproof_no: {
-        type: Sequelize.INTEGER,
+   phoneno: {
+        type: Sequelize.DOUBLE,
         allowNull: false
     },
    
     time_in: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.TIME,
         allowNull:false
     },
     time_out: {
+        type: Sequelize.TIME,
+        allowNull:false
+    },
+    basic_id: {
         type: Sequelize.INTEGER,
-        allowNull:false
-    },
-    contact_person: {
-        type: Sequelize.STRING,
-        allowNull:false
-    },
-    departmentname: {
-        type: Sequelize.STRING,
         allowNull:false
     },
     status: {
         type: Sequelize.STRING,
-        allowNull:true,
-       
-        
-    },
-    reason: {
-        type: Sequelize.STRING,
         allowNull:false,
-       
-        
-    },
-    date: {
+        defaultValue:'checkin'
+    }, 
+    date:{
         type: Sequelize.DATEONLY,
-        allowNull:false,
-       
-    
-},
+        allowNull:false
+    } 
 }
 );
 

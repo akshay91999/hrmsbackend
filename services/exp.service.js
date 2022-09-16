@@ -14,7 +14,7 @@ async function add(exp,res,pid) {
         let pp = exp;
         const Expr = await Exp.create({...pp,basic_id:pid},{transaction:t});
         t.commit();
-        return res.status(200).json({Expr})
+        return res.status(200).json({ message: "success",Expr})
     }
     
         catch(error) {
