@@ -134,16 +134,17 @@ async function updateRequest(request, id) {
 //leave data of employeee to show on dashboard
 async function showLeavDash(req,res){
     const id =req.params.id
-    try{
     const t = await db.transaction();
+    try{
+   
     const currentyear = new Date().getFullYear() + "-01" + "-01"
     const Lv = await leavePackage.findOne({ attribute: ['total_paid', 'total_unpaid'] }, { where: { id: id } }, { transaction: t }) //total granted leave
     const usedPaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: currentyear }, leave_type: "paid", status: "accept" ,basic_id:id} }, { transaction: t });
     const usedUnpaid = await Request.sum('no_days', { where: { "leave_from": { [Op.gt]: currentyear }, leave_type: "unpaid", status: "accept" ,basic_id:id} }, { transaction: t });
-    const total= Lv.total_paid - Lv.total_unpaid;
+    const total= Lv.total_paid + Lv.total_unpaid;
     const used=usedPaid + usedUnpaid
     t.commit();
-    return (total,used);
+    return {total,used};
     }
     catch (e) {
         console.log(e);
