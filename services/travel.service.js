@@ -127,12 +127,10 @@ async function traveleditbyid(req, res) {
     let tv_id = req.params.id;
         const t = await db.transaction();
         try {
-            let pkid = id;
+            let tv_id = req.params.id;
             const travel = await Travel.findOne({where: { id: tv_id, deletedat: null,status:'pending'}}, { transaction: t })
             t.commit();
-    
-            return (travel.reduce((obj, item) => ({ ...obj, [item[1]]: item })) );
-    
+            return (travel );
         }
         catch (error) {
             console.log(error);
