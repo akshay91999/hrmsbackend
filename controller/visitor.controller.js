@@ -5,7 +5,7 @@ var visitorController = {
     addVisitor: addVisitor,
     findVisitor: findVisitor,
     findVisitorById: findVisitorById,
-    updateVisitor: updateVisitor,
+    checkout:checkout,
     deleteById: deleteById,
     viewEmpByDepart:viewEmpByDepart
 }
@@ -66,8 +66,9 @@ function deleteById(req, res) {
         });
 }
 
-function updateVisitor(req, res) {
-    visitorService.updatevisitor(req.body, req.params.id).
+function checkout(req, res) {
+    const id=req.params.id
+    visitorService.updatevisitor(id,res).
         then((data) => {
             res.status(200).json({
                 message: "updated successfully",

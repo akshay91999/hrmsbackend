@@ -1,6 +1,7 @@
 const Visitor = require('../model/visitor.model.js');
 const db = require("../config/database");
 const Basic = require('../model/basic.model.js');
+var moment = require('moment');
 
 
 var visitorService = {
@@ -8,14 +9,15 @@ var visitorService = {
     add: add,
     findById: findById,
     deleteById: deleteById,
-    updateVisitor: updateVisitor,
+    updatevisitor:updatevisitor,
     findByDep: findByDep
 }
 async function add(Adata, doc, res) {
     const t = await db.transaction();
     try {
         let pp = Adata;
-        const visitors = await Visitor.create({ ...pp, photo: doc }, { transaction: t });
+        var time=moment().format("hh:mm:ss")
+        const visitors = await Visitor.create({ ...pp, photo: doc ,time_in:time}, { transaction: t });
         t.commit();
         return res.status(200).json({ message: "success" })
     }
@@ -28,9 +30,9 @@ async function add(Adata, doc, res) {
 async function findAll(req, res) {
     const t = await db.transaction();
     try {
-       const [visitors,metadata]=await db.query("SELECT * FROM public.visitors AS v,public.basics AS b,public.departments AS dp")
+       const [visitors,metadata]=await db.query("SELECT v.*,b.firstname||' '||b.lastname AS e_name,b.id AS e_id,dp.departmentname FROM public.visitors AS v,public.basics AS b,public.departments AS dp WHERE v.basic_id=b.id AND b.id=j.basic_id AND j.dp_id=dp.dp_id")
         t.commit();
-        return {}
+        return (visitors)
     }
     catch (error) {
         console.log(error);
@@ -42,10 +44,10 @@ async function findAll(req, res) {
 async function findById(pid, res) {
     const t = await db.transaction();
     try {
+        const [visitor,metadata]=await db.query("SELECT v.*,b.firstname||' '||b.lastname AS e_name,b.id AS e_id,dp.departmentname FROM public.visitors AS v,public.basics AS b,public.departments AS dp WHERE v.basic_id=b.id AND b.id=j.basic_id AND j.dp_id=dp.dp_id AND v.id="+passid)
 
-        const visitor = await Visitor.findOne({ where: { id: pid } }, { transaction: t })
         t.commit();
-        return res.status(200).json({ visitor })
+        return ( visitor.reduce((obj, item) => ({ ...obj, [item[1]]: item })) );
 
     }
     catch (error) {
@@ -57,10 +59,12 @@ function deleteById(id) {
     return Visitor.destroy({ where: { id: id } });
 }
 
-async function updateVisitor(visitor, id) {
+async function updatevisitor(id,res) {
     const t = await db.transaction();
     try {
-        const upvacancy = await Visitor.update({ ...visitor }, { where: { id: id } });
+        var time=moment().format("hh:mm:ss")
+
+        const upvacancy = await Visitor.update({ time_out:time }, { where: { id: id } });
         t.commit();
         return res.status(200).json({ message: "Updated successfully" })
     }
@@ -73,8 +77,9 @@ async function updateVisitor(visitor, id) {
 
 async function findByDep(dp_id, res) {
     const t = await db.transaction();
-    try {
-        const [employee ,metadata] = await db.query("SELECT b.id, b.fistname||' '||b.lastname FROM public.basics AS b,public.jobs AS j WHERE j.dp_id=" + dp_id + "AND j.basic_id=b.id")
+    try { 
+
+        const [employee ,metadata] = await db.query("SELECT b.id, b.firstname||' '||b.lastname as name FROM public.basics AS b,public.jobs AS j WHERE j.dp_id=" + dp_id + "AND j.basic_id=b.id")
         t.commit();
         return employee;
     }

@@ -7,11 +7,6 @@ const Visitor = db.define('visitor', {
         primaryKey: true,
          autoIncrement: true
      },
-    
-    photo: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
     name: {
         type: Sequelize.STRING,
         allowNull: false
@@ -21,28 +16,27 @@ const Visitor = db.define('visitor', {
         type: Sequelize.STRING,
         allowNull: false
     },
-   
+    
+    photo: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
    phoneno: {
         type: Sequelize.DOUBLE,
         allowNull: false
     },
    
     time_in: {
-        type: Sequelize.TIME,
+        type: Sequelize.STRING,
         allowNull:false
     },
     time_out: {
-        type: Sequelize.TIME,
-        allowNull:false
+        type: Sequelize.STRING,
+        allowNull:true
     },
     basic_id: {
         type: Sequelize.INTEGER,
         allowNull:false
-    },
-    status: {
-        type: Sequelize.STRING,
-        allowNull:false,
-        defaultValue:'checkin'
     }, 
     date:{
         type: Sequelize.DATEONLY,
