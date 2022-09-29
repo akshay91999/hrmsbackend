@@ -42,10 +42,7 @@ async function findById(id, res) {
         let pkid = id;
         const travel = await Travel.findAll({
             where: {
-                [Op.or]: [
-                    { status: "pending" },
-                    { status: "accept" }
-                ], basic_id: pkid, deletedat: null
+                status: "pending", basic_id: pkid, deletedat: null
             }
         }, { transaction: t })
         t.commit();
