@@ -19,7 +19,8 @@ async function add(Adata, doc, res) {
         var time=moment().format("hh:mm:ss")
         const visitors = await Visitor.create({ ...pp, photo: doc ,time_in:time}, { transaction: t });
         t.commit();
-        return res.status(200).json({ message: "success" })
+        const id =visitors.id
+        return res.status(200).json({ message: "success",visitor_id:id })
     }
     catch (e) {
         console.log(e);
