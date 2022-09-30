@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
   })  
 router.post('/', upload.single('photo'),visitorController.addVisitor);
 router.get('/', visitorController.findVisitor);
-router.get('/visitor/:id', visitorController.findVisitorById);
+router.get('/card/:id', visitorController.findVisitorById);
 router.get('/viewEmp/:id', visitorController.viewEmpByDepart);
 router.put('/:id', visitorController.checkout);
 router.delete('/:id', visitorController.deleteById);

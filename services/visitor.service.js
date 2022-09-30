@@ -45,7 +45,7 @@ async function findAll(req, res) {
 async function findById(pid, res) {
     const t = await db.transaction();
     try {
-        const [visitor,metadata]=await db.query("SELECT v.*,b.firstname||' '||b.lastname AS e_name,b.id AS e_id,dp.departmentname FROM public.visitors AS v,public.basics AS b,public.departments AS dp WHERE v.basic_id=b.id AND b.id=j.basic_id AND j.dp_id=dp.dp_id AND v.id="+passid)
+        const [visitor,metadata]=await db.query("SELECT v.*,b.firstname||' '||b.lastname AS e_name,b.id AS e_id,dp.departmentname FROM public.visitors AS v,public.basics AS b,public.departments AS dp,public.jobs AS j WHERE v.basic_id=b.id AND b.id=j.basic_id AND j.dp_id=dp.dp_id AND v.id="+pid)
 
         t.commit();
         return ( visitor.reduce((obj, item) => ({ ...obj, [item[1]]: item })) );
