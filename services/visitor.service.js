@@ -31,14 +31,14 @@ async function add(Adata, doc, res) {
 async function findAll(req, res) {
     const t = await db.transaction();
     try {
-       const [visitors,metadata]=await db.query("SELECT v.*,b.firstname||' '||b.lastname AS e_name,b.id AS e_id,dp.departmentname FROM public.visitors AS v,public.basics AS b,public.departments AS dp WHERE v.basic_id=b.id AND b.id=j.basic_id AND j.dp_id=dp.dp_id")
+       const [visitors,metadata]=await db.query("SELECT v.*,b.firstname||' '||b.lastname AS e_name,b.id AS e_id,dp.departmentname FROM public.visitors AS v,public.basics AS b,public.departments AS dp , public.jobs AS j WHERE v.basic_id=b.id AND b.id=j.basic_id AND j.dp_id=dp.dp_id")
         t.commit();
         return (visitors)
     }
     catch (error) {
         console.log(error);
         t.rollback();
-        return res.status(202).json({ messege: error.path })
+        return res.status(202).json({ errors:error})
     }
 }
 
