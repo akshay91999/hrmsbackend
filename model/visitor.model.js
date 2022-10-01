@@ -16,6 +16,10 @@ const Visitor = db.define('visitor', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    reason: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     
     photo: {
         type: Sequelize.STRING,

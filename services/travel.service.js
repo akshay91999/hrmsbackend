@@ -4,6 +4,8 @@ const Travel = require('../model/travel.model')
 const Basics = require('../model/basic.model');
 const Job = require('../model/job.model')
 const { Op } = require("sequelize");
+const Contact = require('../model/contact.model');
+const nodemailer = require("nodemailer");
 
 
 var travelService = {
@@ -13,7 +15,9 @@ var travelService = {
     updatedata: updatedata,
     findallApproved, findallApproved,
     findApproved, findApproved,
-    traveleditbyid: traveleditbyid
+    traveleditbyid: traveleditbyid,
+    mailer: mailer
+
 }
 //adding travel request
 async function add(TData, id, res) {
@@ -21,12 +25,7 @@ async function add(TData, id, res) {
     const t = await db.transaction();
     try {
         const createTravel = await Travel.create({ ...TData, basic_id: id }, { transaction: t });
-        // const name= await Basics.findOne({attributes:['firstName','lastName']}, {where:{id:basic_id}},{ transaction: t });
-        // const dp_id= await Job.findOne({attributes:['departmentname']},{where:{basic_id:basic_id}},{ transaction: t });
-        //  const hrdata={createTravel,name,dp_id}
-        // // const hrData= await HrTravel.create({...hrdata},{ transaction: t });
         t.commit();
-        //  console.log(hrdata)
         return res.status(200).json({ message: "success", createTravel })
     }
     catch (error) {
@@ -65,7 +64,18 @@ async function updatedata(up, T_id, res) {
     try {
         const updated = await Travel.update({ ...up }, { where: { id: T_id } }, { transaction: t })
         t.commit();
+        const trip = await Travel.findOne({ where: { id: T_id } })
+        if (trip.status=='reject'){
+            const contact=await Contact.findOne({where:{basic_id:trip.basic_id}})
+            const email=contact.email;
+           const mailed= await mailer(email);
+           return res.status(200).json({ message: "Updated successfully", mailed })
+
+
+        }
+        else{
         return res.status(200).json({ message: "Updated successfully", updated })
+        }
     }
     catch (error) {
         console.log(error);
@@ -138,5 +148,38 @@ async function traveleditbyid(req, res) {
             return res.status(202).json({ messege: error.path })
         }
 }
+//sending rejected email
 
+async function mailer(email) {
+
+    let emailid = email
+  
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'hrmsbackend2022@gmail.com',
+        pass: 'dufwsicimpfmeuch'
+      }
+    });
+  
+    var mailOptions = {
+      from: 'hrmsbackend2022@gmail.com',
+      to: emailid,
+      subject: 'Travel updates ',
+      text:'your trip has been rejected'
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        return ({ error })
+  
+      } else {
+        console.log('Email sent: ' + info.response);
+        return ({msg:"email send successfully",info})
+  
+      }
+    });
+  
+  
+  }
 module.exports = travelService;

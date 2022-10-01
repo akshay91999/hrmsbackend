@@ -29,7 +29,7 @@ const attendanceRoutes = require('./attendance.route')
 const myattendanceRoutes = require('./myattendance.route')
 const showleaveRoute=require('./leaveShow.route')
 const tripapprRoute=require('./travel.appr.route')
-
+const analytics=require('../services/hranalytics.service')
 
 
 
@@ -63,6 +63,6 @@ router.use('/attendance',attendanceRoutes)
 router.use('/myattendance',myattendanceRoutes)
 router.use('/showleave',showleaveRoute);
 router.use('/approvedtrip',tripapprRoute);
-
+router.use('/hranalytics/gender',router.get('/', analytics.gender));
 
 module.exports = router;

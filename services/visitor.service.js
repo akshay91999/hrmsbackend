@@ -19,7 +19,8 @@ async function add(Adata, doc, res) {
         var time=moment().format("hh:mm:ss")
         const visitors = await Visitor.create({ ...pp, photo: doc ,time_in:time}, { transaction: t });
         t.commit();
-        return res.status(200).json({ message: "success" })
+        const id =visitors.id
+        return res.status(200).json({ message: "success",visitor_id:id })
     }
     catch (e) {
         console.log(e);
@@ -30,21 +31,21 @@ async function add(Adata, doc, res) {
 async function findAll(req, res) {
     const t = await db.transaction();
     try {
-       const [visitors,metadata]=await db.query("SELECT v.*,b.firstname||' '||b.lastname AS e_name,b.id AS e_id,dp.departmentname FROM public.visitors AS v,public.basics AS b,public.departments AS dp WHERE v.basic_id=b.id AND b.id=j.basic_id AND j.dp_id=dp.dp_id")
+       const [visitors,metadata]=await db.query("SELECT v.*,b.firstname||' '||b.lastname AS e_name,b.id AS e_id,dp.departmentname FROM public.visitors AS v,public.basics AS b,public.departments AS dp , public.jobs AS j WHERE v.basic_id=b.id AND b.id=j.basic_id AND j.dp_id=dp.dp_id")
         t.commit();
         return (visitors)
     }
     catch (error) {
         console.log(error);
         t.rollback();
-        return res.status(202).json({ messege: error.path })
+        return res.status(202).json({ errors:error})
     }
 }
 
 async function findById(pid, res) {
     const t = await db.transaction();
     try {
-        const [visitor,metadata]=await db.query("SELECT v.*,b.firstname||' '||b.lastname AS e_name,b.id AS e_id,dp.departmentname FROM public.visitors AS v,public.basics AS b,public.departments AS dp WHERE v.basic_id=b.id AND b.id=j.basic_id AND j.dp_id=dp.dp_id AND v.id="+passid)
+        const [visitor,metadata]=await db.query("SELECT v.*,b.firstname||' '||b.lastname AS e_name,b.id AS e_id,dp.departmentname FROM public.visitors AS v,public.basics AS b,public.departments AS dp,public.jobs AS j WHERE v.basic_id=b.id AND b.id=j.basic_id AND j.dp_id=dp.dp_id AND v.id="+pid)
 
         t.commit();
         return ( visitor.reduce((obj, item) => ({ ...obj, [item[1]]: item })) );
