@@ -23,6 +23,7 @@ app.use(cors("*"));
 app.use('/', require('./routes/add.routing'));
 app.use('/upload', express.static('upload'),require('./routes/upload.route'))
 app.use('/visitor', express.static('visitor'),require('./routes/visitor.route'))
+app.use('/cv', express.static('cv'),require('./routes/candidate.route'))
 
 
 const PORT = process.env.PORT || 5000;

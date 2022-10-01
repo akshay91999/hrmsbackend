@@ -10,8 +10,9 @@ async function gender(req,res){
         const t = await db.transaction();
         const male=await Basic.count({where:{gender:'male'}},{ transaction: t });
         const female=await Basic.count({where:{gender:'female'}},{ transaction: t });
+        const other=await Basic.count({where:{gender:'other'}},{ transaction: t });
         t.commit();
-        console.log(male,female)
+        console.log(male,female,other)
         return res.status(200).json({male,female})
     }
     catch (e) {
