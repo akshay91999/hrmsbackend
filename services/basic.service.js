@@ -47,6 +47,7 @@ async function findById(id, res) {
 
         const person = await db.query("SELECT b.id, b.firstname,b.lastname ,b.gender,b.dob,b.nationality,u.document,ds.designation ,a.*,c.*,p.* FROM public.basics AS b,public.addresses AS a,public.contacts AS c,public.parents AS p,public.uploads AS u, public.jobs AS j,public.designations AS ds WHERE b.id=" + id + " AND b.id=a.basic_id AND b.id=c.basic_id AND b.id=p.basic_id AND u.basic_id=b.id AND u.doc_type='photo' AND j.basic_id=b.id AND j.ds_id=ds.ds_id", { type: QueryTypes.SELECT }, { transaction: t })
         t.commit()
+        // console.log(person)
         if (!base.deletedat) {
             return (person.reduce((obj, item) => ({ ...obj, [item[1]]: item })))
         }
