@@ -63,6 +63,6 @@ router.use('/attendance',attendanceRoutes)
 router.use('/myattendance',myattendanceRoutes)
 router.use('/showleave',showleaveRoute);
 router.use('/approvedtrip',tripapprRoute);
-router.use('/hranalytics',router.get('/', analytics.gender));
+router.use('/hranalytics/gender',router.get('/', analytics.gender));
 
 module.exports = router;
