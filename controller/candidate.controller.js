@@ -1,3 +1,4 @@
+const Candidate = require('../model/candidate.model');
 const canService=require('../services/candidate.service');
 
 var canController={
@@ -11,10 +12,20 @@ var canController={
 // adding candidate
 async function addCan(req,res){
    
-            let doc=req.file.path
+            
             let canData=req.body;
+            const can_email=canData.email;
+            if(!req.file.path){
+                return res.json({message:"please upload the cv"})
+            }
+            
+            const canExist= await Candidate.findOne({where:{email:can_email,status:'Black Listed'}});
+            if(canExist){
+                return res.json({message:"black listed candidate"})
+            } 
+            let doc=req.file.path
             canService.add(canData,doc,res).
-            then((data)=>{
+            then((data)=>{ 
                 res.send(data);
             }).catch((error)=>{
                 console.log(error);
