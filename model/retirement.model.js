@@ -1,23 +1,27 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Shift = db.define('retirement', {
+const Retire = db.define('retirement', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
     basic_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull:false
     },
     applydate:{
-        type: Sequelize.DATEONLY
+        type: Sequelize.DATE,
+        allowNull:false
     },
     resigndate:{
-        type: Sequelize.DATEONLY
+        type: Sequelize.DATEONLY,
+        allowNull:true
     },
     reason:{
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
     }
 },
 {
@@ -25,4 +29,4 @@ const Shift = db.define('retirement', {
 }
 );
 
-module.exports = Shift;
+module.exports = Retire;
