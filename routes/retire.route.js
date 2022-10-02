@@ -6,5 +6,6 @@ router.post('/', retireControl.addretire);
 router.get('/resigned',retireControl.findretire)
 router.get('/req', retireControl.findreq);
 router.put('/:id', retireControl.updateretire);
+router.delete('/:id', retireControl.deleteretire);
 
 module.exports = router;
