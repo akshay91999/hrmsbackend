@@ -5,6 +5,7 @@ var retireController = {
     findretire: findretire,
     findreq: findreq,
     updateretire: updateretire,
+    deleteretire:deleteretire
    
 }
 
@@ -45,6 +46,17 @@ function updateretire(req, res) {
 
 function findretire(req, res) {
     retireService.findall().
+        then((data) => {
+            res.send(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+function deleteretire(req, res) {
+    let rid = req.params.id;
+    retireService.deleted( rid ,res).
         then((data) => {
             res.send(data);
         })

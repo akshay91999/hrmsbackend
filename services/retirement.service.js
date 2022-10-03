@@ -10,7 +10,8 @@ var retireService = {
     findall:findall,
     findallreq: findallreq,
     mailer:mailer,
-    update: update
+    update: update,
+    deleted:deleted
 }
 async function add(resign,res) {
     const t = await db.transaction();
@@ -113,6 +114,62 @@ async function mailer(email,date,name) {
       text:"Dear "+name+",\n I was sorry to hear that you will be moving on from company, but Iam pleased to hear that you have such an exciting new opportunity in the works. I know you will be a tremendous success there, as you are in all your roles.\
 \nThis constitutes my formal receipt of your resignation. As requested, your last day will be "+date+". Please keep in touch and let me know if you ever need a letter of recommendation.\
 \n Best regards,\
+     \n \
+      \nHR MANAGER"
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        return ({ error })
+  
+      } else {
+        console.log('Email sent: ' + info.response);
+        return (1)
+  
+      }
+    });
+  
+  
+  }
+// reject retirement details
+async function deleted(rid, res) {
+    const t = await db.transaction();
+    try {
+        const retired = await Retire.findOne({ where: { id:rid } }, { transaction: t })
+            const base =await Basics.findOne({where:{id:retired.basic_id}}, { transaction: t })
+            const contact=await Contacts.findOne({where:{basic_id:retired.basic_id}}, { transaction: t })
+            const email=contact.email;
+            let name=base.firstname+base.lastname
+           const mailed= await rejectmailer(email,name, { transaction: t });
+           const deleted = await Retire.destroy({ where: { id: rid } }, { transaction: t })
+           t.commit();
+           return res.status(200).json({ message: "success", mailed })
+        
+    }
+    catch (error) {
+        console.log(error);
+        t.rollback();
+        returnres.status(200).json({error})
+    };
+}
+//sending reject response email
+
+async function rejectmailer(email,name) {
+
+    let emailid = email
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'hrmsbackend2022@gmail.com',
+        pass: 'dufwsicimpfmeuch'
+      }
+    });
+  
+    var mailOptions = {
+      from: 'hrmsbackend2022@gmail.com',
+      to: emailid,
+      subject: 'Regarding your resignation application ',
+      text:"Dear "+name+",\n Here Iam inform you that, your resignation request is rejected\
      \n \
       \nHR MANAGER"
     };
